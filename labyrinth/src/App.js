@@ -4,6 +4,7 @@ import './styles.css';
 
 export default function App() {
   const visRef = React.useRef();
+
   const handleMoveForward = () => {
     visRef.current.moveForward();
   };
@@ -16,15 +17,17 @@ export default function App() {
   return (
     <div className="App">
       <div className="vis-container">
-
-
-        <Labyrinth 
+        <Labyrinth
+        numX = {10}
+        numZ = {10}
+        blockWidth = {40}
+        blockHeight = {20}
+        blockDepth = {1}
+        mazeDepth = {200}
+        mazeWidth = {200}
         ref={visRef}/>
         <button className="forward-button" onClick={handleMoveForward}>
           Move Forward
-        </button>
-        <button className="backward-button" onClick={handleMoveForward}>
-          Move Backward
         </button>
         <button className="turn-left-button" onClick={handleTurnLeft}>
           Turn Left

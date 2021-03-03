@@ -66,7 +66,9 @@ const Controls = (props, ref) => {
           camera.lookAt(targetX - 10, 0, camera.position.z);
         }
         break;
-    }
+      default:
+        console.log("direction error!");
+      }
     camera.updateProjectionMatrix()
 
     //camera.lookAt(camera.position.x, 0, camera.position.z);

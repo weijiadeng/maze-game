@@ -135,55 +135,48 @@ function genVerticalWall(x, z, width, height, depth) {
 
 }
 
-function genWalls(numX, numY, wallTop, wallLeft, blockWidth, blockHeight, blockDepth) {
+function genWalls(numX, numY, wallTop, wallLeft, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth) {
   const walls = []
   for (let i = 0; i < numX; i++) {
     for (let j = 0; j < numY; j++) {
       if (wallTop[i + numX * j]) {
-        walls.push(genHorizontalWall(-200 + i * blockWidth - blockDepth / 2, -200 + j * blockWidth, blockWidth + blockDepth, blockHeight, blockDepth));
+        walls.push(genHorizontalWall(-mazeWidth + i * blockWidth - blockDepth / 2, -mazeDepth + j * blockWidth, blockWidth + blockDepth, blockHeight, blockDepth));
       }
       if (i === 0 && j === 0) {
         continue;
       }
       if (wallLeft[i + numX * j]) {
-        walls.push(genVerticalWall(-200 + i * blockWidth, -200 + j * blockWidth - blockDepth / 2, blockWidth + blockDepth, blockHeight, blockDepth));
+        walls.push(genVerticalWall(-mazeWidth + i * blockWidth, -mazeDepth + j * blockWidth - blockDepth / 2, blockWidth + blockDepth, blockHeight, blockDepth));
       }
     }
   }
   for (let i = 0; i < numX - 1; i++) {
-    walls.push(genHorizontalWall(-200 + i * blockWidth - blockDepth / 2, -200 + numY * blockWidth, blockWidth + blockDepth, blockHeight, blockDepth));
+    walls.push(genHorizontalWall(-mazeWidth + i * blockWidth - blockDepth / 2, -mazeDepth + numY * blockWidth, blockWidth + blockDepth, blockHeight, blockDepth));
   }
   for (let i = 0; i < numY; i++) {
-    walls.push(genVerticalWall(-200 + numX * blockWidth, -200 + i * blockWidth - blockDepth / 2, blockWidth + blockDepth, blockHeight, blockDepth));
+    walls.push(genVerticalWall(-mazeWidth + numX * blockWidth, -mazeDepth + i * blockWidth - blockDepth / 2, blockWidth + blockDepth, blockHeight, blockDepth));
   }
   return walls;
 }
 
+function Labyrinth(props, ref) {
+  
+  const numX=props.numX;
+  const numZ=props.numZ;
+  const blockWidth=props.blockWidth;
+  const blockHeight = props.blockHeight;
+  const blockDepth=props.blockDepth;
+  const mazeDepth=props.mazeDepth;
+  const mazeWidth =props.mazeWidth;
 
-function Dolly() {
-  useFrame(state => {
-    state.camera.rotation.y = 90 * Math.PI / (90)
-    state.camera.position.z = state.camera.position.z - 0.1
-    //state.camera.lookAt(state.camera.position.x*state.clock.getElapsedTime(), 0, -400);
-    state.camera.updateProjectionMatrix()
-
-  })
-  return null
-}
-
-function Labyrinth({ }, ref) {
-  const [numX, numY] = [10, 10];
-  const blockWidth = 40;
-  const blockHeight = 20;
-  const blockDepth = 1;
-  const [[wallLeft, wallTop],] = React.useState(LabyrinthTools.initLabyrinth(numX, numY));
+  const [[wallLeft, wallTop],] = React.useState(LabyrinthTools.initLabyrinth(numX, numZ));
   // 0: Up, 1: right, 2: down, 3: left
   const [direction, setDirection] = React.useState(0);
   const [currentPosX, setPosX] = React.useState(numX);
-  const [currentPosY, setPosY] = React.useState(numY);
+  const [currentPosY, setPosY] = React.useState(numZ);
   const controlsRef = React.useRef();
   const startX = -numX * blockWidth / 2;
-  const startY = -numY * blockWidth / 2;
+  const startY = -numZ * blockWidth / 2;
   const posCoordX = () => (-blockWidth/2 + currentPosX * blockWidth + startX);
   const posCoordY = () => (-blockWidth/2  + currentPosY * blockWidth + startY);
   const newPosCoordX = (val) => (-blockWidth/2  + val * blockWidth + startX);
@@ -240,7 +233,7 @@ function Labyrinth({ }, ref) {
         groundColor="#080820"
         intensity={1.0}
       />
-      {genWalls(numX, numY, wallTop, wallLeft, blockWidth, blockHeight, blockDepth)}
+      {genWalls(numX, numZ, wallTop, wallLeft, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth)}
       <mesh position={[0, -10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
         <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
         <meshToonMaterial attach="material" color="#405940" />

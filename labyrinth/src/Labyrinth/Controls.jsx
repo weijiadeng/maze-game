@@ -10,9 +10,11 @@ const Controls = (props, ref) => {
   const controls = React.useRef();
   const { camera, gl } = useThree();
 
+  // TODO(weijia): make these constant states or props
   const [targetX, setTargetX] = React.useState(180);
   const [targetZ, setTargetZ] = React.useState(180);
   const [targetDirection, setDirection] = React.useState(0);
+  // Current angle is the remaining angle the camera needs to rotate
   const [currentAngle, setCurrentAngle] = React.useState(0);
 
   React.useImperativeHandle(ref, () => ({
@@ -27,14 +29,12 @@ const Controls = (props, ref) => {
       setTargetZ(posCoordY);
       setDirection(direction);
       setCurrentAngle(90 + currentAngle);
-      console.log(posCoordX,targetX, posCoordY,targetZ, direction, currentAngle);
     },
     turnRight: (posCoordX, posCoordY, direction) => {
       setTargetX(posCoordX);
       setTargetZ(posCoordY);
       setDirection(direction);
       setCurrentAngle(currentAngle - 90);
-      console.log(posCoordX,targetX, posCoordY,targetZ, direction, currentAngle);
     },
   }));
 

@@ -6,46 +6,35 @@ import * as THREE from 'three';
 // extend THREE to include TrackballControls
 extend({ TrackballControls });
 
-// key code constants
-const ALT_KEY = 18;
-const CTRL_KEY = 17;
-const CMD_KEY = 91;
-
-const Controls = (setPosFunc, ref) => {
+const Controls = (props, ref) => {
   const controls = React.useRef();
   const { camera, gl } = useThree();
 
-  const [targetX, setTargetX] = React.useState(190);
-  const [targetZ, setTargetZ] = React.useState(189);
+  const [targetX, setTargetX] = React.useState(180);
+  const [targetZ, setTargetZ] = React.useState(180);
   const [targetDirection, setDirection] = React.useState(0);
   const [currentAngle, setCurrentAngle] = React.useState(0);
-  const [isTurnLeft, setTurnLeft] = React.useState(true);
 
   React.useImperativeHandle(ref, () => ({
     moveForward: (posCoordX, posCoordY, direction) => {
-      // reset look-at (target) and camera position
-      //controls.current.target.set(0, 0, 0);
       setTargetX(posCoordX);
       setTargetZ(posCoordY);
       setDirection(direction);
-      // needed for trackball controls, reset the up vector
-      //camera.up.set(
-      //  controls.current.up0.x,
-      //  controls.current.up0.y,
-      //  controls.current.up0.z
-      //);
+
     },
     turnLeft: (posCoordX, posCoordY, direction) => {
       setTargetX(posCoordX);
       setTargetZ(posCoordY);
       setDirection(direction);
       setCurrentAngle(90 + currentAngle);
+      console.log(posCoordX,targetX, posCoordY,targetZ, direction, currentAngle);
     },
     turnRight: (posCoordX, posCoordY, direction) => {
       setTargetX(posCoordX);
       setTargetZ(posCoordY);
       setDirection(direction);
       setCurrentAngle(currentAngle - 90);
+      console.log(posCoordX,targetX, posCoordY,targetZ, direction, currentAngle);
     },
   }));
 
@@ -95,16 +84,6 @@ const Controls = (setPosFunc, ref) => {
       ref={controls}
       args={[camera, gl.domElement]}
       dynamicDampingFactor={0.1}
-      keys={[
-        ALT_KEY, // orbit
-        CTRL_KEY, // zoom
-        CMD_KEY, // pan
-      ]}
-      mouseButtons={{
-        LEFT: THREE.MOUSE.PAN, // make pan the default instead of rotate
-        MIDDLE: THREE.MOUSE.ZOOM,
-        RIGHT: THREE.MOUSE.ROTATE,
-      }}
     />
   );
 };

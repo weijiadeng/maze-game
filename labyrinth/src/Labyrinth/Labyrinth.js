@@ -150,10 +150,10 @@ function genWalls(numX, numY, wallTop, wallLeft, blockWidth, blockHeight, blockD
       }
     }
   }
-  for (let i = 0; i < numX; i++) {
+  for (let i = 0; i < numX - 1; i++) {
     walls.push(genHorizontalWall(-200 + i * blockWidth - blockDepth / 2, -200 + numY * blockWidth, blockWidth + blockDepth, blockHeight, blockDepth));
   }
-  for (let i = 0; i < numY - 1; i++) {
+  for (let i = 0; i < numY; i++) {
     walls.push(genVerticalWall(-200 + numX * blockWidth, -200 + i * blockWidth - blockDepth / 2, blockWidth + blockDepth, blockHeight, blockDepth));
   }
   return walls;
@@ -228,7 +228,7 @@ function Labyrinth({ }, ref) {
 
   return (
     <Canvas camera={{
-      fov: 80, position: [posCoordX(), 0, posCoordY()]}}>
+      fov: 80, position: [posCoordX(), 0, posCoordY() + blockWidth]}}>
       <Controls
         ref={controlsRef} />
       <ambientLight color="#ffffff" intensity={0.1} />

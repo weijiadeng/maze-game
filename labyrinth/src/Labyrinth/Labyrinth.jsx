@@ -3,6 +3,7 @@ import { Canvas, useFrame, useUpdate } from 'react-three-fiber'
 import Controls from './Controls';
 import * as THREE from "three";
 import { GenWalls, initLabyrinthWalls } from './Walls';
+import "./Labyrinth.css"
 
 function Labyrinth(props, ref) {
 
@@ -98,32 +99,34 @@ function Labyrinth(props, ref) {
   }));
 
   return (
-    <Canvas camera={{
-      fov: 80, position: [posCoordX(), 0, posCoordY() + blockWidth]
-    }}>
-      {/* TODO(weijia): Add params to the controls */}
-      <Controls
-        ref={controlsRef} />
-      <ambientLight color="#ffffff" intensity={0.1} />
-      <spotLight intensity={1} position={[300, 300, 4000]} />
+    <div className="canvas-div">
+      <Canvas camera={{
+        fov: 80, position: [posCoordX(), 0, posCoordY() + blockWidth]
+      }}>
+        {/* TODO(weijia): Add params to the controls */}
+        <Controls
+          ref={controlsRef} />
+        <ambientLight color="#ffffff" intensity={0.1} />
+        <spotLight intensity={1} position={[300, 300, 4000]} />
 
-      <hemisphereLight
-        color="#ffffff"
-        skyColor="#ffffbb"
-        groundColor="#080820"
-        intensity={1.0}
-      />
-      {GenWalls(numX, numZ, wallTop, wallLeft, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth)}
-      <mesh position={[0, -10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
-        <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
-        <meshToonMaterial attach="material" color="#405940" />
-      </mesh>
-      <mesh position={[0, 10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
-        <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
-        <meshMatcapMaterial attach="material" color="lightblue" />
-      </mesh>
+        <hemisphereLight
+          color="#ffffff"
+          skyColor="#ffffbb"
+          groundColor="#080820"
+          intensity={1.0}
+        />
+        {GenWalls(numX, numZ, wallTop, wallLeft, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth)}
+        <mesh position={[0, -10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
+          <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
+          <meshToonMaterial attach="material" color="#405940" />
+        </mesh>
+        <mesh position={[0, 10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
+          <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
+          <meshMatcapMaterial attach="material" color="lightblue" />
+        </mesh>
 
-    </Canvas>
+      </Canvas>
+    </div>
   );
 }
 

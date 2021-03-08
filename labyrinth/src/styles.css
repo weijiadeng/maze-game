@@ -75,3 +75,10 @@ body {
   top: 96px;
   z-index: 10;
 }
+
+.new-game-button {
+  position: absolute;
+  right: 16px;
+  top: 144px;
+  z-index: 10;
+}

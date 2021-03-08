@@ -35,7 +35,9 @@ export default function App() {
         <button className="button turn-right-button" onClick={handleTurnRight}>
           Turn Right
         </button>
-        <button className="button new-game-button" onClick={() => window.history.go(0)}> New Game</button>
+        <button className="button new-game-button" onClick={() => window.history.go(0)}>
+          New Game
+        </button>
       </div>
     </div>
   );

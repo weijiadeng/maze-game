@@ -18,24 +18,24 @@ export default function App() {
     <div className="App">
       <div className="vis-container">
         <Labyrinth
-        numX = {10}
-        numZ = {10}
-        blockWidth = {40}
-        blockHeight = {20}
-        blockDepth = {1}
-        mazeDepth = {200}
-        mazeWidth = {200}
-        ref={visRef}/>
-        <button className="forward-button" onClick={handleMoveForward}>
+          numX={10}
+          numZ={10}
+          blockWidth={40}
+          blockHeight={20}
+          blockDepth={1}
+          mazeDepth={200}
+          mazeWidth={200}
+          ref={visRef} />
+        <button className="button forward-button" onClick={handleMoveForward}>
           Move Forward
         </button>
-        <button className="turn-left-button" onClick={handleTurnLeft}>
+        <button className="button turn-left-button" onClick={handleTurnLeft}>
           Turn Left
         </button>
-        <button className="turn-right-button" onClick={handleTurnRight}>
+        <button className="button turn-right-button" onClick={handleTurnRight}>
           Turn Right
         </button>
-
+        <button className="button new-game-button" onClick={() => window.history.go(0)}> New Game</button>
       </div>
     </div>
   );

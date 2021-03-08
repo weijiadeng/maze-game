@@ -1,18 +1,18 @@
-import {shuffleArray, UnionFind} from "../Utils/Utils";
+import { shuffleArray, UnionFind } from "../Utils/Utils";
 
 // Wall global index definination example:
 // (The below two pictures are the same 3*3 maze, we separte vertical and horizontal walls to make it looks more clear)
-//   
-//   012            
-//   --- 
-//   345 
+//
+//   012
 //   ---
-//   678    
-//  
+//   345
+//   ---
+//   678
+//
 //  9|10|11|
-// 12|13|14| 
+// 12|13|14|
 // 15|16|17|
-//     
+//
 
 /* Given an wall index, output the neighbour cell index (In x+z*numZ format) */
 function getWallNeighbourCells(numX, numCells, wallIndex) {
@@ -26,7 +26,7 @@ function getWallNeighbourCells(numX, numCells, wallIndex) {
 
 export function initLabyrinthWalls(numX, numY) {
   // The algorithm is:
-  // 
+  //
   const numCells = numX * numY;
   const unionFind = new UnionFind(numCells);
   let wallArray = [];
@@ -44,8 +44,11 @@ export function initLabyrinthWalls(numX, numY) {
 
   do {
     const currentWall = wallArray[currentPos];
-    const [neighborA, neighborB] = getWallNeighbourCells(numX, numCells,
-        currentWall);
+    const [neighborA, neighborB] = getWallNeighbourCells(
+      numX,
+      numCells,
+      currentWall
+    );
     if (unionFind.find(neighborA) === unionFind.find(neighborB)) {
       resArray.push(currentWall);
     } else {
@@ -58,8 +61,8 @@ export function initLabyrinthWalls(numX, numY) {
     currentPos -= 1;
   }
 
-  const wallLeft = Array.apply(null, {length: numCells}).fill(false);
-  const wallTop = Array.apply(null, {length: numCells}).fill(false);
+  const wallLeft = Array.apply(null, { length: numCells }).fill(false);
+  const wallTop = Array.apply(null, { length: numCells }).fill(false);
   for (let i = 0; i < numX; i++) {
     wallTop[i] = true;
   }
@@ -73,58 +76,89 @@ export function initLabyrinthWalls(numX, numY) {
       wallLeft[resArray[i] - numCells] = true;
     }
   }
-  return [wallLeft, wallTop]
+  return [wallLeft, wallTop];
 }
 
 function GenHorizontalWall(x, z, width, height, depth) {
   return (
-      <mesh position={[x + width / 2, 0, z]} rotation={[0, 0, 0]}>
-        <boxBufferGeometry attach="geometry" args={[width, height, depth]}/>
-        <meshLambertMaterial attach="material" color="orange"/>
-      </mesh>
+    <mesh position={[x + width / 2, 0, z]} rotation={[0, 0, 0]}>
+      <boxBufferGeometry attach="geometry" args={[width, height, depth]} />
+      <meshLambertMaterial attach="material" color="orange" />
+    </mesh>
   );
 }
 
 function GenVerticalWall(x, z, width, height, depth) {
   return (
-      <mesh position={[x, 0, z + width / 2]} rotation={[0, Math.PI * 0.5, 0]}>
-        <boxBufferGeometry attach="geometry" args={[width, height, depth]}/>
-        <meshLambertMaterial attach="material" color="orange"/>
-      </mesh>
-  )
-
+    <mesh position={[x, 0, z + width / 2]} rotation={[0, Math.PI * 0.5, 0]}>
+      <boxBufferGeometry attach="geometry" args={[width, height, depth]} />
+      <meshLambertMaterial attach="material" color="orange" />
+    </mesh>
+  );
 }
 
-export function GenWalls(numX, numY, wallTop, wallLeft, blockWidth, blockHeight,
-    blockDepth, mazeWidth, mazeDepth) {
-  const walls = []
+export function GenWalls(
+  numX,
+  numY,
+  wallTop,
+  wallLeft,
+  blockWidth,
+  blockHeight,
+  blockDepth,
+  mazeWidth,
+  mazeDepth
+) {
+  const walls = [];
   for (let i = 0; i < numX; i++) {
     for (let j = 0; j < numY; j++) {
       if (wallTop[i + numX * j]) {
         walls.push(
-          GenHorizontalWall(-mazeWidth + i * blockWidth - blockDepth / 2,
-                -mazeDepth + j * blockWidth, blockWidth + blockDepth,
-                blockHeight, blockDepth));
+          GenHorizontalWall(
+            -mazeWidth + i * blockWidth - blockDepth / 2,
+            -mazeDepth + j * blockWidth,
+            blockWidth + blockDepth,
+            blockHeight,
+            blockDepth
+          )
+        );
       }
       if (i === 0 && j === 0) {
         continue;
       }
       if (wallLeft[i + numX * j]) {
-        walls.push(GenVerticalWall(-mazeWidth + i * blockWidth,
+        walls.push(
+          GenVerticalWall(
+            -mazeWidth + i * blockWidth,
             -mazeDepth + j * blockWidth - blockDepth / 2,
-            blockWidth + blockDepth, blockHeight, blockDepth));
+            blockWidth + blockDepth,
+            blockHeight,
+            blockDepth
+          )
+        );
       }
     }
   }
   for (let i = 0; i < numX - 1; i++) {
-    walls.push(GenHorizontalWall(-mazeWidth + i * blockWidth - blockDepth / 2,
-        -mazeDepth + numY * blockWidth, blockWidth + blockDepth, blockHeight,
-        blockDepth));
+    walls.push(
+      GenHorizontalWall(
+        -mazeWidth + i * blockWidth - blockDepth / 2,
+        -mazeDepth + numY * blockWidth,
+        blockWidth + blockDepth,
+        blockHeight,
+        blockDepth
+      )
+    );
   }
   for (let i = 0; i < numY; i++) {
-    walls.push(GenVerticalWall(-mazeWidth + numX * blockWidth,
-        -mazeDepth + i * blockWidth - blockDepth / 2, blockWidth + blockDepth,
-        blockHeight, blockDepth));
+    walls.push(
+      GenVerticalWall(
+        -mazeWidth + numX * blockWidth,
+        -mazeDepth + i * blockWidth - blockDepth / 2,
+        blockWidth + blockDepth,
+        blockHeight,
+        blockDepth
+      )
+    );
   }
   return walls;
 }

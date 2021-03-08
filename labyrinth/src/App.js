@@ -14,6 +14,28 @@ export default function App() {
   const handleTurnRight = () => {
     visRef.current.turnRight();
   };
+
+  const handleKeyPress = (event) => {
+    switch (event.key) {
+      case 'Enter':
+        window.history.go(0);
+        break;
+      case 'ArrowLeft':
+        handleTurnLeft();
+        break;
+      case 'ArrowRight':
+        handleTurnRight();
+        break;
+      case 'ArrowUp':
+        handleMoveForward();
+        break;
+      default:
+        break;
+    }
+  }
+
+  document.addEventListener("keydown", handleKeyPress);
+
   return (
     <div className="App">
       <div className="vis-container">
@@ -35,7 +57,7 @@ export default function App() {
         <button className="button turn-right-button" onClick={handleTurnRight}>
           Turn Right
         </button>
-        <button className="button new-game-button" onClick={() => window.history.go(0)}>
+        <button className="button new-game-button" onClick={() => window.history.go(0)} >
           New Game
         </button>
       </div>

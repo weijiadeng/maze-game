@@ -3,6 +3,7 @@ import { Canvas, useFrame, useUpdate } from 'react-three-fiber'
 import Controls from './Controls';
 import * as THREE from "three";
 import { Walls, initLabyrinthWalls } from './Walls';
+import { Sky, Box, Plane } from '@react-three/drei'
 import "./Labyrinth.css"
 
 function Labyrinth(props, ref) {
@@ -106,14 +107,13 @@ function Labyrinth(props, ref) {
         {/* TODO(weijia): Add params to the controls */}
         <Controls
           ref={controlsRef} />
-        <ambientLight color="#ffffff" intensity={0.1} />
-        <spotLight intensity={1} position={[300, 300, 4000]} />
-
-        <hemisphereLight
-          color="#ffffff"
-          skyColor="#ffffbb"
-          groundColor="#080820"
-          intensity={1.0}
+        <ambientLight color="#ffffff" intensity={0.4} />
+        {/* Reference: https://drei.pmnd.rs/?path=/story/shaders-softshadows--soft-shadows-st
+            Make the light the same direction with the sun
+        */}
+        <directionalLight
+          position={[-500, 20, -180]}
+          intensity={1.5}
         />
         <Walls
           numX={numX}
@@ -126,19 +126,20 @@ function Labyrinth(props, ref) {
           mazeWidth={mazeWidth}
           mazeDepth={mazeDepth}
         />
-        <mesh position={[0, -10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
-          <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
-          <meshToonMaterial attach="material" color="#405940" />
-        </mesh>
-        <mesh position={[0, 10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
-          <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
-          <meshMatcapMaterial attach="material" color="lightblue" />
-        </mesh>
-
+        <Sky
+          distance={10000} // Camera distance (default=450000)
+          // Sun position normal(Make the exit faces the sun, x should be less than -mazeWidth+blockWidth, 
+          // y should be greater than 0, z should be -mazeHeight+blockWidth)
+          sunPosition={[-500, 20, -180]}
+          inclination={0} // Sun elevation angle from 0 to 1 (default=0)
+          azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
+        />
+        <Plane rotation-x={-Math.PI / 2} position={[0, -10, 0]} args={[400, 400, 4, 4]}>
+          <meshBasicMaterial attach="material" opacity={0.5} color="#405940" />
+        </Plane>
       </Canvas>
     </div>
   );
 }
-
 
 export default React.forwardRef(Labyrinth);

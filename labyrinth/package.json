@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://weijiadeng.github.io/weijia-deng-wenhua-yao-assignment2",
   "dependencies": {
+    "@react-three/drei": "^3.10.2",
     "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",

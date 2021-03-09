@@ -1,4 +1,7 @@
+import * as React from 'react';
 import { shuffleArray, UnionFind } from "../Utils/Utils";
+import { Sky, Box, Sphere} from '@react-three/drei'
+import { Mesh } from 'three'
 
 // Wall global index definination example:
 // (The below two pictures are the same 3*3 maze, we separte vertical and horizontal walls to make it looks more clear)
@@ -85,19 +88,17 @@ export function initLabyrinthWalls(numX, numY) {
 
 function GenHorizontalWall(x, z, width, height, depth) {
   return (
-    <mesh position={[x + width / 2, 0, z]} rotation={[0, 0, 0]}>
-      <boxBufferGeometry attach="geometry" args={[width, height, depth]} />
-      <meshLambertMaterial attach="material" color="orange" />
-    </mesh>
+    <Box args={[width, height, depth]} rotation={[0, 0, 0]} position={[x + width / 2, 0, z]}>
+      <meshPhongMaterial color="orange" attach="material" />
+    </Box>
   );
 }
 
 function GenVerticalWall(x, z, width, height, depth) {
   return (
-    <mesh position={[x, 0, z + width / 2]} rotation={[0, Math.PI * 0.5, 0]}>
-      <boxBufferGeometry attach="geometry" args={[width, height, depth]} />
-      <meshLambertMaterial attach="material" color="orange" />
-    </mesh>
+    <Box args={[width, height, depth]} rotation={[0, Math.PI * 0.5, 0]} position={[x, 0, z + width / 2]}>
+      <meshPhongMaterial color="orange" attach="material" />
+    </Box>
   );
 }
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Canvas, useFrame, useUpdate } from 'react-three-fiber'
 import Controls from './Controls';
 import * as THREE from "three";
-import { GenWalls, initLabyrinthWalls } from './Walls';
+import { Walls, initLabyrinthWalls } from './Walls';
 import "./Labyrinth.css"
 
 function Labyrinth(props, ref) {
@@ -115,7 +115,17 @@ function Labyrinth(props, ref) {
           groundColor="#080820"
           intensity={1.0}
         />
-        {GenWalls(numX, numZ, wallTop, wallLeft, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth)}
+        <Walls
+          numX={numX}
+          numZ={numZ}
+          wallTop={wallTop}
+          wallLeft={wallLeft}
+          blockWidth={blockWidth}
+          blockHeight={blockHeight}
+          blockDepth={blockDepth}
+          mazeWidth={mazeWidth}
+          mazeDepth={mazeDepth}
+        />
         <mesh position={[0, -10, 0]} rotation={[Math.PI * 0.5, 0, 0]}>
           <boxBufferGeometry attach="geometry" args={[400, 400, 0.1]} />
           <meshToonMaterial attach="material" color="#405940" />

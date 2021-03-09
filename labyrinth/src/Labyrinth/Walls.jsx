@@ -26,7 +26,11 @@ function getWallNeighbourCells(numX, numCells, wallIndex) {
 
 export function initLabyrinthWalls(numX, numY) {
   // The algorithm is:
-  //
+  // We put all cells of a maze into a disjointed set, and set them as
+  // disjointed. Then we random select a wall. If the two cells separated
+  // by the wall is not connected, we tear down the wall, otherwise we keep
+  // the wall and choose another wall. We do this until there's only only
+  // connecting compoments left.
   const numCells = numX * numY;
   const unionFind = new UnionFind(numCells);
   let wallArray = [];
@@ -97,20 +101,20 @@ function GenVerticalWall(x, z, width, height, depth) {
   );
 }
 
-export function GenWalls(
-  numX,
-  numY,
-  wallTop,
-  wallLeft,
-  blockWidth,
-  blockHeight,
-  blockDepth,
-  mazeWidth,
-  mazeDepth
+export function Walls(
+  { numX,
+    numZ,
+    wallTop,
+    wallLeft,
+    blockWidth,
+    blockHeight,
+    blockDepth,
+    mazeWidth,
+    mazeDepth }
 ) {
   const walls = [];
   for (let i = 0; i < numX; i++) {
-    for (let j = 0; j < numY; j++) {
+    for (let j = 0; j < numZ; j++) {
       if (wallTop[i + numX * j]) {
         walls.push(
           GenHorizontalWall(
@@ -142,14 +146,14 @@ export function GenWalls(
     walls.push(
       GenHorizontalWall(
         -mazeWidth + i * blockWidth - blockDepth / 2,
-        -mazeDepth + numY * blockWidth,
+        -mazeDepth + numZ * blockWidth,
         blockWidth + blockDepth,
         blockHeight,
         blockDepth
       )
     );
   }
-  for (let i = 0; i < numY; i++) {
+  for (let i = 0; i < numZ; i++) {
     walls.push(
       GenVerticalWall(
         -mazeWidth + numX * blockWidth,
@@ -160,5 +164,9 @@ export function GenWalls(
       )
     );
   }
-  return walls;
+  return (
+    <group name="walls">
+      {walls}
+    </group>
+  );
 }

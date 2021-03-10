@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const MOVE_FORWARD = 0;
-export const TURN_LEFT = 1;
-export const TURN_RIGHT = 2;
+export const TURN_LEFT = 2;
+export const TURN_RIGHT = 1;
 export const NOTHING = 3;
 export const UNINIT = -1;
 export const UP = 0;
-export const RIGHT = 1;
+export const RIGHT = 3;
 export const DOWN = 2;
-export const LEFT = 3;
+export const LEFT = 1;
 
 export const controlSlice = createSlice({
   name: 'control',
@@ -17,7 +17,7 @@ export const controlSlice = createSlice({
     posX: UNINIT,
     posZ: UNINIT,
     // Used to block a new action when an action is exectuting
-    currentAction: 0,
+    currentAction: MOVE_FORWARD,
   },
   reducers: {
     moveForward: state => {
@@ -27,13 +27,13 @@ export const controlSlice = createSlice({
           case UP: state.posZ -= 1;
             break;
           case RIGHT:
-            state.posX -= 1;
+            state.posX += 1;
             break;
           case DOWN:
             state.posZ += 1;
             break;
           case LEFT:
-            state.posX += 1;
+            state.posX -= 1;
             break;
           default:
             console.log("Direction error: ", state.direction);

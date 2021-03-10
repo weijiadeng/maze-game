@@ -61,9 +61,9 @@ export const Controls = ({
             }
             break;
           case LEFT:
-            if (camera.position.x < coordX) {
-              camera.position.x += moveSpeed;
-              camera.lookAt(coordX + 10, 0, camera.position.z);
+            if (camera.position.x > coordX) {
+              camera.position.x -= moveSpeed;
+              camera.lookAt(coordX - 10, 0, camera.position.z);
             }
             break;
           case DOWN:
@@ -73,9 +73,9 @@ export const Controls = ({
             }
             break;
           case RIGHT:
-            if (camera.position.x > coordX) {
-              camera.position.x -= moveSpeed;
-              camera.lookAt(coordX - 10, 0, camera.position.z);
+            if (camera.position.x < coordX) {
+              camera.position.x += moveSpeed;
+              camera.lookAt(coordX + 10, 0, camera.position.z);
             }
             break;
           default:

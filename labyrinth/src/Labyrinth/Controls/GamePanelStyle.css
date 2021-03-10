@@ -1,0 +1,27 @@
+.forward-button {
+    position: absolute;
+    right: 16px;
+    top: 24px;
+    z-index: 10;
+}
+
+.backward-button {
+    position: absolute;
+    right: 16px;
+    top: 48px;
+    z-index: 10;
+}
+
+.turn-left-button {
+    position: absolute;
+    right: 16px;
+    top: 72px;
+    z-index: 10;
+}
+
+.turn-right-button {
+    position: absolute;
+    right: 16px;
+    top: 96px;
+    z-index: 10;
+}

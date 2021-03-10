@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { shuffleArray, UnionFind } from "../Utils/Utils";
-import { Sky, Box, Sphere} from '@react-three/drei'
-import { Mesh } from 'three'
+import { Box } from '@react-three/drei'
 
 // Wall global index definination example:
 // (The below two pictures are the same 3*3 maze, we separte vertical and horizontal walls to make it looks more clear)

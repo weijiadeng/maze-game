@@ -26,14 +26,15 @@ function getWallNeighbourCells(numX, numCells, wallIndex) {
   }
 }
 
-export function initLabyrinthWalls(numX, numY) {
+export function initLabyrinthWalls(numX, numZ) {
   // The algorithm is:
   // We put all cells of a maze into a disjointed set, and set them as
   // disjointed. Then we random select a wall. If the two cells separated
   // by the wall is not connected, we tear down the wall, otherwise we keep
   // the wall and choose another wall. We do this until there's only only
   // connecting compoments left.
-  const numCells = numX * numY;
+  const numCells = numX * numZ;
+  const numCellPlusBorder = (numX+1) * (numZ+1);
   const unionFind = new UnionFind(numCells);
   let wallArray = [];
   let resArray = [];
@@ -67,21 +68,35 @@ export function initLabyrinthWalls(numX, numY) {
     currentPos -= 1;
   }
 
-  const wallLeft = Array.apply(null, { length: numCells }).fill(false);
-  const wallTop = Array.apply(null, { length: numCells }).fill(false);
+  const wallLeft = Array.apply(null, { length: numCellPlusBorder }).fill(false);
+  const wallTop = Array.apply(null, { length: numCellPlusBorder }).fill(false);
   for (let i = 0; i < numX; i++) {
+    // Make the top border to be true
     wallTop[i] = true;
+    // Make the bottom border to be true
+    wallTop[i + numZ*(numX+1)] = true;
   }
-  for (let i = 0; i < numY; i++) {
-    wallLeft[i * numX] = true;
+  for (let i = 0; i < numZ; i++) {
+    // Make the left border to be true
+    wallLeft[i * (numX+1)] = true;
+    // Make the right border to be true
+    wallLeft[i * (numX+1) + numX] = true;
   }
+
+  const convertIndex = val =>((~~(val / numX))*(numX+1) + val%numX);
   for (let i = 0; i < resArray.length; i++) {
     if (resArray[i] < numCells) {
-      wallTop[resArray[i]] = true;
+      wallTop[convertIndex(resArray[i])] = true;
     } else {
-      wallLeft[resArray[i] - numCells] = true;
+      wallLeft[convertIndex(resArray[i] - numCells)] = true;
     }
   }
+
+  wallLeft[0] = false;
+  wallLeft[numCellPlusBorder-1] = false;
+  wallTop[numCellPlusBorder-1] = false;
+  wallTop[numCellPlusBorder-2] = false;
+  console.log(wallLeft, wallTop);
   return [wallLeft, wallTop];
 }
 
@@ -119,9 +134,9 @@ export function Walls(
     mazeDepth }
 ) {
   const walls = [];
-  for (let i = 0; i < numX; i++) {
-    for (let j = 0; j < numZ; j++) {
-      if (wallTop[i + numX * j]) {
+  for (let i = 0; i < numX+1; i++) {
+    for (let j = 0; j < numZ+1; j++) {
+      if (wallTop[i + (numX+1) * j]) {
         walls.push(
           GenHorizontalWall(
             -mazeWidth + i * blockWidth - blockDepth / 2,
@@ -132,10 +147,7 @@ export function Walls(
           )
         );
       }
-      if (i === 0 && j === 0) {
-        continue;
-      }
-      if (wallLeft[i + numX * j]) {
+      if (wallLeft[i + (numX+1) * j]) {
         walls.push(
           GenVerticalWall(
             -mazeWidth + i * blockWidth,
@@ -148,28 +160,7 @@ export function Walls(
       }
     }
   }
-  for (let i = 0; i < numX - 1; i++) {
-    walls.push(
-      GenHorizontalWall(
-        -mazeWidth + i * blockWidth - blockDepth / 2,
-        -mazeDepth + numZ * blockWidth,
-        blockWidth + blockDepth,
-        blockHeight,
-        blockDepth
-      )
-    );
-  }
-  for (let i = 0; i < numZ; i++) {
-    walls.push(
-      GenVerticalWall(
-        -mazeWidth + numX * blockWidth,
-        -mazeDepth + i * blockWidth - blockDepth / 2,
-        blockWidth + blockDepth,
-        blockHeight,
-        blockDepth
-      )
-    );
-  }
+
   return (
     <group name="walls">
       {walls}

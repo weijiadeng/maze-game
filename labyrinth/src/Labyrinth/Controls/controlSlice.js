@@ -5,7 +5,6 @@ export const TURN_LEFT = 2;
 export const TURN_RIGHT = 1;
 export const MOVE_BACKWARD = 3;
 export const NOTHING = 4;
-export const UNINIT = -1;
 export const UP = 0;
 export const RIGHT = 3;
 export const DOWN = 2;
@@ -15,26 +14,40 @@ export const controlSlice = createSlice({
   name: 'control',
   initialState: {
     direction: 0,
-    posX: UNINIT,
-    posZ: UNINIT,
+    posX: 0,
+    posZ: 0,
     // Used to block a new action when an action is exectuting
     currentAction: MOVE_FORWARD,
+    isInit: false,
+    wallTop: [],
+    wallLeft: [],
+    numX: 0,
+    numZ: 0,
   },
   reducers: {
     moveForward: state => {
       if (state.currentAction === NOTHING) {
         state.currentAction = MOVE_FORWARD;
         switch (state.direction) {
-          case UP: state.posZ -= 1;
+          case UP:
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + state.posZ * (state.numX + 1)])) {
+              state.posZ -= 1;
+            }
             break;
           case RIGHT:
-            state.posX += 1;
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + 1 + state.posZ * (state.numX + 1)])) {
+              state.posX += 1;
+            }
             break;
           case DOWN:
-            state.posZ += 1;
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)])) {
+              state.posZ += 1;
+            }
             break;
           case LEFT:
-            state.posX -= 1;
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + state.posZ * (state.numX + 1)])) {
+              state.posX -= 1;
+            }
             break;
           default:
             console.log("Direction error: ", state.direction);
@@ -45,16 +58,25 @@ export const controlSlice = createSlice({
       if (state.currentAction === NOTHING) {
         state.currentAction = MOVE_BACKWARD;
         switch (state.direction) {
-          case UP: state.posZ += 1;
+          case UP:
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)])) {
+              state.posZ += 1;
+            }
             break;
           case RIGHT:
-            state.posX -= 1;
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + state.posZ * (state.numX + 1)])) {
+              state.posX -= 1;
+            }
             break;
           case DOWN:
-            state.posZ -= 1;
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + state.posZ * (state.numX + 1)])) {
+              state.posZ -= 1;
+            } 
             break;
           case LEFT:
-            state.posX += 1;
+            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + 1 + state.posZ * (state.numX + 1)])) {
+              state.posX += 1;
+            }
             break;
           default:
             console.log("Direction error: ", state.direction);
@@ -81,18 +103,47 @@ export const controlSlice = createSlice({
     },
     assignPosZ: (state, action) => {
       state.posZ = action.payload;
+    },
+    assignWallTop: (state, action) => {
+      state.wallTop = action.payload;
+    },
+    assignWallLeft: (state, action) => {
+      state.wallLeft = action.payload;
+    },
+    assignNumX: (state, action) => {
+      state.numX = action.payload;
+    },
+    assignNumZ: (state, action) => {
+      state.numZ = action.payload;
+    },
+    assignInit: (state, action) => {
+      state.isInit = action.payload;
     }
-
   },
 });
 
-
-export const { moveForward, moveBackward, turnLeft, turnRight, popEvent, assignPosX, assignPosZ } = controlSlice.actions;
+export const {
+  moveForward,
+  moveBackward,
+  turnLeft,
+  turnRight,
+  popEvent,
+  assignPosX,
+  assignPosZ,
+  assignWallTop,
+  assignWallLeft,
+  assignNumX,
+  assignNumZ,
+  assignInit
+} = controlSlice.actions;
 
 export const selectDirection = state => state.control.direction;
 export const selectPosX = state => state.control.posX;
 export const selectPosZ = state => state.control.posZ;
 export const selectAction = state => state.control.currentAction;
+export const selectIsInit = state => state.control.isInit;
+export const selectWallTop = state => state.control.wallTop;
+export const selectWallLeft = state => state.control.wallLeft;
 
 
 export default controlSlice.reducer;

@@ -24,11 +24,10 @@ import { useSelector, useDispatch } from 'react-redux';
 // extend THREE to include TrackballControls
 extend({ TrackballControls });
 
+// Make the camera look ahead, can be any value greater than 0
 const DIRECTION_ADJUSTER = 0.1;
 
 export const Controls = ({
-  wallTop,
-  wallLeft,
   blockWidth,
   startCoordX,
   startCoordZ,
@@ -36,6 +35,7 @@ export const Controls = ({
   turnSpeed,
 }) => {
   const { camera, gl } = useThree();
+  // const controls = React.useRef();
 
   const currentAction = useSelector(selectAction);
   const posX = useSelector(selectPosX);
@@ -45,8 +45,8 @@ export const Controls = ({
   const [currentAngle, setCurrentAngle] = React.useState(0);
   let localAngle = currentAngle;
 
-  const coordX = (-blockWidth / 2 + posX * blockWidth + startCoordX);
-  const coordZ = (-blockWidth / 2 + posZ * blockWidth + startCoordZ);
+  const coordX = (-blockWidth / 2 + (posX+1) * blockWidth + startCoordX);
+  const coordZ = (-blockWidth / 2 + (posZ+1) * blockWidth + startCoordZ);
 
   const dispatch = useDispatch();
 
@@ -160,13 +160,20 @@ export const Controls = ({
       default:
         console.log("button error!");
     }
-    camera.updateProjectionMatrix()
+    camera.updateProjectionMatrix();
+    // controls.current.update();
   });
 
   return (
     <trackballControls
+      ref={controls}
       args={[camera, gl.domElement]}
       dynamicDampingFactor={0.1}
+      mouseButtons={{
+        LEFT: THREE.MOUSE.PAN, // make pan the default instead of rotate
+        MIDDLE: THREE.MOUSE.ZOOM,
+        RIGHT: THREE.MOUSE.ROTATE,
+      }}
     />
   );
 };

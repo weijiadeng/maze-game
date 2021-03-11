@@ -6,11 +6,16 @@ import * as THREE from "three";
 import { Walls, initLabyrinthWalls } from './Walls';
 import { Sky, Plane, useContextBridge } from '@react-three/drei'
 import {
+  assignInit,
+  assignNumX,
+  assignNumZ,
   assignPosX,
   assignPosZ,
-  selectPosX,
-  selectPosZ,
-  UNINIT,
+  assignWallTop,
+  assignWallLeft,
+  selectIsInit,
+  selectWallLeft,
+  selectWallTop,
 } from './Controls/controlSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import "./Labyrinth.css"
@@ -50,19 +55,18 @@ export function Labyrinth(props) {
   // the bottom wall.
   //
   // To lookup the top wall info cell(x, y), we call wallTop[x + y*numZ]
-  const [[wallLeft, wallTop],] = React.useState(initLabyrinthWalls(numX, numZ));
-  console.log(wallLeft);
-  const posX = useSelector(selectPosX);
-  const posZ = useSelector(selectPosZ);
+  const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
-
-  if (posX === UNINIT) {
-    dispatch(assignPosX(Number(numX)));
+  if (!isInit) {
+    dispatch(assignPosX(numX-1));
+    dispatch(assignPosZ(numZ-1));
+    const [wallLeft, wallTop] = initLabyrinthWalls(numX, numZ);
+    dispatch(assignWallLeft(wallLeft));
+    dispatch(assignWallTop(wallTop));
+    dispatch(assignNumX(numX));
+    dispatch(assignNumZ(numZ));
+    dispatch(assignInit(true));
   }
-  if (posZ === UNINIT) {
-    dispatch(assignPosZ(Number(numZ)))
-  }
-
   // Starting point in the x and z axis(this is coordinate, not index)
   const startCoordX = -numX * blockWidth / 2;
   const startCoordZ = -numZ * blockWidth / 2;
@@ -82,8 +86,6 @@ export function Labyrinth(props) {
         {/* TODO(weijia): Add params to the controls */}
         <ContextBridge>
           <Controls
-            wallTop={wallTop}
-            wallLeft={wallLeft}
             blockWidth={blockWidth}
             startCoordX={startCoordX}
             startCoordZ={startCoordZ}
@@ -102,8 +104,8 @@ export function Labyrinth(props) {
         <Walls
           numX={numX}
           numZ={numZ}
-          wallTop={wallTop}
-          wallLeft={wallLeft}
+          wallTop={useSelector(selectWallTop)}
+          wallLeft={useSelector(selectWallLeft)}
           blockWidth={blockWidth}
           blockHeight={blockHeight}
           blockDepth={blockDepth}

@@ -4,7 +4,7 @@ import { Controls } from './Controls/Controls';
 import { ReactReduxContext } from 'react-redux';
 import * as THREE from "three";
 import { Walls, initLabyrinthWalls } from './Walls';
-import { Sky, Plane, useContextBridge } from '@react-three/drei'
+import { Sky, Stars, Plane, useContextBridge } from '@react-three/drei'
 import {
   assignInit,
   assignNumX,
@@ -58,8 +58,8 @@ export function Labyrinth(props) {
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
   if (!isInit) {
-    dispatch(assignPosX(numX-1));
-    dispatch(assignPosZ(numZ-1));
+    dispatch(assignPosX(numX - 1));
+    dispatch(assignPosZ(numZ - 1));
     const [wallLeft, wallTop] = initLabyrinthWalls(numX, numZ);
     dispatch(assignWallLeft(wallLeft));
     dispatch(assignWallTop(wallTop));
@@ -120,7 +120,16 @@ export function Labyrinth(props) {
           inclination={0} // Sun elevation angle from 0 to 1 (default=0)
           azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
         />
-        <Plane rotation-x={-Math.PI / 2} position={[0, -blockHeight/2, 0]} args={[mazeWidth, mazeDepth, 4, 4]}>
+        {/* Referenced from https://github.com/pmndrs/drei#stars */}
+        <Stars
+          radius={100} // Radius of the inner sphere (default=100)
+          depth={50} // Depth of area where stars should fit (default=50)
+          count={5000} // Amount of stars (default=5000)
+          factor={5} // Size factor (default=4)
+          saturation={0} // Saturation 0-1 (default=0)
+          fade // Faded dots (default=false)
+        />
+        <Plane rotation-x={-Math.PI / 2} position={[0, -blockHeight / 2, 0]} args={[mazeWidth, mazeDepth, 4, 4]}>
           <meshBasicMaterial attach="material" opacity={0.5} color="#405940" />
         </Plane>
         {/* <fog attach="fog" args={['black', 0, 40]} /> */}

@@ -35,7 +35,7 @@ export const Controls = ({
   turnSpeed,
 }) => {
   const { camera, gl } = useThree();
-  // const controls = React.useRef();
+  const controls = React.useRef();
 
   const currentAction = useSelector(selectAction);
   const posX = useSelector(selectPosX);
@@ -53,7 +53,7 @@ export const Controls = ({
   useFrame(() => {
     // console.log(posX, coordX, camera.position.x)
     // update the view as the vis is interacted with
-    // controls.current.update();
+    //controls.current.update();
     switch (currentAction) {
       case MOVE_FORWARD:
         switch (direction) {
@@ -161,11 +161,11 @@ export const Controls = ({
         console.log("button error!");
     }
     camera.updateProjectionMatrix();
-    // controls.current.update();
   });
 
   return (
     <trackballControls
+      ref = {controls}
       args={[camera, gl.domElement]}
       dynamicDampingFactor={0.1}
       mouseButtons={{

@@ -4,18 +4,22 @@ import { Labyrinth } from './Labyrinth/Labyrinth';
 import './styles.css';
 
 export default function App() {
-
+  const numX = 4;
+  const numZ = 4;
+  const blockWidth = 10;
+  const blockDepth = 0.5;
+  const blockHeight = 5;
   return (
     <div className="App">
       <div className="vis-container">
         <Labyrinth
-          numX={10}
-          numZ={10}
-          blockWidth={40}
-          blockHeight={20}
-          blockDepth={1}
-          mazeDepth={200}
-          mazeWidth={200}
+          numX={numX}
+          numZ={numZ}
+          blockWidth={blockWidth}
+          blockHeight={blockHeight}
+          blockDepth={blockDepth}
+          mazeDepth={numX*blockWidth}
+          mazeWidth={numZ*blockWidth}
         />
         <GamePanel />
         <button className="button new-game-button" onClick={() => window.history.go(0)}>

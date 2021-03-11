@@ -116,11 +116,11 @@ export function Labyrinth(props) {
           distance={10000} // Camera distance (default=450000)
           // Sun position normal(Make the exit faces the sun, x should be less than -mazeWidth+blockWidth, 
           // y should be greater than 0, z should be -mazeHeight+blockWidth)
-          sunPosition={[-500, 20, startCoordZ + blockWidth / 2]}
+          sunPosition={[-500, blockHeight, startCoordZ + blockWidth / 2]}
           inclination={0} // Sun elevation angle from 0 to 1 (default=0)
           azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
         />
-        <Plane rotation-x={-Math.PI / 2} position={[0, -10, 0]} args={[400, 400, 4, 4]}>
+        <Plane rotation-x={-Math.PI / 2} position={[0, -blockHeight/2, 0]} args={[mazeWidth, mazeDepth, 4, 4]}>
           <meshBasicMaterial attach="material" opacity={0.5} color="#405940" />
         </Plane>
         {/* <fog attach="fog" args={['black', 0, 40]} /> */}

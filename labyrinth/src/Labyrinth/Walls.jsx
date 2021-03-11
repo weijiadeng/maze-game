@@ -139,8 +139,8 @@ export function Walls(
       if (wallTop[i + (numX+1) * j]) {
         walls.push(
           GenHorizontalWall(
-            -mazeWidth + i * blockWidth - blockDepth / 2,
-            -mazeDepth + j * blockWidth,
+            -mazeWidth/2 + i * blockWidth - blockDepth / 2,
+            -mazeDepth/2 + j * blockWidth,
             blockWidth + blockDepth,
             blockHeight,
             blockDepth
@@ -150,8 +150,8 @@ export function Walls(
       if (wallLeft[i + (numX+1) * j]) {
         walls.push(
           GenVerticalWall(
-            -mazeWidth + i * blockWidth,
-            -mazeDepth + j * blockWidth - blockDepth / 2,
+            -mazeWidth/2 + i * blockWidth,
+            -mazeDepth/2 + j * blockWidth - blockDepth / 2,
             blockWidth + blockDepth,
             blockHeight,
             blockDepth

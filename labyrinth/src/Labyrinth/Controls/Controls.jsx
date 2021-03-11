@@ -9,6 +9,7 @@ import {
   popEvent,
   selectDirection,
   MOVE_FORWARD,
+  MOVE_BACKWARD,
   TURN_LEFT,
   TURN_RIGHT,
   NOTHING,
@@ -22,6 +23,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // extend THREE to include TrackballControls
 extend({ TrackballControls });
+
+const DIRECTION_ADJUSTER = 0.1;
 
 export const Controls = ({
   wallTop,
@@ -57,25 +60,61 @@ export const Controls = ({
           case UP:
             if (camera.position.z > coordZ) {
               camera.position.z -= moveSpeed;
-              camera.lookAt(camera.position.x, 0, coordZ - 10);
+              camera.lookAt(camera.position.x, 0, camera.position.z - DIRECTION_ADJUSTER);
             }
             break;
           case LEFT:
             if (camera.position.x > coordX) {
               camera.position.x -= moveSpeed;
-              camera.lookAt(coordX - 10, 0, camera.position.z);
+              camera.lookAt(camera.position.x - DIRECTION_ADJUSTER, 0, camera.position.z);
             }
             break;
           case DOWN:
             if (camera.position.z < coordZ) {
               camera.position.z += moveSpeed;
-              camera.lookAt(camera.position.x, 0, coordZ + 10);
+              camera.lookAt(camera.position.x, 0, camera.position.z + DIRECTION_ADJUSTER);
             }
             break;
           case RIGHT:
             if (camera.position.x < coordX) {
               camera.position.x += moveSpeed;
-              camera.lookAt(coordX + 10, 0, camera.position.z);
+              camera.lookAt(camera.position.x + DIRECTION_ADJUSTER, 0, camera.position.z);
+            }
+            break;
+          default:
+            console.log("direction error!");
+        }
+        if (camera.position.x === coordX) {
+          if (camera.position.z === coordZ) {
+            console.log("success");
+            dispatch(popEvent());
+          }
+        }
+        break;
+      case MOVE_BACKWARD:
+        switch (direction) {
+          case UP:
+            if (camera.position.z < coordZ) {
+              camera.lookAt(camera.position.x, 0, camera.position.z - DIRECTION_ADJUSTER);
+              camera.position.z += moveSpeed;
+            }
+            break;
+          case LEFT:
+            if (camera.position.x < coordX) {
+              camera.position.x += moveSpeed;
+              camera.lookAt(camera.position.x - DIRECTION_ADJUSTER, 0, camera.position.z);
+            }
+            break;
+          case DOWN:
+            if (camera.position.z > coordZ) {
+              camera.position.z -= moveSpeed;
+              camera.lookAt(camera.position.x, 0, camera.position.z + DIRECTION_ADJUSTER);
+            }
+            break;
+          case RIGHT:
+            if (camera.position.x > coordX) {
+              camera.position.x -= moveSpeed;
+              camera.lookAt(camera.position.x + DIRECTION_ADJUSTER, 0, camera.position.z);
             }
             break;
           default:
@@ -93,7 +132,7 @@ export const Controls = ({
           localAngle = currentAngle + 90;
           setCurrentAngle(localAngle);
         }
-        if (currentAngle > 0) {
+        if (localAngle > 0) {
           camera.rotateY(THREE.Math.degToRad(2));
           localAngle -= turnSpeed;
           setCurrentAngle(localAngle);

@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const MOVE_FORWARD = 0;
 export const TURN_LEFT = 2;
 export const TURN_RIGHT = 1;
-export const NOTHING = 3;
+export const MOVE_BACKWARD = 3;
+export const NOTHING = 4;
 export const UNINIT = -1;
 export const UP = 0;
 export const RIGHT = 3;
@@ -40,6 +41,26 @@ export const controlSlice = createSlice({
         }
       }
     },
+    moveBackward: state => {
+      if (state.currentAction === NOTHING) {
+        state.currentAction = MOVE_BACKWARD;
+        switch (state.direction) {
+          case UP: state.posZ += 1;
+            break;
+          case RIGHT:
+            state.posX -= 1;
+            break;
+          case DOWN:
+            state.posZ -= 1;
+            break;
+          case LEFT:
+            state.posX += 1;
+            break;
+          default:
+            console.log("Direction error: ", state.direction);
+        }
+      }
+    },
     turnLeft: state => {
       if (state.currentAction === NOTHING) {
         state.currentAction = TURN_LEFT;
@@ -66,7 +87,7 @@ export const controlSlice = createSlice({
 });
 
 
-export const { moveForward, turnLeft, turnRight, popEvent, assignPosX, assignPosZ } = controlSlice.actions;
+export const { moveForward, moveBackward, turnLeft, turnRight, popEvent, assignPosX, assignPosZ } = controlSlice.actions;
 
 export const selectDirection = state => state.control.direction;
 export const selectPosX = state => state.control.posX;

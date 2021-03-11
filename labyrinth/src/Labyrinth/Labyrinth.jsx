@@ -51,7 +51,7 @@ export function Labyrinth(props) {
   //
   // To lookup the top wall info cell(x, y), we call wallTop[x + y*numZ]
   const [[wallLeft, wallTop],] = React.useState(initLabyrinthWalls(numX, numZ));
-
+  console.log(wallLeft);
   const posX = useSelector(selectPosX);
   const posZ = useSelector(selectPosZ);
   const dispatch = useDispatch();
@@ -66,7 +66,7 @@ export function Labyrinth(props) {
   // Starting point in the x and z axis(this is coordinate, not index)
   const startCoordX = -numX * blockWidth / 2;
   const startCoordZ = -numZ * blockWidth / 2;
-  // Get the current logical coordinate
+  // Get the current view coordinate
   const posCoordX = -blockWidth / 2 + numX * blockWidth + startCoordX;
   const posCoordY = -blockWidth / 2 + numZ * blockWidth + startCoordZ;
 
@@ -121,6 +121,7 @@ export function Labyrinth(props) {
         <Plane rotation-x={-Math.PI / 2} position={[0, -10, 0]} args={[400, 400, 4, 4]}>
           <meshBasicMaterial attach="material" opacity={0.5} color="#405940" />
         </Plane>
+        {/* <fog attach="fog" args={['black', 0, 40]} /> */}
       </Canvas>
     </div>
   );

@@ -87,7 +87,10 @@ export function initLabyrinthWalls(numX, numY) {
 
 function GenHorizontalWall(x, z, width, height, depth) {
   return (
-    <Box args={[width, height, depth]} rotation={[0, 0, 0]} position={[x + width / 2, 0, z]}>
+    <Box key={String(x) + ',' + String(z) + "top"}
+      args={[width, height, depth]}
+      rotation={[0, 0, 0]}
+      position={[x + width / 2, 0, z]}>
       <meshPhongMaterial color="orange" attach="material" />
     </Box>
   );
@@ -95,7 +98,10 @@ function GenHorizontalWall(x, z, width, height, depth) {
 
 function GenVerticalWall(x, z, width, height, depth) {
   return (
-    <Box args={[width, height, depth]} rotation={[0, Math.PI * 0.5, 0]} position={[x, 0, z + width / 2]}>
+    <Box key={String(x) + ',' + String(z) + "left"}
+      args={[width, height, depth]}
+      rotation={[0, Math.PI * 0.5, 0]}
+      position={[x, 0, z + width / 2]}>
       <meshPhongMaterial color="orange" attach="material" />
     </Box>
   );

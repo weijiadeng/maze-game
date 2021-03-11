@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
+  moveBackward,
   moveForward,
   turnLeft,
   turnRight,
@@ -15,6 +16,10 @@ export function GamePanel() {
   const handleMoveForward = () => {
     dispatch(moveForward());
   };
+  const handleMoveBackward = () => {
+    dispatch(moveBackward());
+  };
+
   const handleTurnLeft = () => {
     dispatch(turnLeft());
   };
@@ -36,6 +41,8 @@ export function GamePanel() {
       case 'ArrowUp':
         handleMoveForward();
         break;
+      case 'ArrowDown' :
+        handleMoveBackward();
       default:
         break;
     }
@@ -48,6 +55,9 @@ export function GamePanel() {
     <div>
       <button className="button forward-button" onClick={() => dispatch(moveForward())}>
         Move Forward
+        </button>
+        <button className="button backward-button" onClick={() => dispatch(moveBackward())}>
+        Move Backward
         </button>
       <button className="button turn-left-button" onClick={() => dispatch(turnLeft())}>
         Turn Left

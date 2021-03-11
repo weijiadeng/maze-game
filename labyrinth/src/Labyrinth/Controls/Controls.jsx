@@ -166,7 +166,6 @@ export const Controls = ({
 
   return (
     <trackballControls
-      ref={controls}
       args={[camera, gl.domElement]}
       dynamicDampingFactor={0.1}
       mouseButtons={{

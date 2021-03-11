@@ -43,6 +43,7 @@ export function GamePanel() {
         break;
       case 'ArrowDown' :
         handleMoveBackward();
+        break;
       default:
         break;
     }

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { GamePanel } from './Labyrinth/Controls/GamePanel';
+import ElapseTimer from './Labyrinth/ElapseTimer';
 import { Labyrinth } from './Labyrinth/Labyrinth';
 import './styles.css';
 
@@ -18,14 +19,15 @@ export default function App() {
           blockWidth={blockWidth}
           blockHeight={blockHeight}
           blockDepth={blockDepth}
-          mazeDepth={numX*blockWidth}
-          mazeWidth={numZ*blockWidth}
+          mazeDepth={numX * blockWidth}
+          mazeWidth={numZ * blockWidth}
         />
         <GamePanel />
         <button className="button new-game-button" onClick={() => window.history.go(0)}>
           New Game
         </button>
+        <ElapseTimer />
       </div>
-    </div>
+    </div >
   );
 }

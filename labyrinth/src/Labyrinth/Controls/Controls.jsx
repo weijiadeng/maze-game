@@ -86,7 +86,6 @@ export const Controls = ({
         }
         if (camera.position.x === coordX) {
           if (camera.position.z === coordZ) {
-            console.log("success");
             dispatch(popEvent());
           }
         }

@@ -145,6 +145,8 @@ export const selectAction = state => state.control.currentAction;
 export const selectIsInit = state => state.control.isInit;
 export const selectWallTop = state => state.control.wallTop;
 export const selectWallLeft = state => state.control.wallLeft;
+export const selectNumX = state => state.control.numX;
+export const selectNumZ = state => state.control.numZ;
 
 
 export default controlSlice.reducer;

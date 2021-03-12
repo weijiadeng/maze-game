@@ -96,7 +96,6 @@ export function initLabyrinthWalls(numX, numZ) {
   wallLeft[numCellPlusBorder-1] = false;
   wallTop[numCellPlusBorder-1] = false;
   wallTop[numCellPlusBorder-2] = false;
-  console.log(wallLeft, wallTop);
   return [wallLeft, wallTop];
 }
 

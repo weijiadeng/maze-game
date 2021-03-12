@@ -30,17 +30,18 @@ export const controlSlice = createSlice({
         state.currentAction = MOVE_FORWARD;
         switch (state.direction) {
           case UP:
+            // Check if there is a wall
             if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + state.posZ * (state.numX + 1)])) {
               state.posZ -= 1;
             }
             break;
           case RIGHT:
-            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + 1 + state.posZ * (state.numX + 1)])) {
+            if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ < state.numZ && state.wallLeft[state.posX + 1 + state.posZ * (state.numX + 1)])) {
               state.posX += 1;
             }
             break;
           case DOWN:
-            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)])) {
+            if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ < state.numZ && state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)])) {
               state.posZ += 1;
             }
             break;
@@ -64,12 +65,12 @@ export const controlSlice = createSlice({
             }
             break;
           case RIGHT:
-            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + state.posZ * (state.numX + 1)])) {
+            if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + state.posZ * (state.numX + 1)])) {
               state.posX -= 1;
             }
             break;
           case DOWN:
-            if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + state.posZ * (state.numX + 1)])) {
+            if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + state.posZ * (state.numX + 1)])) {
               state.posZ -= 1;
             } 
             break;

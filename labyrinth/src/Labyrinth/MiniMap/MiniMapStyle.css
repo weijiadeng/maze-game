@@ -1,0 +1,21 @@
+.board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.container {
+    width: 200px;
+    margin: auto;
+}
+
+.square {
+    border: 1px solid grey;
+    float: left;
+    height: 100px;
+    width: 100px;
+}
+
+.square:focus {
+    outline: none;
+}

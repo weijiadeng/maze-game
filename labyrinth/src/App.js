@@ -6,9 +6,9 @@ import './styles.css';
 export default function App() {
   const numX = 4;
   const numZ = 4;
-  const blockWidth = 10;
+  const blockWidth = 20;
   const blockDepth = 0.5;
-  const blockHeight = 5;
+  const blockHeight = 10;
   return (
     <div className="App">
       <div className="vis-container">

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import './MiniMapStyle.css';
 import {
@@ -7,11 +7,13 @@ import {
     selectWallTop,
     selectWallLeft,
     selectNumX,
+    selectAction,
+    NOTHING,
 } from '../Controls/controlSlice';
 
 
 
-export function MiniMap(props) {
+export function MiniMap({ discovered }) {
     const wallTop = useSelector(selectWallTop);
     const wallLeft = useSelector(selectWallLeft);
     const numX = useSelector(selectNumX);
@@ -19,13 +21,15 @@ export function MiniMap(props) {
     const posX = useSelector(selectPosX);
     const posZ = useSelector(selectPosZ);
     const display = [];
-    const discovered = useRef(Array(numX * numZ).fill(false));
-    discovered.current[posZ * numX + posX] = true;
+    const currentAction = useSelector(selectAction);
+    if (currentAction === NOTHING) {
+        discovered.current[posZ * numX + posX] = true;
+    }
     for (let i = 0; i < numZ; i++) {
-        display.push([])
+        let currentRow = [];
         for (let j = 0; j < numX; j++) {
-            if (discovered.current[i * numX + j]) {
-                display[i].push(
+            if (discovered.current[i * numX + j] || (posX === j && posZ === i)) {
+                currentRow.push(
                     <button className="square" key={String(i) + ',' + String(j)}
                         style={{
                             borderTop: wallTop[i * (numX + 1) + j] ? '0.5px solid white' : '0.5px solid rgba(240, 248, 255, 0.25)',
@@ -38,7 +42,7 @@ export function MiniMap(props) {
                 );
             }
             else {
-                display[i].push(
+                currentRow.push(
                     <button className="square" key={String(i) + ',' + String(j)}
                         style={{
                             border: '0.5px solid rgba(0, 0, 0, 0.1)',
@@ -48,16 +52,13 @@ export function MiniMap(props) {
 
             }
         }
-    }
-    let ret = []
-    for (let i = 0; i < numZ; i++) {
-        ret.push(<div className="board-row" key={"border" + String(i)}>{display[i]}</div>)
+        display.push(<div className="board-row" key={"border" + String(i)}>{currentRow}</div>)
     }
 
     return (
         <div>
             <div className="container">
-                {ret}
+                {display}
             </div>
         </div>
     );

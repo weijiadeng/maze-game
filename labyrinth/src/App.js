@@ -1,7 +1,8 @@
-import * as React from 'react';
+import {useRef} from 'react';
 import { GamePanel } from './Labyrinth/Controls/GamePanel';
 import ElapseTimer from './Labyrinth/ElapseTimer';
 import { Labyrinth } from './Labyrinth/Labyrinth';
+import { EventManager } from './Labyrinth/EventManager/EventManager';
 import { MiniMap } from './Labyrinth/MiniMap/MiniMap'
 import './styles.css';
 
@@ -11,6 +12,7 @@ export default function App() {
   const blockWidth = 20;
   const blockDepth = 0.5;
   const blockHeight = 10;
+  const discovered = useRef(Array(numX * numZ).fill(false));
   return (
     <div className="App">
       <div className="vis-container">
@@ -24,7 +26,13 @@ export default function App() {
           mazeWidth={numZ * blockWidth}
         />
         <GamePanel />
-        <MiniMap />
+
+        <EventManager 
+          discovered={discovered}
+        />
+        <MiniMap 
+          discovered={discovered}
+        />
         <button className="button new-game-button" onClick={() => window.history.go(0)}>
           New Game
         </button>

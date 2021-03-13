@@ -1,9 +1,12 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCurNumSeconds, countUp, pauseCount, resumeCount } from './elapseTimerSlice'
+import { selectCurNumSeconds, selectStatus, countUp, pauseCount, resumeCount, READY } from './elapseTimerSlice'
 
 // A timer recording elapse time.
 export default function ElapseTimer() {
+
+
+    const status = useSelector(selectStatus);
     const dispatch = useDispatch();
     const handleCountUpDispatch = () => {
         dispatch(countUp());
@@ -15,8 +18,12 @@ export default function ElapseTimer() {
         dispatch(resumeCount());
     }
     const startCount = () => {
-        setInterval(handleCountUpDispatch, 1000);
+        if (status === READY) {
+            dispatch(resumeCount());
+            setInterval(handleCountUpDispatch, 1000);
+        }
     }
+    startCount();
     const x = useSelector(selectCurNumSeconds);
     const elapseTime = `Time elapsed: ${Math.floor(x / 3600)} H ${Math.floor(x / 60)} M ${x % 60} S`;
 

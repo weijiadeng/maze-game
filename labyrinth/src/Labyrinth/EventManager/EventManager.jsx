@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { NOTHING, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../Controls/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { pauseCount, readyCount } from '../elapseTimerSlice'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Modal from 'react-bootstrap/Modal'
+import {Button} from 'react-bootstrap'
 
 
 function StartEventRender() {
@@ -32,6 +35,44 @@ function initEventMap(numX, numZ) {
     return eventMap;
 }
 
+
+function Example() {
+  const [show, setShow] = useState(true);
+
+  return (
+    <>
+      <Button variant="primary" onClick={() => setShow(true)}>
+        Custom Width Modal
+      </Button>
+
+      <Modal
+        show={show}
+        onHide={() => setShow(false)}
+        dialogClassName="modal-90w"
+        aria-labelledby="example-custom-modal-styling-title"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="example-custom-modal-styling-title">
+            Custom Modal Styling
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>
+            Ipsum molestiae natus adipisci modi eligendi? Debitis amet quae unde
+            commodi aspernatur enim, consectetur. Cumque deleniti temporibus
+            ipsam atque a dolores quisquam quisquam adipisci possimus
+            laboriosam. Quibusdam facilis doloribus debitis! Sit quasi quod
+            accusamus eos quod. Ab quos consequuntur eaque quo rem! Mollitia
+            reiciendis porro quo magni incidunt dolore amet atque facilis ipsum
+            deleniti rem!
+          </p>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
+
+
 export function EventManager({ discovered }) {
     const numX = useSelector(selectNumX);
     const numZ = useSelector(selectNumZ);
@@ -54,5 +95,5 @@ export function EventManager({ discovered }) {
     }
     useEffect(currentCallback);
 
-    return (<div>{toRender()}</div>);
+    return <Example />;
 }

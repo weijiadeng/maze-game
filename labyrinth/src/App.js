@@ -1,9 +1,11 @@
-import {useRef} from 'react';
+import { useRef } from 'react';
 import { GamePanel } from './Labyrinth/Controls/GamePanel';
 import ElapseTimer from './Labyrinth/ElapseTimer';
 import { Labyrinth } from './Labyrinth/Labyrinth';
 import { EventManager } from './Labyrinth/EventManager/EventManager';
 import { MiniMap } from './Labyrinth/MiniMap/MiniMap'
+import BackgroundMusic from './commons/backgroundMusic'
+
 import './styles.css';
 
 export default function App() {
@@ -27,16 +29,17 @@ export default function App() {
         />
         <GamePanel />
 
-        <EventManager 
+        <EventManager
           discovered={discovered}
         />
-        <MiniMap 
+        <MiniMap
           discovered={discovered}
         />
         <button className="button new-game-button" onClick={() => window.history.go(0)}>
           New Game
         </button>
         <ElapseTimer />
+        <BackgroundMusic />
       </div>
     </div >
   );

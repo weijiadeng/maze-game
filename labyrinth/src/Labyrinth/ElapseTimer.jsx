@@ -18,12 +18,14 @@ export default function ElapseTimer() {
         dispatch(resumeCount());
     }
     const startCount = () => {
-        if (status === READY) {
-            dispatch(resumeCount());
-            setInterval(handleCountUpDispatch, 1000);
-        }
+        dispatch(resumeCount());
     }
-    startCount();
+
+    if (status === READY) {
+        dispatch(resumeCount());
+        setInterval(handleCountUpDispatch, 1000);
+    }
+
     const x = useSelector(selectCurNumSeconds);
     const elapseTime = `Time elapsed: ${Math.floor(x / 3600)} H ${Math.floor(x / 60)} M ${x % 60} S`;
 

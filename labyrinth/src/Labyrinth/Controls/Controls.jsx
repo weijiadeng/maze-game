@@ -19,6 +19,7 @@ import {
   RIGHT
 } from './controlSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { selectSpeedModifier } from '../GameStatus/gameStatusSlice';
 
 
 // extend THREE to include TrackballControls
@@ -41,6 +42,9 @@ export const Controls = ({
   const posX = useSelector(selectPosX);
   const posZ = useSelector(selectPosZ);
   const direction = useSelector(selectDirection);
+  const speedModifier = useSelector(selectSpeedModifier);
+  const actualMoveSpeed = moveSpeed * speedModifier;
+  const actualTurnSpeed = turnSpeed * speedModifier;
   // Current angle is the remaining angle the camera needs to rotate
   const [currentAngle, setCurrentAngle] = React.useState(0);
   let localAngle = currentAngle;
@@ -59,25 +63,25 @@ export const Controls = ({
         switch (direction) {
           case UP:
             if (camera.position.z > coordZ) {
-              camera.position.z -= moveSpeed;
+              camera.position.z -= actualMoveSpeed;
               camera.lookAt(camera.position.x, 0, camera.position.z - DIRECTION_ADJUSTER);
             }
             break;
           case LEFT:
             if (camera.position.x > coordX) {
-              camera.position.x -= moveSpeed;
+              camera.position.x -= actualMoveSpeed;
               camera.lookAt(camera.position.x - DIRECTION_ADJUSTER, 0, camera.position.z);
             }
             break;
           case DOWN:
             if (camera.position.z < coordZ) {
-              camera.position.z += moveSpeed;
+              camera.position.z += actualMoveSpeed;
               camera.lookAt(camera.position.x, 0, camera.position.z + DIRECTION_ADJUSTER);
             }
             break;
           case RIGHT:
             if (camera.position.x < coordX) {
-              camera.position.x += moveSpeed;
+              camera.position.x += actualMoveSpeed;
               camera.lookAt(camera.position.x + DIRECTION_ADJUSTER, 0, camera.position.z);
             }
             break;
@@ -95,24 +99,24 @@ export const Controls = ({
           case UP:
             if (camera.position.z < coordZ) {
               camera.lookAt(camera.position.x, 0, camera.position.z - DIRECTION_ADJUSTER);
-              camera.position.z += moveSpeed;
+              camera.position.z += actualMoveSpeed;
             }
             break;
           case LEFT:
             if (camera.position.x < coordX) {
-              camera.position.x += moveSpeed;
+              camera.position.x += actualMoveSpeed;
               camera.lookAt(camera.position.x - DIRECTION_ADJUSTER, 0, camera.position.z);
             }
             break;
           case DOWN:
             if (camera.position.z > coordZ) {
-              camera.position.z -= moveSpeed;
+              camera.position.z -= actualMoveSpeed;
               camera.lookAt(camera.position.x, 0, camera.position.z + DIRECTION_ADJUSTER);
             }
             break;
           case RIGHT:
             if (camera.position.x > coordX) {
-              camera.position.x -= moveSpeed;
+              camera.position.x -= actualMoveSpeed;
               camera.lookAt(camera.position.x + DIRECTION_ADJUSTER, 0, camera.position.z);
             }
             break;
@@ -132,8 +136,8 @@ export const Controls = ({
           setCurrentAngle(localAngle);
         }
         if (localAngle > 0) {
-          camera.rotateY(THREE.Math.degToRad(2));
-          localAngle -= turnSpeed;
+          camera.rotateY(THREE.Math.degToRad(actualTurnSpeed));
+          localAngle -= actualTurnSpeed;
           setCurrentAngle(localAngle);
         }
         if (localAngle === 0) {
@@ -146,11 +150,11 @@ export const Controls = ({
           localAngle = currentAngle - 90;
         }
         if (localAngle < 0) {
-          camera.rotateY(THREE.Math.degToRad(-2));
-          localAngle += turnSpeed;
+          camera.rotateY(THREE.Math.degToRad(-actualTurnSpeed));
+          localAngle += actualTurnSpeed;
           setCurrentAngle(localAngle);
         }
-        if (localAngle === 0) {
+        if (Math.abs(localAngle) < turnSpeed) {
           dispatch(popEvent());
         }
         break;

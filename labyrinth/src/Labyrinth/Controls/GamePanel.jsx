@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap } from '../GameStatus/gameStatusSlice';
 import {
   moveBackward,
   moveForward,
@@ -27,6 +28,25 @@ export function GamePanel() {
     dispatch(turnRight());
   };
 
+  const showMiniMap = useSelector(selectShowMiniMap);
+  const isDarkMode = useSelector(selectIsDark);
+
+  const handleToggleMiniMap = () => {
+    if (showMiniMap) {
+      dispatch(disableMiniMap());
+    } else {
+      dispatch(enableMiniMap())
+    }
+  };
+
+  const handleToggleDarkMode = () => {
+    if (isDarkMode) {
+      dispatch(disableDarkMode());
+    } else {
+      dispatch(enableDarkMode())
+    }
+  };
+
   const handleKeyDown = (event) => {
     switch (event.key) {
       case 'Enter':
@@ -41,7 +61,7 @@ export function GamePanel() {
       case 'ArrowUp':
         handleMoveForward();
         break;
-      case 'ArrowDown' :
+      case 'ArrowDown':
         handleMoveBackward();
         break;
       default:
@@ -54,18 +74,24 @@ export function GamePanel() {
 
   return (
     <div>
-      <button className="button forward-button" onClick={() => dispatch(moveForward())}>
+      <button className="button forward-button" onClick={() => handleMoveForward()}>
         Move Forward
         </button>
-        <button className="button backward-button" onClick={() => dispatch(moveBackward())}>
+      <button className="button backward-button" onClick={() => handleMoveBackward()}>
         Move Backward
         </button>
-      <button className="button turn-left-button" onClick={() => dispatch(turnLeft())}>
+      <button className="button turn-left-button" onClick={() => handleTurnLeft()}>
         Turn Left
         </button>
-      <button className="button turn-right-button" onClick={() => dispatch(turnRight())}>
+      <button className="button turn-right-button" onClick={() => handleTurnRight()}>
         Turn Right
         </button>
+      <button className="button toggleMiniMap" onClick={() => handleToggleMiniMap()}>
+        ToggleMiniMap
+      </button>
+      <button className="button toggleDarkMode" onClick={() => handleToggleDarkMode()}>
+        ToggleDarkMode
+      </button>
     </div>
   );
 }

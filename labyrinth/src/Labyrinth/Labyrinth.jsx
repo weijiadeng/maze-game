@@ -19,6 +19,7 @@ import {
 } from './Controls/controlSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import "./Labyrinth.css"
+import { selectIsDark } from './GameStatus/gameStatusSlice';
 
 export function Labyrinth(props) {
 
@@ -73,11 +74,10 @@ export function Labyrinth(props) {
   // Get the current view coordinate
   const posCoordX = -blockWidth / 2 + numX * blockWidth + startCoordX;
   const posCoordY = -blockWidth / 2 + numZ * blockWidth + startCoordZ;
-
+  const isDarkMode = useSelector(selectIsDark);
   // Needed to use react-redux in react-three-fiber canvas. 
   // For details: https://standard.ai/blog/introducing-standard-view-and-react-three-fiber-context-bridge/
   const ContextBridge = useContextBridge(ReactReduxContext);
-
   return (
     <div className="canvas-div">
       <Canvas camera={{
@@ -97,10 +97,12 @@ export function Labyrinth(props) {
         {/* Reference: https://drei.pmnd.rs/?path=/story/shaders-softshadows--soft-shadows-st
             Make the light the same direction with the sun
         */}
-        <directionalLight
+        {isDarkMode ? null:<directionalLight
           position={[-500, 20, startCoordZ + blockWidth / 2]}
           intensity={1.5}
-        />
+        /> }
+
+
         <Walls
           numX={numX}
           numZ={numZ}
@@ -112,17 +114,17 @@ export function Labyrinth(props) {
           mazeWidth={mazeWidth}
           mazeDepth={mazeDepth}
         />
-        <Sky
+        {isDarkMode ? null : <Sky
           distance={10000} // Camera distance (default=450000)
           // Sun position normal(Make the exit faces the sun, x should be less than -mazeWidth+blockWidth, 
           // y should be greater than 0, z should be -mazeHeight+blockWidth)
           sunPosition={[-500, blockHeight, startCoordZ + blockWidth / 2]}
           inclination={0} // Sun elevation angle from 0 to 1 (default=0)
           azimuth={0.25} // Sun rotation around the Y axis from 0 to 1 (default=0.25)
-        />
+        />}
         {/* Referenced from https://github.com/pmndrs/drei#stars */}
         <Stars
-          radius={mazeWidth*2} // Radius of the inner sphere (default=100)
+          radius={mazeWidth * 2} // Radius of the inner sphere (default=100)
           depth={50} // Depth of area where stars should fit (default=50)
           count={5000} // Amount of stars (default=5000)
           factor={5} // Size factor (default=4)
@@ -132,7 +134,7 @@ export function Labyrinth(props) {
         <Plane rotation-x={-Math.PI / 2} position={[0, -blockHeight / 2, 0]} args={[mazeWidth, mazeDepth, 4, 4]}>
           <meshBasicMaterial attach="material" opacity={0.5} color="#405940" />
         </Plane>
-        {/* <fog attach="fog" args={['black', 0, 40]} /> */}
+        {isDarkMode ? <fog attach="fog" args={['black', 0, blockWidth]} /> : null}
       </Canvas>
     </div>
   );

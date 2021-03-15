@@ -10,6 +10,7 @@ import {
     selectAction,
     NOTHING,
 } from '../Controls/controlSlice';
+import { selectShowMiniMap } from '../GameStatus/gameStatusSlice';
 
 
 
@@ -20,6 +21,7 @@ export function MiniMap({ discovered }) {
     const numZ = useSelector(selectNumX);
     const posX = useSelector(selectPosX);
     const posZ = useSelector(selectPosZ);
+    const showMiniMap = useSelector(selectShowMiniMap);
     const display = [];
     const currentAction = useSelector(selectAction);
     if (currentAction === NOTHING) {
@@ -58,7 +60,7 @@ export function MiniMap({ discovered }) {
     return (
         <div>
             <div className="container">
-                {display}
+            {showMiniMap ? display:null}
             </div>
         </div>
     );

@@ -83,6 +83,21 @@ body {
   z-index: 10;
 }
 
+.toggleMiniMap {
+  position: absolute;
+  right: 16px;
+  top: 172px;
+  z-index: 10;
+}
+
+.toggleDarkMode {
+  position: absolute;
+  right: 16px;
+  top: 200px;
+  z-index: 10;
+}
+
+
 .elapse-timer {
   background-color: white;
   width: 40%;

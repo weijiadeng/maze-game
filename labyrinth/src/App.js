@@ -7,6 +7,7 @@ import { MiniMap } from './Labyrinth/MiniMap/MiniMap'
 import BackgroundMusic from './commons/backgroundMusic'
 
 import './styles.css';
+import EffectSoundTestContainer from './commons/soundHooks';
 
 export default function App() {
   const numX = 10;
@@ -38,8 +39,10 @@ export default function App() {
         <button className="button new-game-button" onClick={() => window.history.go(0)}>
           New Game
         </button>
+        <EffectSoundTestContainer />
         <ElapseTimer />
         <BackgroundMusic />
+
       </div>
     </div >
   );

@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useSound from 'use-sound';
-import bgm from '../music/19th_floor_Bobby_Richards.mp3'
+import bgm from '../music/mixkit-game-level-music-689.wav'
 import { selectIsMuted, toggleIsMuted } from './backgroundMusicSlice';
 
 function useBgmPlay() {
     const [play, { stop }] = useSound(bgm, {
         interrupt: true,
+        volume: 0.35,
     });
     return { play, stop };
 }

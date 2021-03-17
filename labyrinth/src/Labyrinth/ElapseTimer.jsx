@@ -4,21 +4,10 @@ import { selectCurNumSeconds, selectStatus, countUp, pauseCount, resumeCount, RE
 
 // A timer recording elapse time.
 export default function ElapseTimer() {
-
-
     const status = useSelector(selectStatus);
     const dispatch = useDispatch();
     const handleCountUpDispatch = () => {
         dispatch(countUp());
-    }
-    const handlePauseCountDispatch = () => {
-        dispatch(pauseCount());
-    }
-    const handleResumeCountDispatch = () => {
-        dispatch(resumeCount());
-    }
-    const startCount = () => {
-        dispatch(resumeCount());
     }
 
     if (status === READY) {
@@ -31,12 +20,6 @@ export default function ElapseTimer() {
 
     return (
         <div className="elapse-timer">
-            <button className="button elapse-time-start" onClick={() => startCount()}
-            >Start count time in seconds</button>
-            <button className="button elapse-time-pause" onClick={() => handlePauseCountDispatch()}
-            >Pause count time in seconds</button>
-            <button className="button elapse-time-resume" onClick={() => handleResumeCountDispatch()}
-            >Resume count time in seconds</button>
             <p>{elapseTime}</p>
         </div>
     );

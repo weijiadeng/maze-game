@@ -11,6 +11,9 @@ export const playerStatusSlice = createSlice({
     reducers: {
         decreaseHP: (state, action) => {
             state.HP -= action.payload;
+            if (state.HP < 0) {
+                state.HP = 0;
+            }
         },
         increaseHP: (state, action) => {
             if (state.HP === INITIAL_HP) {

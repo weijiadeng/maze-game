@@ -8,6 +8,8 @@ import BackgroundMusic from './commons/backgroundMusic'
 
 import './styles.css';
 import EffectSoundTestContainer from './commons/soundHooks';
+import PlayerStatusPanel from './components/PlayerStatusPanel';
+import TestPlayerStatusPanel from './exampleComponents/testPlayerStatusPanel';
 
 export default function App() {
   const numX = 10;
@@ -42,6 +44,8 @@ export default function App() {
         <EffectSoundTestContainer />
         <ElapseTimer />
         <BackgroundMusic />
+        <PlayerStatusPanel />
+        <TestPlayerStatusPanel />
 
       </div>
     </div >

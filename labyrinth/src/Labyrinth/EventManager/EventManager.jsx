@@ -5,6 +5,8 @@ import { pauseCount, readyCount } from '../elapseTimerSlice'
 import { Button } from 'react-bootstrap'
 import { resetBuffAndDebuff } from "../../reducers/playerStatusSlice";
 import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../GameStatus/gameStatusSlice";
+import SmallPopUpWindow from "../../components/SmallPopUpWindow";
+import { selectPresense } from "../../reducers/smallPopUpWindowSlice";
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -16,13 +18,14 @@ const BRIGHT_MODE_ID = 0;
 const SPEED_UP_ID = 1;
 const SHOW_MINI_MAP = 2;
 
-function StartEventRender() {
-  // Popup window currently not working
-  return (<div></div>);
+function StartEventRender(select) {
+  return (
+    <SmallPopUpWindow content={"From StartEventRender"} />
+  );
 }
 
 function startEventCallback(dispatch) {
-  alert("Game Start!");
+  // alert("Game Start!");
   dispatch(readyCount());
 }
 
@@ -120,14 +123,15 @@ export function EventManager({ discovered }) {
   const posZ = useSelector(selectPosZ);
   const currentIndex = posZ * numX + posX;
   const currentAction = useSelector(selectAction);
+  const smallPopUpWindowPresense = useSelector(selectPresense);
   const dispatch = useDispatch();
   const select = useSelector;
   let currentCallback = () => { };
-  let toRender;
+  let toRender = () => { };
   if (currentAction === NOTHING) {
     if (!discovered.current[currentIndex]) {
-      if (eventMap[currentIndex] !== null) {
-        toRender = () => { eventMap[currentIndex][0]() };
+      if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {
+        toRender = eventMap[currentIndex][0];
         currentCallback = () => { eventMap[currentIndex][1](dispatch, select) };
         console.log("Triggered");
       }
@@ -135,5 +139,12 @@ export function EventManager({ discovered }) {
   }
   useEffect(currentCallback);
 
-  return <div></div>;
+  const renderResult = toRender();
+  let res = renderResult !== undefined ? renderResult : <div></div>;
+
+  // Aim for using the auto disspear logic of SmallPopUpWindow.
+  if (renderResult !== undefined && renderResult.type.name === "SmallPopUpWindow") {
+    res = smallPopUpWindowPresense ? renderResult : <div></div>;
+  }
+  return res;
 }

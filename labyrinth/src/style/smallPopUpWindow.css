@@ -1,0 +1,11 @@
+.small-popup-window {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    top: 0;
+    left: 0;
+    margin-top: 200px;
+    margin-left: 200px;
+    z-index: 20;
+    background-color: white;
+}

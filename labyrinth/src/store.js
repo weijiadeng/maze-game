@@ -4,6 +4,7 @@ import elapseTimerReducer from './Labyrinth/elapseTimerSlice';
 import gameStatusReducer from './Labyrinth/GameStatus/gameStatusSlice';
 import backgroundMusicReducer from './commons/backgroundMusicSlice';
 import playerStatusReducer from './reducers/playerStatusSlice';
+import smallPopUpWindowReducer from './reducers/smallPopUpWindowSlice';
 
 export default configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export default configureStore({
     gameStatus: gameStatusReducer,
     backgroundMusic: backgroundMusicReducer,
     playerStatus: playerStatusReducer,
+    smallPopUpWindow: smallPopUpWindowReducer,
   },
 });

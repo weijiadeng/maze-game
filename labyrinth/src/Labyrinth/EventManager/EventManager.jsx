@@ -75,6 +75,7 @@ function genDebuffId() {
 
 // The smelly wind will add debuff: darkmode, minimap off, slowly move.
 function smellyWindEventCallBack(debuffID, dispatch, select) {
+  console.log(debuffID);
   // Generate a random debuff
   switch (debuffID) {
     case DARK_MODE_ID:

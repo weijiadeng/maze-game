@@ -78,19 +78,13 @@ function smellyWindEventCallBack(debuffID, dispatch, select) {
   // Generate a random debuff
   switch (debuffID) {
     case DARK_MODE_ID:
-      const isDark = select(selectIsDark);
-      if (!isDark) {
-        dispatch(enableDarkMode());
-      }
+      dispatch(enableDarkMode());
       break;
     case SPEED_DOWN_ID:
       dispatch(speedDown());
       break;
     case HIDE_MINI_MAP:
-      const isShowMiniMap = select(selectShowMiniMap);
-      if (isShowMiniMap) {
-        dispatch(disableMiniMap());
-      }
+      dispatch(disableMiniMap());
       break;
     default:
       break;
@@ -112,19 +106,13 @@ function freshWindEventCallBack(dispatch, select) {
   const buffID = Math.floor(Math.random() * NUM_BUFF_TYPE);
   switch (buffID) {
     case BRIGHT_MODE_ID:
-      const isDark = select(selectIsDark);
-      if (isDark) {
-        dispatch(disableDarkMode());
-      }
+      dispatch(disableDarkMode());
       break;
     case SPEED_UP_ID:
       dispatch(speedUp());
       break;
     case SHOW_MINI_MAP:
-      const isShowMiniMap = select(selectShowMiniMap);
-      if (!isShowMiniMap) {
-        dispatch(enableMiniMap());
-      }
+      dispatch(enableMiniMap());
       break;
 
     default:

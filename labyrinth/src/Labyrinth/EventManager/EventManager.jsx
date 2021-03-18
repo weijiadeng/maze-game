@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { NOTHING, occurEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../Controls/controlSlice";
+import { NOTHING, occurEvent, popEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../Controls/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
-import { readyCount, selectCurNumSeconds } from '../elapseTimerSlice'
+import { readyCount, selectCurNumSeconds, resumeCount } from '../elapseTimerSlice'
 import { resetBuffAndDebuff } from "../../reducers/playerStatusSlice";
 import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../GameStatus/gameStatusSlice";
 import SmallPopUpWindow from "../../components/SmallPopUpWindow";
-import { selectPresense, enablePresense, disablePresense } from "../../reducers/smallPopUpWindowSlice";
+import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../../reducers/smallPopUpWindowSlice";
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -17,16 +17,20 @@ const BRIGHT_MODE_ID = 0;
 const SPEED_UP_ID = 1;
 const SHOW_MINI_MAP = 2;
 
+const handleClosePopUp = (dispatch) => {
+  dispatch(resumeCount());
+  dispatch(popEvent());
+  dispatch(disablePresense());
+  //setTimeout(resetPresenseToTrue, 1000)
+}
 
 function StartEventRender() {
   const dispatch = useDispatch();
-  const handleClose = () => {
-    dispatch(disablePresense());
-  }
-  return (<React.Fragment>
+  const buttons = (<div onClick={() => { handleClosePopUp(dispatch) }}>Emm...Interesting</div>);
+  return (<SmallPopUpWindow buttons={buttons}>
     <h1>You are in a maze</h1>
     <div>This is a dangerous maze, good luck!</div>
-  </React.Fragment>);
+  </SmallPopUpWindow>);
 }
 
 function startEventCallback(dispatch) {
@@ -35,10 +39,19 @@ function startEventCallback(dispatch) {
 
 function EndEventRender() {
   const time = useSelector(selectCurNumSeconds);
-  return (<React.Fragment>
+  const dispatch = useDispatch();
+  const buttons = (
+    <React.Fragment>
+      <div onClick={() => { handleClosePopUp(dispatch) }}
+      >Emm...Interesting</div>
+      <div>See the leaderboard</div>
+    </React.Fragment>
+  );
+
+  return (<SmallPopUpWindow buttons={buttons}>
     <h1>Congrats!</h1>
     <div>You've passed the maze within {time} seconds!</div>
-  </React.Fragment>);
+  </SmallPopUpWindow>);
 }
 
 function endEventCallback(dispatch) {
@@ -136,22 +149,16 @@ export function EventManager({ discovered }) {
   const select = useSelector;
   let currentCallback = () => { };
   let toRender = null;
-  let isToOpen = false;
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {
 
       toRender = eventMap[currentIndex][0];
       if (!discovered.current[currentIndex]) {
         //toRender = eventMap[currentIndex][0];
-        currentCallback = () => { eventMap[currentIndex][1](dispatch, select);};
-        isToOpen = true;
+        currentCallback = () => { eventMap[currentIndex][1](dispatch, select); dispatch(enableIsToOpen()) };
       }
     }
   }
   useEffect(currentCallback);
-  return (
-    <SmallPopUpWindow isToOpen={isToOpen}>
-      {toRender}
-    </SmallPopUpWindow>
-  );
+  return (toRender);
 }

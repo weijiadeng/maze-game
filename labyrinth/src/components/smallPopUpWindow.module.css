@@ -70,13 +70,22 @@
     font-size: x-large;
 }
 
-.button {
+.buttonsection {
+    width: 100%;
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.buttonsection > div {
     color: darkblue;
     margin-top: auto;
 }
 
-.button:hover {
+.buttonsection > div:hover {
     color: blue;
-    margin-top: auto;
     cursor: pointer;
 }

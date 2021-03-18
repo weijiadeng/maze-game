@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { disablePresense, enablePresense, selectPresense } from '../reducers/smallPopUpWindowSlice';
+import { disablePresense, enablePresense, selectPresense, selectIsToOpen, disableIsToOpen } from '../reducers/smallPopUpWindowSlice';
 import styles from './smallPopUpWindow.module.css'
 import Modal from "react-modal"
 import background from './scroll.png'
@@ -11,26 +11,21 @@ Modal.setAppElement('#root')
 
 const SmallPopUpWindow = (props) => {
     const dispatch = useDispatch();
-
+    const isToOpen = useSelector(selectIsToOpen)
     useEffect(() => {
-        if (props.isToOpen) {
+        if (isToOpen) {
             dispatch(enablePresense());
             dispatch(occurEvent());
+            dispatch(disableIsToOpen());
         }
     });
-    
+
     const isOpen = useSelector(selectPresense);
     useEffect(() => {
         if (isOpen) {
             dispatch(pauseCount());
         }
     });
-    const handlePresenseChange = () => {
-        dispatch(disablePresense());
-        dispatch(resumeCount());
-        dispatch(popEvent());
-        //setTimeout(resetPresenseToTrue, 1000)
-    }
 
     return (
         <Modal
@@ -41,7 +36,9 @@ const SmallPopUpWindow = (props) => {
             <img src={background} className={styles.backgroundPic} alt={""} />
             <div className={styles.content}>
                 {props.children}
-                <div className={styles.button} onClick={() => { handlePresenseChange() }}>Emm...Interesting</div>
+                <div className={styles.buttonsection}>
+                    {props.buttons}
+                </div>
             </div>
         </Modal>
     );

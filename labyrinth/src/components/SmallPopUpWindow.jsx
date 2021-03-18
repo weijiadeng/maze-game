@@ -1,26 +1,49 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { disablePresense, enablePresense } from '../reducers/smallPopUpWindowSlice';
-import '../style/smallPopUpWindow.css'
+import { disablePresense, enablePresense, selectPresense } from '../reducers/smallPopUpWindowSlice';
+import styles from './smallPopUpWindow.module.css'
+import Modal from "react-modal"
+import background from './scroll.png'
+import { pauseCount, resumeCount } from '../Labyrinth/elapseTimerSlice';
+import { occurEvent, popEvent } from '../Labyrinth/Controls/controlSlice';
+
+Modal.setAppElement('#root')
 
 const SmallPopUpWindow = (props) => {
     const dispatch = useDispatch();
-    const resetPresenseToTrue = () => {
-        dispatch(enablePresense());
-    }
-
-    const handlePresenseChange = () => {
-        dispatch(disablePresense());
-        setTimeout(resetPresenseToTrue, 1000)
-    }
 
     useEffect(() => {
-        setTimeout(handlePresenseChange, 2000);
+        if (props.isToOpen) {
+            dispatch(enablePresense());
+            dispatch(occurEvent());
+        }
     });
+    
+    const isOpen = useSelector(selectPresense);
+    useEffect(() => {
+        if (isOpen) {
+            dispatch(pauseCount());
+        }
+    });
+    const handlePresenseChange = () => {
+        dispatch(disablePresense());
+        dispatch(resumeCount());
+        dispatch(popEvent());
+        //setTimeout(resetPresenseToTrue, 1000)
+    }
+
     return (
-        <div className="small-popup-window">
-            {props.content}
-        </div>
+        <Modal
+            isOpen={isOpen}
+            className={styles.popup}
+            overlayClassName={styles.overlay}
+            closeTimeoutMS={1000}>
+            <img src={background} className={styles.backgroundPic} alt={""} />
+            <div className={styles.content}>
+                {props.children}
+                <div className={styles.button} onClick={() => { handlePresenseChange() }}>Emm...Interesting</div>
+            </div>
+        </Modal>
     );
 }
 

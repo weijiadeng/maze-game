@@ -16,7 +16,8 @@ import {
   UP,
   DOWN,
   LEFT,
-  RIGHT
+  RIGHT,
+  RANDOM_EVENT
 } from './controlSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSpeedModifier } from '../GameStatus/gameStatusSlice';
@@ -159,6 +160,8 @@ export const Controls = ({
         }
         break;
       case NOTHING:
+        break;
+      case RANDOM_EVENT:
         break;
       default:
         console.log("button error!");

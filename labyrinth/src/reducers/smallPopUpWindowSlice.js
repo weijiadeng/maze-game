@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const INITIAL_PRESENSE = true;
+const INITIAL_PRESENSE = false;
 export const smallPopUpWindowSlice = createSlice({
     name: 'smallPopUpWindow',
     initialState: {

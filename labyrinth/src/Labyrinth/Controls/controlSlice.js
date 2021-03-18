@@ -4,7 +4,8 @@ export const MOVE_FORWARD = 0;
 export const TURN_LEFT = 2;
 export const TURN_RIGHT = 1;
 export const MOVE_BACKWARD = 3;
-export const NOTHING = 4;
+export const RANDOM_EVENT = 4;
+export const NOTHING = 5;
 export const UP = 0;
 export const RIGHT = 3;
 export const DOWN = 2;
@@ -96,6 +97,11 @@ export const controlSlice = createSlice({
         state.direction = ((state.direction - 1) % 4 + 4) % 4;
       }
     },
+    occurEvent: state => {
+      if (state.currentAction === NOTHING) {
+        state.currentAction = RANDOM_EVENT;
+      }
+    },
     popEvent: state => {
       state.currentAction = NOTHING;
     },
@@ -128,6 +134,7 @@ export const {
   moveBackward,
   turnLeft,
   turnRight,
+  occurEvent,
   popEvent,
   assignPosX,
   assignPosZ,

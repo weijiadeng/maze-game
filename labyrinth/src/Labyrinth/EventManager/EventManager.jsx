@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { NOTHING, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../Controls/controlSlice";
+import React, { useEffect, useState } from "react";
+import { NOTHING, occurEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../Controls/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
-import { pauseCount, readyCount } from '../elapseTimerSlice'
-import { Button } from 'react-bootstrap'
+import { readyCount, selectCurNumSeconds } from '../elapseTimerSlice'
 import { resetBuffAndDebuff } from "../../reducers/playerStatusSlice";
 import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../GameStatus/gameStatusSlice";
 import SmallPopUpWindow from "../../components/SmallPopUpWindow";
-import { selectPresense } from "../../reducers/smallPopUpWindowSlice";
+import { selectPresense, enablePresense, disablePresense } from "../../reducers/smallPopUpWindowSlice";
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -18,23 +17,31 @@ const BRIGHT_MODE_ID = 0;
 const SPEED_UP_ID = 1;
 const SHOW_MINI_MAP = 2;
 
-function StartEventRender(select) {
-  return (
-    <SmallPopUpWindow content={"From StartEventRender"} />
-  );
+
+function StartEventRender() {
+  const dispatch = useDispatch();
+  const handleClose = () => {
+    dispatch(disablePresense());
+  }
+  return (<React.Fragment>
+    <h1>You are in a maze</h1>
+    <div>This is a dangerous maze, good luck!</div>
+  </React.Fragment>);
 }
 
 function startEventCallback(dispatch) {
-  // alert("Game Start!");
   dispatch(readyCount());
 }
 
 function EndEventRender() {
-  return (<div></div>);
+  const time = useSelector(selectCurNumSeconds);
+  return (<React.Fragment>
+    <h1>Congrats!</h1>
+    <div>You've passed the maze within {time} seconds!</div>
+  </React.Fragment>);
 }
 
 function endEventCallback(dispatch) {
-  dispatch(pauseCount());
   alert("Congrats! You've passed the game!");
 }
 
@@ -46,6 +53,7 @@ function strongWindEventCallBack(dispatch) {
 function strongWindEventRender() {
   return (<div></div>);
 }
+
 
 
 // The smelly wind will add debuff: darkmode, minimap off, slowly move.
@@ -110,8 +118,8 @@ function freshWindEventRender() {
 
 function initEventMap(numX, numZ) {
   const eventMap = Array(numX * numZ).fill(null);
-  eventMap[numX * (numZ - 1) + numX - 1] = [StartEventRender, startEventCallback];
-  eventMap[0] = [EndEventRender, endEventCallback];
+  eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
+  eventMap[0] = [<EndEventRender />, endEventCallback];
   return eventMap;
 }
 
@@ -127,24 +135,23 @@ export function EventManager({ discovered }) {
   const dispatch = useDispatch();
   const select = useSelector;
   let currentCallback = () => { };
-  let toRender = () => { };
-  if (currentAction === NOTHING) {
-    if (!discovered.current[currentIndex]) {
-      if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {
-        toRender = eventMap[currentIndex][0];
-        currentCallback = () => { eventMap[currentIndex][1](dispatch, select) };
-        console.log("Triggered");
+  let toRender = null;
+  let isToOpen = false;
+  if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
+    if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {
+
+      toRender = eventMap[currentIndex][0];
+      if (!discovered.current[currentIndex]) {
+        //toRender = eventMap[currentIndex][0];
+        currentCallback = () => { eventMap[currentIndex][1](dispatch, select);};
+        isToOpen = true;
       }
     }
   }
   useEffect(currentCallback);
-
-  const renderResult = toRender();
-  let res = renderResult !== undefined ? renderResult : <div></div>;
-
-  // Aim for using the auto disspear logic of SmallPopUpWindow.
-  if (renderResult !== undefined && renderResult.type.name === "SmallPopUpWindow") {
-    res = smallPopUpWindowPresense ? renderResult : <div></div>;
-  }
-  return res;
+  return (
+    <SmallPopUpWindow isToOpen={isToOpen}>
+      {toRender}
+    </SmallPopUpWindow>
+  );
 }

@@ -6,6 +6,7 @@ import { resetBuffAndDebuff } from "../../reducers/playerStatusSlice";
 import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../GameStatus/gameStatusSlice";
 import SmallPopUpWindow from "../../components/SmallPopUpWindow";
 import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../../reducers/smallPopUpWindowSlice";
+import { partialApply } from "../../Utils/Utils";
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -67,12 +68,14 @@ function strongWindEventRender() {
   return (<div></div>);
 }
 
+function genDebuffId() {
+  return Math.floor(Math.random() * NUM_DEBUFF_TYPE);
+}
 
 
 // The smelly wind will add debuff: darkmode, minimap off, slowly move.
-function smellyWindEventCallBack(dispatch, select) {
+function smellyWindEventCallBack(debuffID, dispatch, select) {
   // Generate a random debuff
-  const debuffID = Math.floor(Math.random() * NUM_DEBUFF_TYPE);
   switch (debuffID) {
     case DARK_MODE_ID:
       const isDark = select(selectIsDark);
@@ -89,14 +92,18 @@ function smellyWindEventCallBack(dispatch, select) {
         dispatch(disableMiniMap());
       }
       break;
-
     default:
       break;
   }
 }
 
-function smellyWindEventRender() {
-  return (<div></div>);
+function SmellyWindEventRender({debuffId}) {
+  const dispatch = useDispatch();
+  const buttons = (<div onClick={() => { handleClosePopUp(dispatch) }}>Emm...Interesting</div>);
+  return (<SmallPopUpWindow buttons={buttons}>
+    <h1>Opps!</h1>
+    <div>You've been applied {debuffId}!</div>
+  </SmallPopUpWindow>);
 }
 
 // With a Fresh wind, one buff is added: brightmode, minimap on, faster move.
@@ -125,6 +132,9 @@ function freshWindEventCallBack(dispatch, select) {
   }
 }
 
+
+ 
+
 function freshWindEventRender() {
   return (<div></div>);
 }
@@ -133,6 +143,10 @@ function initEventMap(numX, numZ) {
   const eventMap = Array(numX * numZ).fill(null);
   eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
   eventMap[0] = [<EndEventRender />, endEventCallback];
+  for (let i=numX * (numZ - 1) + numX - 2; i>0; i--) {
+    const defbuffId = genDebuffId();
+    eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId}/>, partialApply(smellyWindEventCallBack, defbuffId)];
+  }
   return eventMap;
 }
 

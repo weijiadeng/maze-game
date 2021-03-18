@@ -46,3 +46,8 @@ export function shuffleArray(targetArray) {
     }
     return targetArray;
 }
+
+export function partialApply(fn, ...args) {
+    // Reference: https://medium.com/@jnkrtech/partial-function-application-in-javascript-and-flow-7f3ca87074fe
+    return fn.bind(null, ...args);
+}

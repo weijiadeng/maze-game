@@ -21,6 +21,7 @@ import {
 } from './controlSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectSpeedModifier } from '../GameStatus/gameStatusSlice';
+import { act } from '@testing-library/react';
 
 
 // extend THREE to include TrackballControls
@@ -45,6 +46,7 @@ export const Controls = ({
   const direction = useSelector(selectDirection);
   const speedModifier = useSelector(selectSpeedModifier);
   const actualMoveSpeed = moveSpeed * speedModifier;
+  console.log(actualMoveSpeed);
   const actualTurnSpeed = turnSpeed * speedModifier;
   // Current angle is the remaining angle the camera needs to rotate
   const [currentAngle, setCurrentAngle] = React.useState(0);
@@ -89,11 +91,14 @@ export const Controls = ({
           default:
             console.log("direction error!");
         }
-        if (camera.position.x === coordX) {
-          if (camera.position.z === coordZ) {
+        if (Math.abs(camera.position.x-coordX) < actualMoveSpeed) {
+          if (Math.abs(camera.position.z-coordZ) < actualMoveSpeed) {
+            camera.position.x = coordX;
+            camera.position.z = coordZ;
             dispatch(popEvent());
           }
         }
+        console.log(camera.position.x, camera.position.z, coordX, coordZ);
         break;
       case MOVE_BACKWARD:
         switch (direction) {
@@ -124,9 +129,10 @@ export const Controls = ({
           default:
             console.log("direction error!");
         }
-        if (camera.position.x === coordX) {
-          if (camera.position.z === coordZ) {
-            console.log("success");
+        if (Math.abs(camera.position.x-coordX) < actualMoveSpeed) {
+          if (Math.abs(camera.position.z-coordZ) < actualMoveSpeed) {
+            camera.position.x = coordX;
+            camera.position.z = coordZ;
             dispatch(popEvent());
           }
         }
@@ -141,8 +147,9 @@ export const Controls = ({
           localAngle -= actualTurnSpeed;
           setCurrentAngle(localAngle);
         }
-        if (localAngle === 0) {
+        if (Math.abs(localAngle) < actualTurnSpeed) {
           dispatch(popEvent());
+          setCurrentAngle(0);
         }
         break;
       case TURN_RIGHT:
@@ -155,8 +162,9 @@ export const Controls = ({
           localAngle += actualTurnSpeed;
           setCurrentAngle(localAngle);
         }
-        if (Math.abs(localAngle) < turnSpeed) {
+        if (Math.abs(localAngle) < actualTurnSpeed) {
           dispatch(popEvent());
+          setCurrentAngle(0);
         }
         break;
       case NOTHING:

@@ -7,6 +7,7 @@ import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectI
 import SmallPopUpWindow from "../../components/SmallPopUpWindow";
 import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../../reducers/smallPopUpWindowSlice";
 import { partialApply } from "../../Utils/Utils";
+import background from './scroll.png'
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -28,7 +29,7 @@ const handleClosePopUp = (dispatch) => {
 function StartEventRender() {
   const dispatch = useDispatch();
   const buttons = (<div onClick={() => { handleClosePopUp(dispatch) }}>Emm...Interesting</div>);
-  return (<SmallPopUpWindow buttons={buttons}>
+  return (<SmallPopUpWindow buttons={buttons} background={background}>
     <h1>You are in a maze</h1>
     <div>This is a dangerous maze, good luck!</div>
   </SmallPopUpWindow>);
@@ -49,7 +50,7 @@ function EndEventRender() {
     </React.Fragment>
   );
 
-  return (<SmallPopUpWindow buttons={buttons}>
+  return (<SmallPopUpWindow buttons={buttons} background={background}>
     <h1>Congrats!</h1>
     <div>You've passed the maze within {time} seconds!</div>
   </SmallPopUpWindow>);
@@ -75,6 +76,7 @@ function genDebuffId() {
 
 // The smelly wind will add debuff: darkmode, minimap off, slowly move.
 function smellyWindEventCallBack(debuffID, dispatch, select) {
+  console.log(debuffID);
   // Generate a random debuff
   switch (debuffID) {
     case DARK_MODE_ID:
@@ -133,7 +135,7 @@ function initEventMap(numX, numZ) {
   eventMap[0] = [<EndEventRender />, endEventCallback];
   for (let i=numX * (numZ - 1) + numX - 2; i>0; i--) {
     const defbuffId = genDebuffId();
-    eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId}/>, partialApply(smellyWindEventCallBack, defbuffId)];
+    eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId}/>, partialApply(smellyWindEventCallBack, 1)];
   }
   return eventMap;
 }

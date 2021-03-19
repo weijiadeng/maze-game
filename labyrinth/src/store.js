@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import controlReducer from './Labyrinth/Controls/controlSlice';
-import elapseTimerReducer from './Labyrinth/elapseTimerSlice';
-import gameStatusReducer from './Labyrinth/GameStatus/gameStatusSlice';
-import backgroundMusicReducer from './commons/backgroundMusicSlice';
+import controlReducer from './reducers/controlSlice';
+import elapseTimerReducer from './reducers/elapseTimerSlice';
+import gameStatusReducer from './reducers/gameStatusSlice';
+import backgroundMusicReducer from './reducers/backgroundMusicSlice';
 import playerStatusReducer from './reducers/playerStatusSlice';
 import smallPopUpWindowReducer from './reducers/smallPopUpWindowSlice';
 

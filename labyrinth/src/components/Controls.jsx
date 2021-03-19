@@ -2,6 +2,7 @@ import * as React from 'react';
 import { extend, useThree, useFrame } from 'react-three-fiber';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import * as THREE from 'three';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   selectAction,
   selectPosX,
@@ -18,10 +19,8 @@ import {
   LEFT,
   RIGHT,
   RANDOM_EVENT
-} from './controlSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectSpeedModifier } from '../GameStatus/gameStatusSlice';
-import { act } from '@testing-library/react';
+} from '../reducers/controlSlice';
+import { selectSpeedModifier } from '../reducers/gameStatusSlice';
 
 
 // extend THREE to include TrackballControls

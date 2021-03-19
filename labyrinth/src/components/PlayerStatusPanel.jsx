@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { useSelector } from 'react-redux';
 import { selectBuff, selectDebuff, selectHP } from '../reducers/playerStatusSlice';
-import '../style/playerStatusPanel.css'
+import styles from './playerStatusPanel.module.css'
 
 const PlayerStatusPanel = () => {
     const hp = useSelector(selectHP);
@@ -9,7 +9,7 @@ const PlayerStatusPanel = () => {
     const debuffList = useSelector(selectDebuff);
     return (
         <React.Fragment>
-            <div className="player-status-panel">
+            <div className={styles.playerStatusPanel}>
                 <div>HP: {hp}</div>
                 <div>Buff: {buffList}</div>
                 <div>Debuff: {debuffList}</div>

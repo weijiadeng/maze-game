@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { NOTHING, occurEvent, popEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../Controls/controlSlice";
+import { NOTHING, popEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
-import { readyCount, selectCurNumSeconds, resumeCount } from '../elapseTimerSlice'
-import { resetBuffAndDebuff } from "../../reducers/playerStatusSlice";
-import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../GameStatus/gameStatusSlice";
-import SmallPopUpWindow from "../../components/SmallPopUpWindow";
-import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../../reducers/smallPopUpWindowSlice";
-import { partialApply } from "../../Utils/Utils";
+import { readyCount, selectCurNumSeconds, resumeCount } from '../reducers/elapseTimerSlice'
+import { resetBuffAndDebuff } from "../reducers/playerStatusSlice";
+import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../reducers/gameStatusSlice";
+import SmallPopUpWindow from "./SmallPopUpWindow";
+import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../reducers/smallPopUpWindowSlice";
+import { partialApply } from "../commons/utils";
 import background from './scroll.png'
 
 const NUM_DEBUFF_TYPE = 3;
@@ -133,10 +133,10 @@ function initEventMap(numX, numZ) {
   const eventMap = Array(numX * numZ).fill(null);
   eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
   eventMap[0] = [<EndEventRender />, endEventCallback];
-  for (let i=numX * (numZ - 1) + numX - 2; i>0; i--) {
-    const defbuffId = genDebuffId();
-    eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId}/>, partialApply(smellyWindEventCallBack, 1)];
-  }
+  // for (let i=numX * (numZ - 1) + numX - 2; i>0; i--) {
+  //   const defbuffId = genDebuffId();
+  //   eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId}/>, partialApply(smellyWindEventCallBack, 1)];
+  // }
   return eventMap;
 }
 

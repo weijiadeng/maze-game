@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { disablePresense, enablePresense, selectPresense, selectIsToOpen, disableIsToOpen } from '../reducers/smallPopUpWindowSlice';
 import styles from './smallPopUpWindow.module.css'
 import Modal from "react-modal"
-import background from './scroll.png'
-import { pauseCount, resumeCount } from '../Labyrinth/elapseTimerSlice';
-import { occurEvent, popEvent } from '../Labyrinth/Controls/controlSlice';
+import { pauseCount, resumeCount } from '../reducers/elapseTimerSlice';
+import { occurEvent, popEvent } from '../reducers/controlSlice';
 
 Modal.setAppElement('#root')
 

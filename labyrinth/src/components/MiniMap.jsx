@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import './MiniMapStyle.css';
 import {
     selectPosX,
     selectPosZ,
@@ -9,8 +8,9 @@ import {
     selectNumX,
     selectAction,
     NOTHING,
-} from '../Controls/controlSlice';
-import { selectShowMiniMap } from '../GameStatus/gameStatusSlice';
+} from '../reducers/controlSlice';
+import { selectShowMiniMap } from '../reducers/gameStatusSlice';
+import styles from './miniMap.module.css';
 
 
 
@@ -32,7 +32,7 @@ export function MiniMap({ discovered }) {
         for (let j = 0; j < numX; j++) {
             if (discovered.current[i * numX + j] || (posX === j && posZ === i)) {
                 currentRow.push(
-                    <button className="square" key={String(i) + ',' + String(j)}
+                    <button className={styles.square} key={String(i) + ',' + String(j)}
                         style={{
                             borderTop: wallTop[i * (numX + 1) + j] ? '0.5px solid white' : '0.5px solid rgba(240, 248, 255, 0.25)',
                             borderLeft: wallLeft[i * (numX + 1) + j] ? '0.5px solid white' : '0.5px solid rgba(240, 248, 255, 0.25)',
@@ -45,7 +45,7 @@ export function MiniMap({ discovered }) {
             }
             else {
                 currentRow.push(
-                    <button className="square" key={String(i) + ',' + String(j)}
+                    <button className={styles.square} key={String(i) + ',' + String(j)}
                         style={{
                             border: '0.5px solid rgba(0, 0, 0, 0.1)',
                             backgroundColor: 'rgba(0, 0, 0, 0.1)'
@@ -54,12 +54,12 @@ export function MiniMap({ discovered }) {
 
             }
         }
-        display.push(<div className="board-row" key={"border" + String(i)}>{currentRow}</div>)
+        display.push(<div className={styles.broadRow} key={"border" + String(i)}>{currentRow}</div>)
     }
 
     return (
         <div>
-            <div className="container">
+            <div className={styles.container}>
             {showMiniMap ? display:null}
             </div>
         </div>

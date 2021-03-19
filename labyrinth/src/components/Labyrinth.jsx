@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Canvas, useFrame, useUpdate } from 'react-three-fiber'
-import { Controls } from './Controls/Controls';
-import { ReactReduxContext } from 'react-redux';
-import * as THREE from "three";
-import { Walls, initLabyrinthWalls } from './Walls';
+import { useSelector, useDispatch, ReactReduxContext } from 'react-redux';
+import { Canvas } from 'react-three-fiber'
 import { Sky, Stars, Plane, useContextBridge } from '@react-three/drei'
+import { Controls } from './Controls';
+import { Walls, initLabyrinthWalls } from './Walls';
 import {
   assignInit,
   assignNumX,
@@ -16,10 +15,9 @@ import {
   selectIsInit,
   selectWallLeft,
   selectWallTop,
-} from './Controls/controlSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import "./Labyrinth.css"
-import { selectIsDark } from './GameStatus/gameStatusSlice';
+} from '../reducers/controlSlice';
+import { selectIsDark } from '../reducers/gameStatusSlice';
+import styles from "./labyrinth.module.css"
 
 export function Labyrinth(props) {
 
@@ -79,11 +77,10 @@ export function Labyrinth(props) {
   // For details: https://standard.ai/blog/introducing-standard-view-and-react-three-fiber-context-bridge/
   const ContextBridge = useContextBridge(ReactReduxContext);
   return (
-    <div className="canvas-div">
+    <div className={styles.canvasDiv}>
       <Canvas camera={{
         fov: 80, position: [posCoordX, 0, posCoordY + blockWidth]
       }}>
-        {/* TODO(weijia): Add params to the controls */}
         <ContextBridge>
           <Controls
             blockWidth={blockWidth}

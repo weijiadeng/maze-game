@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCurNumSeconds, selectStatus, countUp, resumeCount, READY } from './elapseTimerSlice'
+import { selectCurNumSeconds, selectStatus, countUp, resumeCount, READY } from '../reducers/elapseTimerSlice'
 
 // A timer recording elapse time.
 export default function ElapseTimer() {
@@ -12,7 +12,7 @@ export default function ElapseTimer() {
 
     if (status === READY) {
         dispatch(resumeCount());
-        // setInterval(handleCountUpDispatch, 1000);
+        setInterval(handleCountUpDispatch, 1000);
     }
 
     const x = useSelector(selectCurNumSeconds);

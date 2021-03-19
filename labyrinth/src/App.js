@@ -1,15 +1,15 @@
 import { useRef } from 'react';
-import { GamePanel } from './Labyrinth/Controls/GamePanel';
-import ElapseTimer from './Labyrinth/ElapseTimer';
-import { Labyrinth } from './Labyrinth/Labyrinth';
-import { EventManager } from './Labyrinth/EventManager/EventManager';
-import { MiniMap } from './Labyrinth/MiniMap/MiniMap'
-import BackgroundMusic from './commons/backgroundMusic'
-
-import './styles.css';
-import EffectSoundTestContainer from './commons/soundHooks';
+import { GamePanel } from './components/GamePanel';
+import ElapseTimer from './components/ElapseTimer';
+import { Labyrinth } from './components/Labyrinth';
+import { EventManager } from './components/EventManager';
+import { MiniMap } from './components/MiniMap'
+import BackgroundMusic from './commons/BackgroundMusic'
+import EffectSoundTestContainer from './commons/SoundHooks';
 import PlayerStatusPanel from './components/PlayerStatusPanel';
-import TestPlayerStatusPanel from './exampleComponents/testPlayerStatusPanel';
+import TestPlayerStatusPanel from './exampleComponents/TestPlayerStatusPanel';
+import './styles.css';
+
 
 export default function App() {
   const numX = 10;

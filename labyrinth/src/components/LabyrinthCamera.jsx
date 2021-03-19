@@ -29,7 +29,7 @@ extend({ TrackballControls });
 // Make the camera look ahead, can be any value greater than 0
 const DIRECTION_ADJUSTER = 0.1;
 
-export const Controls = ({
+export const LabyrinthCamera = ({
   blockWidth,
   startCoordX,
   startCoordZ,
@@ -189,3 +189,5 @@ export const Controls = ({
     />
   );
 };
+
+export default LabyrinthCamera;

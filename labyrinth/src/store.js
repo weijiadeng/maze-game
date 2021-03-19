@@ -5,6 +5,7 @@ import gameStatusReducer from './reducers/gameStatusSlice';
 import backgroundMusicReducer from './reducers/backgroundMusicSlice';
 import playerStatusReducer from './reducers/playerStatusSlice';
 import smallPopUpWindowReducer from './reducers/smallPopUpWindowSlice';
+import programWindowReducer from './reducers/programWindowSlice';
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     backgroundMusic: backgroundMusicReducer,
     playerStatus: playerStatusReducer,
     smallPopUpWindow: smallPopUpWindowReducer,
+    programWindow:programWindowReducer
   },
 });

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NOTHING, popEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { readyCount, selectCurNumSeconds, resumeCount } from '../reducers/elapseTimerSlice'
 import { resetBuffAndDebuff } from "../reducers/playerStatusSlice";
 import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../reducers/gameStatusSlice";
+import BigPopUpWindow from "./BigPopUpWindow";
 import SmallPopUpWindow from "./SmallPopUpWindow";
 import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../reducers/smallPopUpWindowSlice";
-import { partialApply } from "../commons/utils";
+import { partialApply, genRandomInt } from "../commons/utils";
 import background from './scroll.png'
 
 const NUM_DEBUFF_TYPE = 3;
@@ -29,10 +30,10 @@ const handleClosePopUp = (dispatch) => {
 function StartEventRender() {
   const dispatch = useDispatch();
   const buttons = (<div onClick={() => { handleClosePopUp(dispatch) }}>Emm...Interesting</div>);
-  return (<SmallPopUpWindow buttons={buttons} background={background}>
+  return (<BigPopUpWindow buttons={buttons} background={background}>
     <h1>You are in a maze</h1>
     <div>This is a dangerous maze, good luck!</div>
-  </SmallPopUpWindow>);
+  </BigPopUpWindow>);
 }
 
 function startEventCallback(dispatch) {
@@ -50,10 +51,10 @@ function EndEventRender() {
     </React.Fragment>
   );
 
-  return (<SmallPopUpWindow buttons={buttons} background={background}>
+  return (<BigPopUpWindow buttons={buttons} background={background}>
     <h1>Congrats!</h1>
     <div>You've passed the maze within {time} seconds!</div>
-  </SmallPopUpWindow>);
+  </BigPopUpWindow>);
 }
 
 function endEventCallback(dispatch) {
@@ -69,13 +70,9 @@ function strongWindEventRender() {
   return (<div></div>);
 }
 
-function genDebuffId() {
-  return Math.floor(Math.random() * NUM_DEBUFF_TYPE);
-}
-
 
 // The smelly wind will add debuff: darkmode, minimap off, slowly move.
-function smellyWindEventCallBack(debuffID, dispatch, select) {
+function smellyWindEventCallBack(debuffID, dispatch) {
   console.log(debuffID);
   // Generate a random debuff
   switch (debuffID) {
@@ -93,17 +90,15 @@ function smellyWindEventCallBack(debuffID, dispatch, select) {
   }
 }
 
-function SmellyWindEventRender({debuffId}) {
-  const dispatch = useDispatch();
-  const buttons = (<div onClick={() => { handleClosePopUp(dispatch) }}>Emm...Interesting</div>);
-  return (<SmallPopUpWindow buttons={buttons}>
+function SmellyWindEventRender({ debuffId }) {
+  return (<SmallPopUpWindow>
     <h1>Opps!</h1>
     <div>You've been applied {debuffId}!</div>
   </SmallPopUpWindow>);
 }
 
 // With a Fresh wind, one buff is added: brightmode, minimap on, faster move.
-function freshWindEventCallBack(dispatch, select) {
+function freshWindEventCallBack(debuffID, dispatch) {
   // Generate a random buff
   const buffID = Math.floor(Math.random() * NUM_BUFF_TYPE);
   switch (buffID) {
@@ -122,21 +117,29 @@ function freshWindEventCallBack(dispatch, select) {
   }
 }
 
-
- 
-
-function freshWindEventRender() {
-  return (<div></div>);
+function FreshWindEventRender({ buffId }) {
+  return (<SmallPopUpWindow>
+    <h1>Wonderful!</h1>
+    <div>You've been applied {buffId}!</div>
+  </SmallPopUpWindow>);
 }
 
 function initEventMap(numX, numZ) {
   const eventMap = Array(numX * numZ).fill(null);
   eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
   eventMap[0] = [<EndEventRender />, endEventCallback];
-  // for (let i=numX * (numZ - 1) + numX - 2; i>0; i--) {
-  //   const defbuffId = genDebuffId();
-  //   eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId}/>, partialApply(smellyWindEventCallBack, 1)];
-  // }
+  for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
+    const eventId = genRandomInt(3);
+    switch (eventId) {
+      case 0: const defbuffId = genRandomInt(NUM_DEBUFF_TYPE);
+        eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId} />, partialApply(smellyWindEventCallBack, defbuffId)];
+        break;
+      case 1: const buffId = genRandomInt(NUM_BUFF_TYPE);
+        eventMap[i] = [<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId)];
+        break;
+      default:
+    }
+  }
   return eventMap;
 }
 
@@ -144,6 +147,7 @@ export function EventManager({ discovered }) {
   const numX = useSelector(selectNumX);
   const numZ = useSelector(selectNumZ);
   const [eventMap,] = useState(initEventMap(numX, numZ));
+  const currentRender = useRef(null);
   const posX = useSelector(selectPosX);
   const posZ = useSelector(selectPosZ);
   const currentIndex = posZ * numX + posX;
@@ -152,17 +156,16 @@ export function EventManager({ discovered }) {
   const dispatch = useDispatch();
   const select = useSelector;
   let currentCallback = () => { };
-  let toRender = null;
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {
 
-      toRender = eventMap[currentIndex][0];
       if (!discovered.current[currentIndex]) {
+        currentRender.current = eventMap[currentIndex][0];
         //toRender = eventMap[currentIndex][0];
         currentCallback = () => { eventMap[currentIndex][1](dispatch, select); dispatch(enableIsToOpen()) };
       }
     }
   }
   useEffect(currentCallback);
-  return (toRender);
+  return currentRender.current;
 }

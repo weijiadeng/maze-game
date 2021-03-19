@@ -51,3 +51,7 @@ export function partialApply(fn, ...args) {
     // Reference: https://medium.com/@jnkrtech/partial-function-application-in-javascript-and-flow-7f3ca87074fe
     return fn.bind(null, ...args);
 }
+
+export function genRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}

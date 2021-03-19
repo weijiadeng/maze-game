@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NOTHING, popEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
-import { readyCount, selectCurNumSeconds, resumeCount } from '../reducers/elapseTimerSlice'
+import { readyCount, selectCurNumSeconds, resumeCount, pauseCount } from '../reducers/elapseTimerSlice'
 import { resetBuffAndDebuff } from "../reducers/playerStatusSlice";
 import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap, selectSpeedModifier, speedDown, speedUp } from "../reducers/gameStatusSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import SmallPopUpWindow from "./SmallPopUpWindow";
-import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../reducers/smallPopUpWindowSlice";
+import { selectPresense, enablePresense, disablePresense, enableIsToOpen, selectIsToOpen } from "../reducers/smallPopUpWindowSlice";
 import { partialApply, genRandomInt } from "../commons/utils";
 import background from './scroll.png'
 import { appendToLeaderBoard, selectList } from "../reducers/leaderboardSlice";
+import { usePositiveEffectSound, useNegativeEffectSound } from "../commons/SoundHooks"
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -21,16 +22,13 @@ const BRIGHT_MODE_ID = 0;
 const SPEED_UP_ID = 1;
 const SHOW_MINI_MAP = 2;
 
-const handleClosePopUp = (dispatch) => {
-  dispatch(resumeCount());
-  dispatch(popEvent());
-  dispatch(disablePresense());
-  //setTimeout(resetPresenseToTrue, 1000)
-}
-
 function StartEventRender() {
   const dispatch = useDispatch();
-  const buttons = (<div onClick={() => { handleClosePopUp(dispatch) }}>Emm...Interesting</div>);
+  const buttons = (<div onClick={() => {
+    dispatch(resumeCount());
+    dispatch(popEvent());
+    dispatch(disablePresense());
+  }}>Emm...Interesting</div>);
   return (<BigPopUpWindow buttons={buttons} background={background}>
     <h1>You are in a maze</h1>
     <div>This is a dangerous maze, good luck!</div>
@@ -45,14 +43,18 @@ function EndEventRender() {
   const time = useSelector(selectCurNumSeconds);
   const [hasAppend, setHasAppend] = useState(false);
   const dispatch = useDispatch();
-  useEffect(()=>{
-  if (!hasAppend) {
-    dispatch(appendToLeaderBoard(time));
-    setHasAppend(true);
-  }});
+  useEffect(() => {
+    if (!hasAppend) {
+      dispatch(appendToLeaderBoard(time));
+      setHasAppend(true);
+    }
+  });
   const buttons = (
     <React.Fragment>
-      <div onClick={() => { handleClosePopUp(dispatch) }}
+      <div onClick={() => {
+        dispatch(popEvent());
+        dispatch(disablePresense());
+      }}
       >Emm...Interesting</div>
       <div>See the leaderboard</div>
     </React.Fragment>
@@ -65,7 +67,7 @@ function EndEventRender() {
 }
 
 function endEventCallback(dispatch) {
-  alert("Congrats! You've passed the game!");
+  dispatch(pauseCount);
 }
 
 // With a Strong wind, all buff and debuff are cleared.
@@ -98,6 +100,10 @@ function smellyWindEventCallBack(debuffID, dispatch) {
 }
 
 function SmellyWindEventRender({ debuffId }) {
+  const { play } = useNegativeEffectSound();
+  const isToPlay = useSelector(selectIsToOpen);
+  console.log("Is to play sound: " + isToPlay);
+  useEffect(() => { if (isToPlay) { play() }; })
   return (<SmallPopUpWindow>
     <h1>Opps!</h1>
     <div>You've been applied {debuffId}!</div>
@@ -125,6 +131,10 @@ function freshWindEventCallBack(debuffID, dispatch) {
 }
 
 function FreshWindEventRender({ buffId }) {
+  const { play } = usePositiveEffectSound();
+  const isToPlay = useSelector(selectIsToOpen);
+  console.log("Is to play sound: " + isToPlay);
+  useEffect(() => { if (isToPlay) play(); });
   return (<SmallPopUpWindow>
     <h1>Wonderful!</h1>
     <div>You've been applied {buffId}!</div>
@@ -177,6 +187,5 @@ export function EventManager({ discovered }) {
     }
   }
   useEffect(currentCallback);
-  console.log(useSelector(selectList));
   return currentRender.current;
 }

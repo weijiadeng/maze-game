@@ -6,8 +6,6 @@ import Modal from "react-modal"
 import { pauseCount, resumeCount } from '../reducers/elapseTimerSlice';
 import { occurEvent, popEvent } from '../reducers/controlSlice';
 
-Modal.setAppElement('#root')
-
 const BigPopUpWindow = (props) => {
     const dispatch = useDispatch();
     const isToOpen = useSelector(selectIsToOpen)

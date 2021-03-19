@@ -45,7 +45,6 @@ export const LabyrinthCamera = ({
   const direction = useSelector(selectDirection);
   const speedModifier = useSelector(selectSpeedModifier);
   const actualMoveSpeed = moveSpeed * speedModifier;
-  console.log(actualMoveSpeed);
   const actualTurnSpeed = turnSpeed * speedModifier;
   // Current angle is the remaining angle the camera needs to rotate
   const [currentAngle, setCurrentAngle] = React.useState(0);
@@ -97,7 +96,6 @@ export const LabyrinthCamera = ({
             dispatch(popEvent());
           }
         }
-        console.log(camera.position.x, camera.position.z, coordX, coordZ);
         break;
       case MOVE_BACKWARD:
         switch (direction) {

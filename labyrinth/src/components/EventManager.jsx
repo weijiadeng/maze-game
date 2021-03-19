@@ -9,6 +9,7 @@ import SmallPopUpWindow from "./SmallPopUpWindow";
 import { selectPresense, enablePresense, disablePresense, enableIsToOpen } from "../reducers/smallPopUpWindowSlice";
 import { partialApply, genRandomInt } from "../commons/utils";
 import background from './scroll.png'
+import { appendToLeaderBoard, selectList } from "../reducers/leaderboardSlice";
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -42,7 +43,13 @@ function startEventCallback(dispatch) {
 
 function EndEventRender() {
   const time = useSelector(selectCurNumSeconds);
+  const [hasAppend, setHasAppend] = useState(false);
   const dispatch = useDispatch();
+  useEffect(()=>{
+  if (!hasAppend) {
+    dispatch(appendToLeaderBoard(time));
+    setHasAppend(true);
+  }});
   const buttons = (
     <React.Fragment>
       <div onClick={() => { handleClosePopUp(dispatch) }}
@@ -66,7 +73,7 @@ function strongWindEventCallBack(dispatch) {
   dispatch(resetBuffAndDebuff());
 }
 
-function strongWindEventRender() {
+function StrongWindEventRender() {
   return (<div></div>);
 }
 
@@ -129,13 +136,16 @@ function initEventMap(numX, numZ) {
   eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
   eventMap[0] = [<EndEventRender />, endEventCallback];
   for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
-    const eventId = genRandomInt(3);
+    const eventId = genRandomInt(4);
     switch (eventId) {
       case 0: const defbuffId = genRandomInt(NUM_DEBUFF_TYPE);
         eventMap[i] = [<SmellyWindEventRender debuffId={defbuffId} />, partialApply(smellyWindEventCallBack, defbuffId)];
         break;
       case 1: const buffId = genRandomInt(NUM_BUFF_TYPE);
         eventMap[i] = [<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId)];
+        break;
+      case 2:
+        eventMap[i] = [<StrongWindEventRender />, strongWindEventCallBack];
         break;
       default:
     }
@@ -167,5 +177,6 @@ export function EventManager({ discovered }) {
     }
   }
   useEffect(currentCallback);
+  console.log(useSelector(selectList));
   return currentRender.current;
 }

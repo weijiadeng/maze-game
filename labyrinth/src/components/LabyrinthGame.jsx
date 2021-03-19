@@ -11,8 +11,8 @@ import TestPlayerStatusPanel from '../exampleComponents/TestPlayerStatusPanel';
 import styles from "./labyrinthGame.module.css"
 
 export default function LabyrinthGame() {
-  const numX = 10;
-  const numZ = 10;
+  const numX = 3;
+  const numZ = 3;
   const blockWidth = 20;
   const blockDepth = 0.5;
   const blockHeight = 10;

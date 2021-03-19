@@ -1,13 +1,4 @@
-import { useRef } from 'react';
-import { GamePanel } from './components/GamePanel';
-import ElapseTimer from './components/ElapseTimer';
 import LabyrinthGame from './components/LabyrinthGame';
-import { EventManager } from './components/EventManager';
-import { MiniMap } from './components/MiniMap'
-import BackgroundMusic from './commons/BackgroundMusic'
-import EffectSoundTestContainer from './commons/SoundHooks';
-import PlayerStatusPanel from './components/PlayerStatusPanel';
-import TestPlayerStatusPanel from './exampleComponents/TestPlayerStatusPanel';
 import './styles.css';
 import { useSelector } from 'react-redux';
 import { selectWindow, WELCOME, GAME, MODE_SELECTION } from './reducers/programWindowSlice';

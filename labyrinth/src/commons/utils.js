@@ -55,3 +55,7 @@ export function partialApply(fn, ...args) {
 export function genRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
+
+export function compareNumbers(a, b) {
+    return a - b;
+}

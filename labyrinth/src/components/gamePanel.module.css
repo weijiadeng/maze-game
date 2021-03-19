@@ -1,25 +1,25 @@
-.forward-button {
+.forwardButton {
     position: absolute;
     right: 16px;
     top: 24px;
     z-index: 10;
 }
 
-.backward-button {
+.backwardButton {
     position: absolute;
     right: 16px;
     top: 48px;
     z-index: 10;
 }
 
-.turn-left-button {
+.turnLeftButton {
     position: absolute;
     right: 16px;
     top: 72px;
     z-index: 10;
 }
 
-.turn-right-button {
+.turnRightButton {
     position: absolute;
     right: 16px;
     top: 96px;
@@ -32,3 +32,11 @@
     top: 128px;
     z-index: 10;
 }
+
+.toggleDarkMode {
+    position: absolute;
+    right: 16px;
+    top: 160px;
+    z-index: 10;
+}
+

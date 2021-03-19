@@ -42,7 +42,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.02)
+    background-color: rgba(0, 0, 0, 0.75)
 }
 
 .backgroundPic {
@@ -52,14 +52,14 @@
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    width: 100px;
-    height: 100px;
+    width: 600px;
+    height: 800px;
     z-index: -10;
 }
 
 .content {
-    width: 100px;
-    height: 80px;
+    width: 500px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     text-align: center;

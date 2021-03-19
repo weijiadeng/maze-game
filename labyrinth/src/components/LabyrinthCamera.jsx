@@ -2,6 +2,7 @@ import * as React from 'react';
 import { extend, useThree, useFrame } from 'react-three-fiber';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import * as THREE from 'three';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   selectAction,
   selectPosX,
@@ -18,10 +19,8 @@ import {
   LEFT,
   RIGHT,
   RANDOM_EVENT
-} from './controlSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectSpeedModifier } from '../GameStatus/gameStatusSlice';
-import { act } from '@testing-library/react';
+} from '../reducers/controlSlice';
+import { selectSpeedModifier } from '../reducers/gameStatusSlice';
 
 
 // extend THREE to include TrackballControls
@@ -30,7 +29,7 @@ extend({ TrackballControls });
 // Make the camera look ahead, can be any value greater than 0
 const DIRECTION_ADJUSTER = 0.1;
 
-export const Controls = ({
+export const LabyrinthCamera = ({
   blockWidth,
   startCoordX,
   startCoordZ,
@@ -52,8 +51,8 @@ export const Controls = ({
   const [currentAngle, setCurrentAngle] = React.useState(0);
   let localAngle = currentAngle;
 
-  const coordX = (-blockWidth / 2 + (posX+1) * blockWidth + startCoordX);
-  const coordZ = (-blockWidth / 2 + (posZ+1) * blockWidth + startCoordZ);
+  const coordX = (-blockWidth / 2 + (posX + 1) * blockWidth + startCoordX);
+  const coordZ = (-blockWidth / 2 + (posZ + 1) * blockWidth + startCoordZ);
 
   const dispatch = useDispatch();
 
@@ -91,8 +90,10 @@ export const Controls = ({
           default:
             console.log("direction error!");
         }
-        if (Math.abs(camera.position.x-coordX) < actualMoveSpeed) {
-          if (Math.abs(camera.position.z-coordZ) < actualMoveSpeed) {
+        if (Math.abs(camera.position.x - coordX) < actualMoveSpeed) {
+          if (Math.abs(camera.position.z - coordZ) < actualMoveSpeed) {
+            camera.position.x = coordX;
+            camera.position.z = coordZ;
             dispatch(popEvent());
           }
         }
@@ -126,9 +127,10 @@ export const Controls = ({
           default:
             console.log("direction error!");
         }
-        if (Math.abs(camera.position.x-coordX) < actualMoveSpeed) {
-          if (Math.abs(camera.position.z-coordZ) < actualMoveSpeed) {
-            console.log("success");
+        if (Math.abs(camera.position.x - coordX) < actualMoveSpeed) {
+          if (Math.abs(camera.position.z - coordZ) < actualMoveSpeed) {
+            camera.position.x = coordX;
+            camera.position.z = coordZ;
             dispatch(popEvent());
           }
         }
@@ -145,6 +147,7 @@ export const Controls = ({
         }
         if (Math.abs(localAngle) < actualTurnSpeed) {
           dispatch(popEvent());
+          setCurrentAngle(0);
         }
         break;
       case TURN_RIGHT:
@@ -159,6 +162,7 @@ export const Controls = ({
         }
         if (Math.abs(localAngle) < actualTurnSpeed) {
           dispatch(popEvent());
+          setCurrentAngle(0);
         }
         break;
       case NOTHING:
@@ -173,7 +177,7 @@ export const Controls = ({
 
   return (
     <trackballControls
-      ref = {controls}
+      ref={controls}
       args={[camera, gl.domElement]}
       dynamicDampingFactor={0.1}
       mouseButtons={{
@@ -184,3 +188,5 @@ export const Controls = ({
     />
   );
 };
+
+export default LabyrinthCamera;

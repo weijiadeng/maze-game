@@ -1,14 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap } from '../GameStatus/gameStatusSlice';
+import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap } from '../reducers/gameStatusSlice';
 import {
   moveBackward,
   moveForward,
   turnLeft,
   turnRight,
-
-} from './controlSlice';
-
+} from '../reducers/controlSlice';
+import styles from "./gamePanel.module.css"
 
 export function GamePanel() {
 
@@ -74,22 +73,22 @@ export function GamePanel() {
 
   return (
     <div>
-      <button className="button forward-button" onClick={() => handleMoveForward()}>
+      <button className={styles.forwardButton} onClick={() => handleMoveForward()}>
         Move Forward
         </button>
-      <button className="button backward-button" onClick={() => handleMoveBackward()}>
+      <button className={styles.backwardButton} onClick={() => handleMoveBackward()}>
         Move Backward
         </button>
-      <button className="button turn-left-button" onClick={() => handleTurnLeft()}>
+      <button className={styles.turnLeftButton} onClick={() => handleTurnLeft()}>
         Turn Left
         </button>
-      <button className="button turn-right-button" onClick={() => handleTurnRight()}>
+      <button className={styles.turnRightButton} onClick={() => handleTurnRight()}>
         Turn Right
         </button>
-      <button className="button toggleMiniMap" onClick={() => handleToggleMiniMap()}>
+      <button className={styles.toggleMiniMap} onClick={() => handleToggleMiniMap()}>
         ToggleMiniMap
       </button>
-      <button className="button toggleDarkMode" onClick={() => handleToggleDarkMode()}>
+      <button className={styles.toggleDarkMode} onClick={() => handleToggleDarkMode()}>
         ToggleDarkMode
       </button>
     </div>

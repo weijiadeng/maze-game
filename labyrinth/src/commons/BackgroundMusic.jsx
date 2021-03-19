@@ -2,9 +2,9 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import useSound from 'use-sound';
 import bgm from '../music/mixkit-game-level-music-689.wav'
-import { selectIsMuted, toggleIsMuted } from './backgroundMusicSlice';
+import { selectIsMuted, toggleIsMuted } from '../reducers/backgroundMusicSlice';
 
-function useBgmPlay() {
+export function useBgmPlay() {
     const [play, { stop }] = useSound(bgm, {
         interrupt: true,
         volume: 0.35,
@@ -12,7 +12,7 @@ function useBgmPlay() {
     return { play, stop };
 }
 
-const BackgroundMusic = () => {
+export const BackgroundMusic = () => {
     const { play, stop } = useBgmPlay();
 
     const isMuted = useSelector(selectIsMuted);
@@ -39,5 +39,3 @@ const BackgroundMusic = () => {
         </React.Fragment>
     );
 };
-
-export default BackgroundMusic;

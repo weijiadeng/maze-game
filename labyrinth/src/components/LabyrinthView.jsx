@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Canvas, useFrame, useUpdate } from 'react-three-fiber'
-import { Controls } from './Controls/Controls';
-import { ReactReduxContext } from 'react-redux';
-import * as THREE from "three";
-import { Walls, initLabyrinthWalls } from './Walls';
+import { useSelector, useDispatch, ReactReduxContext } from 'react-redux';
+import { Canvas } from 'react-three-fiber'
 import { Sky, Stars, Plane, useContextBridge } from '@react-three/drei'
+import { LabyrinthCamera } from './LabyrinthCamera';
+import { Walls, initLabyrinthWalls } from './Walls';
 import {
   assignInit,
   assignNumX,
@@ -16,20 +15,11 @@ import {
   selectIsInit,
   selectWallLeft,
   selectWallTop,
-} from './Controls/controlSlice';
-import { useSelector, useDispatch } from 'react-redux';
-import "./Labyrinth.css"
-import { selectIsDark } from './GameStatus/gameStatusSlice';
+} from '../reducers/controlSlice';
+import { selectIsDark } from '../reducers/gameStatusSlice';
+import styles from "./labyrinthView.module.css"
 
-export function Labyrinth(props) {
-
-  const numX = props.numX;
-  const numZ = props.numZ;
-  const blockWidth = props.blockWidth;
-  const blockHeight = props.blockHeight;
-  const blockDepth = props.blockDepth;
-  const mazeDepth = props.mazeDepth;
-  const mazeWidth = props.mazeWidth;
+export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth }) {
 
   // Direction definination:
   //
@@ -79,13 +69,12 @@ export function Labyrinth(props) {
   // For details: https://standard.ai/blog/introducing-standard-view-and-react-three-fiber-context-bridge/
   const ContextBridge = useContextBridge(ReactReduxContext);
   return (
-    <div className="canvas-div">
+    <div className={styles.canvasDiv}>
       <Canvas camera={{
         fov: 80, position: [posCoordX, 0, posCoordY + blockWidth]
       }}>
-        {/* TODO(weijia): Add params to the controls */}
         <ContextBridge>
-          <Controls
+          <LabyrinthCamera
             blockWidth={blockWidth}
             startCoordX={startCoordX}
             startCoordZ={startCoordZ}
@@ -97,10 +86,10 @@ export function Labyrinth(props) {
         {/* Reference: https://drei.pmnd.rs/?path=/story/shaders-softshadows--soft-shadows-st
             Make the light the same direction with the sun
         */}
-        {isDarkMode ? null:<directionalLight
+        {isDarkMode ? null : <directionalLight
           position={[-500, 20, startCoordZ + blockWidth / 2]}
           intensity={1.5}
-        /> }
+        />}
 
 
         <Walls
@@ -127,7 +116,7 @@ export function Labyrinth(props) {
           radius={mazeWidth * 2} // Radius of the inner sphere (default=100)
           depth={50} // Depth of area where stars should fit (default=50)
           count={5000} // Amount of stars (default=5000)
-          factor={5} // Size factor (default=4)
+          factor={20} // Size factor (default=4)
           saturation={0} // Saturation 0-1 (default=0)
           fade // Faded dots (default=false)
         />

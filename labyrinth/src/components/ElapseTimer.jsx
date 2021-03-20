@@ -12,7 +12,7 @@ export default function ElapseTimer() {
 
     if (status === READY) {
         dispatch(resumeCount());
-        // setInterval(handleCountUpDispatch, 1000);
+        setInterval(handleCountUpDispatch, 1000);
     }
 
     const x = useSelector(selectCurNumSeconds);

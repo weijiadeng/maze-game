@@ -227,7 +227,8 @@ class Event {
 function initEventMap(numX, numZ) {
   const eventMap = Array(numX * numZ).fill(null);
   // eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
-  eventMap[numX * (numZ - 1) + numX - 1] = new Event(<StartEventRender />, startEventCallback, START_GAME_EVENT);
+  // new Event(<StartEventRender />
+  eventMap[numX * (numZ - 1) + numX - 1] = new Event( null, startEventCallback, START_GAME_EVENT);
   // eventMap[0] = [<EndEventRender />, endEventCallback];
   eventMap[0] = new Event(<EndEventRender />, endEventCallback, END_GAME_EVENT);
   for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
@@ -280,6 +281,8 @@ export function EventManager({ discovered }) {
         // currentCallback = () => { callback(dispatch, select); dispatch(enableIsToOpen()) };
 
         switch (eventTypeId) {
+          case START_GAME_EVENT:
+            currentCallback = () => {callBack(dispatch)};
           case END_GAME_EVENT:
             currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableIsToOpen()) };
             break;

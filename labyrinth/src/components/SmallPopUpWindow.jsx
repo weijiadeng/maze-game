@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { disablePresense, enablePresense, selectPresense, selectIsToOpen, disableIsToOpen } from '../reducers/smallPopUpWindowSlice';
 import styles from './smallPopUpWindow.module.css'
 import Modal from "react-modal"
+import background from '../images/smallWindowBackground.png'
 
 
 const SmallPopUpWindow = (props) => {
@@ -29,7 +30,7 @@ const SmallPopUpWindow = (props) => {
             className={styles.popup}
             overlayClassName={styles.overlay}
             closeTimeoutMS={1000}>
-            {/* <img src={props.background} className={styles.backgroundPic} alt={""} /> */}
+            <img src={background} className={styles.backgroundPic} alt={""} />
 
             <div className={styles.content}>
 

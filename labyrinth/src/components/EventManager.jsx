@@ -123,9 +123,27 @@ function smellyWindEventCallBack(debuffId, dispatch, play) {
 }
 
 function SmellyWindEventRender({ debuffId }) {
+  let specificEventContent = null;
+  switch (debuffId) {
+    case DARK_MODE_ID:
+      specificEventContent = "Dark Mode is on!";
+      break;
+    case SPEED_DOWN_ID:
+      specificEventContent = "Your speed is slowed down!";
+      break;
+    case HIDE_MINI_MAP:
+      specificEventContent = "Mini map is gone!"
+      break;
+    case HP_DOWN_BY_TEN:
+      specificEventContent = "Your lost 10 HP!"
+      break;
+    default:
+      break;
+  }
   return (<SmallPopUpWindow>
     <h1>Oh no!</h1>
     <div>You met a smelly wind...</div>
+    <div>{specificEventContent}</div>
   </SmallPopUpWindow>);
 }
 
@@ -153,9 +171,27 @@ function freshWindEventCallBack(buffId, dispatch, play) {
 }
 
 function FreshWindEventRender({ buffId }) {
+  let specificEventContent = null;
+  switch (buffId) {
+    case BRIGHT_MODE_ID:
+      specificEventContent = "Bright mode is on!";
+      break;
+    case SPEED_UP_ID:
+      specificEventContent = "Your speed is up!";
+      break;
+    case SHOW_MINI_MAP:
+      specificEventContent = "Mini map is shown for you!";
+      break;
+    case HP_UP_BY_TEN:
+      specificEventContent = "Your got 10 HP!";
+      break;
+    default:
+      break;
+  }
   return (<SmallPopUpWindow>
     <h1>Great!</h1>
     <div>A fresh wind brought you something helpful! </div>
+    <div>{specificEventContent}</div>
   </SmallPopUpWindow>);
 }
 

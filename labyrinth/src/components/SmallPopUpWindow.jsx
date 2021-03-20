@@ -30,7 +30,7 @@ const SmallPopUpWindow = (props) => {
             className={styles.popup}
             overlayClassName={styles.overlay}
             closeTimeoutMS={1000}>
-            <img src={background} className={styles.backgroundPic} alt={""} />
+            {/* <img src={background} className={styles.backgroundPic} alt={""} /> */}
 
             <div className={styles.content}>
 

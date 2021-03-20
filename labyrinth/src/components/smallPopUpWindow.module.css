@@ -55,17 +55,19 @@
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    width: 100px;
-    height: 100px;
+    width: 400px;
+    height: 200px;
     z-index: -10;
 }
 
 .content {
-    width: 100px;
-    height: 80px;
+    width: 400px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     text-align: center;
+    color: wheat;
+    text-shadow: 2px 2px gray;
     font-family: MedievalSharp
 }
 

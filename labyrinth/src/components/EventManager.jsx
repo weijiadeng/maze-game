@@ -8,7 +8,7 @@ import BigPopUpWindow from "./BigPopUpWindow";
 import SmallPopUpWindow from "./SmallPopUpWindow";
 import { selectPresense, enablePresense, disablePresense, enableIsToOpen, selectIsToOpen } from "../reducers/smallPopUpWindowSlice";
 import { partialApply, genRandomInt } from "../commons/utils";
-import background from './scroll.png'
+import background from '../images/bigWindowBackground.png'
 import { appendToLeaderBoard, selectList } from "../reducers/leaderboardSlice";
 import { usePositiveEffectSound, useNegativeEffectSound } from "../commons/SoundHooks"
 

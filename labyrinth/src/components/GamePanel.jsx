@@ -1,17 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectIsDark, selectShowMiniMap } from '../reducers/gameStatusSlice';
 import {
   moveBackward,
   moveForward,
   resetLastMoveHitWall,
   selectLastMoveHitWall,
-  selectNumX,
-  selectNumZ,
-  selectPosX,
-  selectPosZ,
-  selectWallLeft,
-  selectWallTop,
   turnLeft,
   turnRight,
 } from '../reducers/controlSlice';
@@ -36,24 +29,6 @@ export function GamePanel() {
     dispatch(turnRight());
   };
 
-  const showMiniMap = useSelector(selectShowMiniMap);
-  const isDarkMode = useSelector(selectIsDark);
-
-  const handleToggleMiniMap = () => {
-    if (showMiniMap) {
-      dispatch(disableMiniMap());
-    } else {
-      dispatch(enableMiniMap())
-    }
-  };
-
-  const handleToggleDarkMode = () => {
-    if (isDarkMode) {
-      dispatch(disableDarkMode());
-    } else {
-      dispatch(enableDarkMode())
-    }
-  };
 
   const handleKeyDown = (event) => {
     switch (event.key) {
@@ -101,12 +76,6 @@ export function GamePanel() {
       <button className={styles.turnRightButton} onClick={() => handleTurnRight()}>
         Turn Right
         </button>
-      <button className={styles.toggleMiniMap} onClick={() => handleToggleMiniMap()}>
-        ToggleMiniMap
-      </button>
-      <button className={styles.toggleDarkMode} onClick={() => handleToggleDarkMode()}>
-        ToggleDarkMode
-      </button>
     </div>
   );
 }

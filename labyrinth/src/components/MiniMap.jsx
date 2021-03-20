@@ -9,7 +9,10 @@ import {
     selectAction,
     NOTHING,
 } from '../reducers/controlSlice';
-import { selectShowMiniMap } from '../reducers/gameStatusSlice';
+import {
+    selectBuff,
+    MINI_MAP_ON,
+} from '../reducers/playerStatusSlice';
 import styles from './miniMap.module.css';
 
 
@@ -21,7 +24,7 @@ export function MiniMap({ discovered }) {
     const numZ = useSelector(selectNumX);
     const posX = useSelector(selectPosX);
     const posZ = useSelector(selectPosZ);
-    const showMiniMap = useSelector(selectShowMiniMap);
+    const showMiniMap = (useSelector(selectBuff) & MINI_MAP_ON);
     const display = [];
     const currentAction = useSelector(selectAction);
     if (currentAction === NOTHING) {
@@ -60,7 +63,7 @@ export function MiniMap({ discovered }) {
     return (
         <div>
             <div className={styles.container}>
-            {showMiniMap ? display:null}
+                {showMiniMap ? display : null}
             </div>
         </div>
     );

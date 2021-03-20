@@ -1,12 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { act } from 'react-dom/test-utils';
 
 const INITIAL_HP = 100;
+
+export const MINI_MAP_ON = (1 << 0);
+export const DARK_MODE_ON = (1 << 1);
+export const SPEED_UP = (1 << 2);
+
+export const MINI_MAP_OFF = (1 << 0);
+export const DARK_MODE_OFF = (1 << 1);
+export const SPEED_DOWN = (1 << 2);
+
 export const playerStatusSlice = createSlice({
     name: 'playerStatus',
     initialState: {
         HP: INITIAL_HP,
-        buff: [],
-        debuff: []
+        buff: 0,
+        debuff: 0,
+        speedModifier: 1
     },
     reducers: {
         decreaseHP: (state, action) => {
@@ -22,28 +33,22 @@ export const playerStatusSlice = createSlice({
             state.HP += action.payload;
         },
         resetBuffAndDebuff: state => {
-            state.buff = [];
-            state.debuff = [];
+            state.buff = 0;
+            state.debuff = 0;
         },
         addABuff: (state, action) => {
-            // Check whether the buff is already there, since the buff doesn't apply multiple times.
-            if (state.buff.includes(action.payload)) {
-                return;
-            }
-            state.buff = [...state.buff, action.payload];
+            state.buff |= action.payload;
+            console.log(act.payload);
+            console.log(state.buff |= action.payload);
         },
         removeABuff: (state, action) => {
-            state.buff = state.buff.filter(buffName => buffName !== action.payload);
+            state.buff &= (~action.payload);
         },
         addADebuff: (state, action) => {
-            // Check whether the buff is already there, since the buff doesn't apply multiple times.
-            if (state.debuff.includes(action.payload)) {
-                return;
-            }
-            state.debuff = [...state.debuff, action.payload];
+            state.debuff |= action.payload;
         },
         removeADebuff: (state, action) => {
-            state.debuff = state.debuff.filter(buffName => buffName !== action.payload);
+            state.debuff &= (~action.payload);
         },
     },
 });

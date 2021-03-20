@@ -20,7 +20,7 @@ import {
   RIGHT,
   RANDOM_EVENT
 } from '../reducers/controlSlice';
-import { selectSpeedModifier } from '../reducers/gameStatusSlice';
+import { selectBuff, selectDebuff, SPEED_DOWN, SPEED_UP } from '../reducers/playerStatusSlice';
 
 
 // extend THREE to include TrackballControls
@@ -28,6 +28,7 @@ extend({ TrackballControls });
 
 // Make the camera look ahead, can be any value greater than 0
 const DIRECTION_ADJUSTER = 0.1;
+const SPEED_MODIFIER = 2;
 
 export const LabyrinthCamera = ({
   blockWidth,
@@ -43,7 +44,14 @@ export const LabyrinthCamera = ({
   const posX = useSelector(selectPosX);
   const posZ = useSelector(selectPosZ);
   const direction = useSelector(selectDirection);
-  const speedModifier = useSelector(selectSpeedModifier);
+  const buff = useSelector(selectBuff);
+  const debuff = useSelector(selectDebuff);
+  let speedModifier = 1;
+  if (buff & SPEED_UP) {
+    speedModifier = SPEED_MODIFIER;
+  } else if (debuff & SPEED_DOWN) {
+    speedModifier = 1 / SPEED_MODIFIER;
+  }
   const actualMoveSpeed = moveSpeed * speedModifier;
   console.log(actualMoveSpeed);
   const actualTurnSpeed = turnSpeed * speedModifier;

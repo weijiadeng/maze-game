@@ -16,7 +16,10 @@ import {
   selectWallLeft,
   selectWallTop,
 } from '../reducers/controlSlice';
-import { selectIsDark } from '../reducers/gameStatusSlice';
+import {
+  DARK_MODE_ON,
+  selectDebuff
+} from '../reducers/playerStatusSlice';
 import styles from "./labyrinthView.module.css"
 
 export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth }) {
@@ -64,7 +67,7 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
   // Get the current view coordinate
   const posCoordX = -blockWidth / 2 + numX * blockWidth + startCoordX;
   const posCoordY = -blockWidth / 2 + numZ * blockWidth + startCoordZ;
-  const isDarkMode = useSelector(selectIsDark);
+  const isDarkMode = (useSelector(selectDebuff) & DARK_MODE_ON);
   // Needed to use react-redux in react-three-fiber canvas. 
   // For details: https://standard.ai/blog/introducing-standard-view-and-react-three-fiber-context-bridge/
   const ContextBridge = useContextBridge(ReactReduxContext);

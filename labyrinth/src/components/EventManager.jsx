@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NOTHING, popEvent, RANDOM_EVENT, resetLastMoveHitWall, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { readyCount, selectCurNumSeconds, resumeCount, pauseCount } from '../reducers/elapseTimerSlice'
-import { decreaseHP, increaseHP, removeABuff, removeADebuff, resetBuffAndDebuff } from "../reducers/playerStatusSlice";
-import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, speedDown, speedUp } from "../reducers/gameStatusSlice";
+import { } from "../reducers/playerStatusSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import SmallPopUpWindow from "./SmallPopUpWindow";
 import { disablePresense, enableIsToOpen } from "../reducers/smallPopUpWindowSlice";
@@ -11,7 +10,21 @@ import { partialApply, genRandomInt } from "../commons/utils";
 import background from '../images/bigWindowBackground.png'
 import { appendToLeaderBoard } from "../reducers/leaderboardSlice";
 import { usePositiveEffectSound, useNegativeEffectSound, useGameCompletionSound, useNeutralEffectSound } from "../commons/SoundHooks"
-import { addABuff, addADebuff } from '../reducers/playerStatusSlice';
+import {
+  decreaseHP,
+  increaseHP,
+  removeABuff,
+  removeADebuff,
+  resetBuffAndDebuff,
+  addABuff,
+  addADebuff,
+  DARK_MODE_ON,
+  DARK_MODE_OFF,
+  MINI_MAP_ON,
+  MINI_MAP_OFF,
+  SPEED_UP,
+  SPEED_DOWN
+} from '../reducers/playerStatusSlice';
 
 const NUM_DEBUFF_TYPE = 4;
 const DARK_MODE_ID = 0;
@@ -32,13 +45,6 @@ const POSITIVE_EFFECT_EVENT = 2;
 const NEGATIVE_EFFECT_EVENT = 3;
 const NEUTRAL_EFFECT_EVENT = 4;
 const CONFRONT_BATTLE_EVENT = 5;
-
-const MINI_MAP_ON = 'MINI_MAP_ON';
-const MINI_MAP_OFF = 'MINI_MAP_OFF';
-const DARK_MODE_ON = 'DARK_MODE_ON';
-const DARK_MODE_OFF = 'DARK_MODE_OFF';
-const SPEED_UP = 'SPEED_UP';
-const SPEED_DOWN = 'SPEED_DOWN';
 
 function StartEventRender() {
   const dispatch = useDispatch();
@@ -115,18 +121,14 @@ function smellyWindEventCallBack(debuffId, dispatch, play) {
   // Generate a random debuff
   switch (debuffId) {
     case DARK_MODE_ID:
-      dispatch(enableDarkMode());
       dispatch(addADebuff(DARK_MODE_ON));
       dispatch(removeABuff(DARK_MODE_OFF));
       break;
     case SPEED_DOWN_ID:
-      dispatch(speedDown());
       dispatch(addADebuff(SPEED_DOWN));
       dispatch(removeABuff(SPEED_UP));
-
       break;
     case HIDE_MINI_MAP:
-      dispatch(disableMiniMap());
       dispatch(addADebuff(MINI_MAP_OFF));
       dispatch(removeABuff(MINI_MAP_ON));
       break;
@@ -170,17 +172,14 @@ function freshWindEventCallBack(buffId, dispatch, play) {
   // Generate a random buff
   switch (buffId) {
     case BRIGHT_MODE_ID:
-      dispatch(disableDarkMode());
       dispatch(addABuff(DARK_MODE_OFF));
       dispatch(removeADebuff(DARK_MODE_ON));
       break;
     case SPEED_UP_ID:
-      dispatch(speedUp());
       dispatch(addABuff(SPEED_UP));
       dispatch(removeADebuff(SPEED_DOWN));
       break;
     case SHOW_MINI_MAP:
-      dispatch(enableMiniMap());
       dispatch(addABuff(MINI_MAP_ON));
       dispatch(removeADebuff(MINI_MAP_OFF));
       break;
@@ -268,7 +267,7 @@ export function EventManager({ discovered }) {
   // const { play: playConfrontBattleSound } = useConfrontBattleSound();
   //TODO: add gameover event
   // const { play: playGameOverSound } = useGameOverSound();
-
+  console.log(MINI_MAP_OFF);
   let currentCallback = () => { };
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {

@@ -5,8 +5,8 @@ import styles from './playerStatusPanel.module.css'
 
 const PlayerStatusPanel = () => {
     const hp = useSelector(selectHP);
-    const buffList = useSelector(selectBuff);
-    const debuffList = useSelector(selectDebuff);
+    const buffList = useSelector(selectBuff).join(' ,');
+    const debuffList = useSelector(selectDebuff).join(' ,');
     return (
         <React.Fragment>
             <div className={styles.playerStatusPanel}>

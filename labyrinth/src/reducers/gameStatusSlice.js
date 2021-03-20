@@ -18,19 +18,19 @@ export const gameStatusSlice = createSlice({
         enableMiniMap: state => {
             state.showMiniMap = true;
         },
-        disableMiniMap: state=>{
+        disableMiniMap: state => {
             state.showMiniMap = false;
         },
-        enableDarkMode: state=>{
+        enableDarkMode: state => {
             state.isDark = true;
         },
         disableDarkMode: state => {
             state.isDark = false;
         },
-        enableRandomError: state=>{
+        enableRandomError: state => {
             state.randomError = true;
         },
-        disableRandomError: state=>{
+        disableRandomError: state => {
             state.randomError = false;
         }
 

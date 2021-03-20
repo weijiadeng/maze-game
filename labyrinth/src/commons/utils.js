@@ -52,6 +52,7 @@ export function partialApply(fn, ...args) {
     return fn.bind(null, ...args);
 }
 
+// Returns random integer smaller than max.
 export function genRandomInt(max) {
     return Math.floor(Math.random() * max);
 }

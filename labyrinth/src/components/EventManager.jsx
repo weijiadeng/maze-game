@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NOTHING, popEvent, RANDOM_EVENT, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { readyCount, selectCurNumSeconds, resumeCount, pauseCount } from '../reducers/elapseTimerSlice'
-import { resetBuffAndDebuff } from "../reducers/playerStatusSlice";
+import { decreaseHP, increaseHP, resetBuffAndDebuff } from "../reducers/playerStatusSlice";
 import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, speedDown, speedUp } from "../reducers/gameStatusSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import SmallPopUpWindow from "./SmallPopUpWindow";
@@ -12,15 +12,17 @@ import background from '../images/bigWindowBackground.png'
 import { appendToLeaderBoard } from "../reducers/leaderboardSlice";
 import { usePositiveEffectSound, useNegativeEffectSound, useGameCompletionSound, useNeutralEffectSound } from "../commons/SoundHooks"
 
-const NUM_DEBUFF_TYPE = 3;
+const NUM_DEBUFF_TYPE = 4;
 const DARK_MODE_ID = 0;
 const SPEED_DOWN_ID = 1;
 const HIDE_MINI_MAP = 2;
+const HP_DOWN_BY_TEN = 3;
 
-const NUM_BUFF_TYPE = 3;
+const NUM_BUFF_TYPE = 4;
 const BRIGHT_MODE_ID = 0;
 const SPEED_UP_ID = 1;
 const SHOW_MINI_MAP = 2;
+const HP_UP_BY_TEN = 3;
 
 const START_GAME_EVENT = 0;
 const END_GAME_EVENT = 1;
@@ -112,6 +114,9 @@ function smellyWindEventCallBack(debuffId, dispatch, play) {
     case HIDE_MINI_MAP:
       dispatch(disableMiniMap());
       break;
+    case HP_DOWN_BY_TEN:
+      dispatch(decreaseHP());
+      break;
     default:
       break;
   }
@@ -139,7 +144,9 @@ function freshWindEventCallBack(buffId, dispatch, play) {
     case SHOW_MINI_MAP:
       dispatch(enableMiniMap());
       break;
-
+    case HP_UP_BY_TEN:
+      dispatch(increaseHP());
+      break;
     default:
       break;
   }

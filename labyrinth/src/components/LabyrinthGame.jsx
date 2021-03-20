@@ -4,7 +4,7 @@ import ElapseTimer from './ElapseTimer';
 import { LabyrinthView } from './LabyrinthView';
 import { EventManager } from './EventManager';
 import { MiniMap } from './MiniMap'
-import { BackgroundMusic, useBgmPlay} from '../commons/BackgroundMusic'
+import { BackgroundMusic, useBgmPlay } from '../commons/BackgroundMusic'
 import EffectSoundTestContainer from '../commons/SoundHooks';
 import PlayerStatusPanel from './PlayerStatusPanel';
 import TestPlayerStatusPanel from '../exampleComponents/TestPlayerStatusPanel';
@@ -21,33 +21,29 @@ export default function LabyrinthGame() {
   useEffect(play);
 
   return (
-      <div className={styles.visContainer}>
-        <LabyrinthView
-          numX={numX}
-          numZ={numZ}
-          blockWidth={blockWidth}
-          blockHeight={blockHeight}
-          blockDepth={blockDepth}
-          mazeDepth={numX * blockWidth}
-          mazeWidth={numZ * blockWidth}
-        />
-        <GamePanel />
+    <div className={styles.visContainer}>
+      <LabyrinthView
+        numX={numX}
+        numZ={numZ}
+        blockWidth={blockWidth}
+        blockHeight={blockHeight}
+        blockDepth={blockDepth}
+        mazeDepth={numX * blockWidth}
+        mazeWidth={numZ * blockWidth}
+      />
+      <GamePanel />
 
-        <EventManager
-          discovered={discovered}
-        />
-        <MiniMap
-          discovered={discovered}
-        />
-        <button className="button new-game-button" onClick={() => window.history.go(0)}>
-          New Game
-        </button>
-        <EffectSoundTestContainer />
-        <ElapseTimer />
-        <BackgroundMusic />
-        <PlayerStatusPanel />
-        <TestPlayerStatusPanel />
+      <EventManager
+        discovered={discovered}
+      />
+      <MiniMap
+        discovered={discovered}
+      />
+      <ElapseTimer />
+      <BackgroundMusic />
+      <PlayerStatusPanel />
+      <TestPlayerStatusPanel />
 
-      </div>
+    </div>
   );
 }

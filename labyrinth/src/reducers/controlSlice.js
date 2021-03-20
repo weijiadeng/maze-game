@@ -24,6 +24,7 @@ export const controlSlice = createSlice({
     wallLeft: [],
     numX: 0,
     numZ: 0,
+    lastMoveHitWall: false
   },
   reducers: {
     moveForward: state => {
@@ -34,21 +35,29 @@ export const controlSlice = createSlice({
             // Check if there is a wall
             if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + state.posZ * (state.numX + 1)])) {
               state.posZ -= 1;
+            } else {
+              state.lastMoveHitWall = true;
             }
             break;
           case RIGHT:
             if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ < state.numZ && state.wallLeft[state.posX + 1 + state.posZ * (state.numX + 1)])) {
               state.posX += 1;
+            } else {
+              state.lastMoveHitWall = true;
             }
             break;
           case DOWN:
             if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ < state.numZ && state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)])) {
               state.posZ += 1;
+            } else {
+              state.lastMoveHitWall = true;
             }
             break;
           case LEFT:
             if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + state.posZ * (state.numX + 1)])) {
               state.posX -= 1;
+            } else {
+              state.lastMoveHitWall = true;
             }
             break;
           default:
@@ -63,27 +72,38 @@ export const controlSlice = createSlice({
           case UP:
             if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)])) {
               state.posZ += 1;
+            } else {
+              state.lastMoveHitWall = true;
             }
             break;
           case RIGHT:
             if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + state.posZ * (state.numX + 1)])) {
               state.posX -= 1;
+            } else {
+              state.lastMoveHitWall = true;
             }
             break;
           case DOWN:
             if (!(state.posX >= 0 && state.posX < state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallTop[state.posX + state.posZ * (state.numX + 1)])) {
               state.posZ -= 1;
-            } 
+            } else {
+              state.lastMoveHitWall = true;
+            }
             break;
           case LEFT:
             if (!(state.posX >= 0 && state.posX <= state.numX && state.posZ >= 0 && state.posZ <= state.numZ && state.wallLeft[state.posX + 1 + state.posZ * (state.numX + 1)])) {
               state.posX += 1;
+            } else {
+              state.lastMoveHitWall = true;
             }
             break;
           default:
             console.log("Direction error: ", state.direction);
         }
       }
+    },
+    resetLastMoveHitWall: state=> {
+      state.lastMoveHitWall = false;
     },
     turnLeft: state => {
       if (state.currentAction === NOTHING) {
@@ -134,6 +154,7 @@ export const {
   moveBackward,
   turnLeft,
   turnRight,
+  resetLastMoveHitWall,
   occurEvent,
   popEvent,
   assignPosX,
@@ -154,6 +175,7 @@ export const selectWallTop = state => state.control.wallTop;
 export const selectWallLeft = state => state.control.wallLeft;
 export const selectNumX = state => state.control.numX;
 export const selectNumZ = state => state.control.numZ;
+export const selectLastMoveHitWall = state => state.control.lastMoveHitWall;
 
 
 export default controlSlice.reducer;

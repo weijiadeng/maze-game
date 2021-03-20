@@ -4,10 +4,19 @@ import { disableDarkMode, disableMiniMap, enableDarkMode, enableMiniMap, selectI
 import {
   moveBackward,
   moveForward,
+  resetLastMoveHitWall,
+  selectLastMoveHitWall,
+  selectNumX,
+  selectNumZ,
+  selectPosX,
+  selectPosZ,
+  selectWallLeft,
+  selectWallTop,
   turnLeft,
   turnRight,
 } from '../reducers/controlSlice';
 import styles from "./gamePanel.module.css"
+import { useHitWallSound } from '../commons/SoundHooks';
 
 export function GamePanel() {
 
@@ -66,6 +75,13 @@ export function GamePanel() {
       default:
         break;
     }
+  }
+
+  const isPlayHitWall = useSelector(selectLastMoveHitWall);
+  const {play} = useHitWallSound();
+  if (isPlayHitWall) {
+    play();
+    dispatch(resetLastMoveHitWall());
   }
 
   document.addEventListener("keydown", handleKeyDown);

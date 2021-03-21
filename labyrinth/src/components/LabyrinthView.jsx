@@ -17,10 +17,16 @@ import {
   selectWallTop,
 } from '../reducers/controlSlice';
 import {
+  addABuff,
+  addADebuff,
+  DARK_MODE_OFF,
   DARK_MODE_ON,
+  MINI_MAP_ON,
+  MINI_MAP_OFF,
   selectDebuff
 } from '../reducers/playerStatusSlice';
 import styles from "./labyrinthView.module.css"
+import { EASY, HARD, selectGameMode } from '../reducers/gameModeSlice';
 
 export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth }) {
 
@@ -50,6 +56,7 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
   //
   // To lookup the top wall info cell(x, y), we call wallTop[x + y*numZ]
   const isInit = useSelector(selectIsInit);
+  const gameMode = useSelector(selectGameMode);
   const dispatch = useDispatch();
   if (!isInit) {
     dispatch(assignPosX(numX - 1));
@@ -59,6 +66,13 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
     dispatch(assignWallTop(wallTop));
     dispatch(assignNumX(numX));
     dispatch(assignNumZ(numZ));
+    if (gameMode == EASY) {
+      dispatch(addABuff(MINI_MAP_ON));
+      dispatch(addABuff(DARK_MODE_OFF)); 
+    } else if (gameMode == HARD) {
+      dispatch(addADebuff(MINI_MAP_OFF));
+      dispatch(addADebuff(DARK_MODE_ON)); 
+    }
     dispatch(assignInit(true));
   }
   // Starting point in the x and z axis(this is coordinate, not index)
@@ -93,8 +107,6 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
           position={[-500, 20, startCoordZ + blockWidth / 2]}
           intensity={1.5}
         />}
-
-
         <Walls
           numX={numX}
           numZ={numZ}

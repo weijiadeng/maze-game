@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { act } from 'react-dom/test-utils';
 
 const INITIAL_HP = 100;
 
@@ -38,8 +37,6 @@ export const playerStatusSlice = createSlice({
         },
         addABuff: (state, action) => {
             state.buff |= action.payload;
-            console.log(act.payload);
-            console.log(state.buff |= action.payload);
         },
         removeABuff: (state, action) => {
             state.buff &= (~action.payload);
@@ -50,6 +47,11 @@ export const playerStatusSlice = createSlice({
         removeADebuff: (state, action) => {
             state.debuff &= (~action.payload);
         },
+        resetPlayerStatus: state => {
+            state.HP = INITIAL_HP;
+            state.buff = 0;
+            state.debuff = 0;
+        }
     },
 });
 
@@ -61,6 +63,7 @@ export const {
     removeABuff,
     addADebuff,
     removeADebuff,
+    resetPlayerStatus
 } = playerStatusSlice.actions;
 
 export const selectHP = state => state.playerStatus.HP;

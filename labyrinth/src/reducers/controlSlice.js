@@ -145,7 +145,7 @@ export const controlSlice = createSlice({
     },
     assignInit: (state, action) => {
       state.isInit = action.payload;
-    }
+    },
   },
 });
 

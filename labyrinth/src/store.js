@@ -6,6 +6,7 @@ import playerStatusReducer from './reducers/playerStatusSlice';
 import smallPopUpWindowReducer from './reducers/smallPopUpWindowSlice';
 import programWindowReducer from './reducers/programWindowSlice';
 import leaderboardReducer from './reducers/leaderboardSlice';
+import gameModeReducer from './reducers/gameModeSlice';
 
 export default configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export default configureStore({
     playerStatus: playerStatusReducer,
     smallPopUpWindow: smallPopUpWindowReducer,
     programWindow:programWindowReducer,
-    leaderboard:leaderboardReducer
+    leaderboard:leaderboardReducer,
+    gameMode:gameModeReducer
   },
 });

@@ -53,7 +53,6 @@ export const LabyrinthCamera = ({
     speedModifier = 1 / SPEED_MODIFIER;
   }
   const actualMoveSpeed = moveSpeed * speedModifier;
-  console.log(actualMoveSpeed);
   const actualTurnSpeed = turnSpeed * speedModifier;
   // Current angle is the remaining angle the camera needs to rotate
   const [currentAngle, setCurrentAngle] = React.useState(0);
@@ -68,6 +67,7 @@ export const LabyrinthCamera = ({
     // console.log(posX, coordX, camera.position.x)
     // update the view as the vis is interacted with
     //controls.current.update();
+    console.log(currentAction);
     switch (currentAction) {
       case MOVE_FORWARD:
         switch (direction) {

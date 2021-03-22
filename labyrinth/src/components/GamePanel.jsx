@@ -32,19 +32,16 @@ export function GamePanel() {
 
   const handleKeyDown = (event) => {
     switch (event.key) {
-      case 'Enter':
-        window.history.go(0);
-        break;
-      case 'ArrowLeft':
+      case 'a':
         handleTurnLeft();
         break;
-      case 'ArrowRight':
+      case 'd':
         handleTurnRight();
         break;
-      case 'ArrowUp':
+      case 'w':
         handleMoveForward();
         break;
-      case 'ArrowDown':
+      case 's':
         handleMoveBackward();
         break;
       default:
@@ -53,7 +50,7 @@ export function GamePanel() {
   }
 
   const isPlayHitWall = useSelector(selectLastMoveHitWall);
-  const {play} = useHitWallSound();
+  const { play } = useHitWallSound();
   if (isPlayHitWall) {
     play();
     dispatch(resetLastMoveHitWall());

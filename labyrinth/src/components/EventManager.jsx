@@ -54,7 +54,7 @@ function StartEventRender() {
     dispatch(resumeCount());
     dispatch(popEvent());
     dispatch(disablePresense());
-  }}>Emm...Interesting</div>);
+  }}>Play now!</div>);
   return (<BigPopUpWindow buttons={buttons} background={background}>
     <h1>You are in a maze</h1>
     <div>This is a dangerous maze, good luck!</div>
@@ -83,8 +83,8 @@ function EndEventRender() {
         dispatch(popEvent());
         dispatch(disablePresense());
       }}
-      >Emm...Interesting</div>
-      <div>See the leaderboard</div>
+      > Play again </div>
+      <div> See the leaderboard </div>
     </React.Fragment>
   );
 
@@ -308,7 +308,7 @@ export function EventManager({ discovered }) {
 
         switch (eventTypeId) {
           case START_GAME_EVENT:
-            currentCallback = () => { callBack(dispatch); play(); dispatch(enableIsToOpen());};
+            currentCallback = () => { callBack(dispatch); play(); dispatch(enableIsToOpen()); };
             break;
           case END_GAME_EVENT:
             currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableIsToOpen()) };

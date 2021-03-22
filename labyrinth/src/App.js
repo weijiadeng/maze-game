@@ -1,9 +1,10 @@
 import LabyrinthGame from './components/LabyrinthGame';
 import './styles.css';
 import { useSelector } from 'react-redux';
-import { selectWindow, WELCOME, GAME, MODE_SELECTION } from './reducers/programWindowSlice';
+import { selectWindow, WELCOME, GAME, MODE_SELECTION, GUIDE } from './reducers/programWindowSlice';
 import { ModeSelection, Welcome } from './components/Welcome';
 import Modal from "react-modal"
+import Guide from './components/Guide';
 
 Modal.setAppElement('#root')
 
@@ -20,6 +21,9 @@ export default function App() {
       break;
     case GAME:
       toRender = <LabyrinthGame />
+      break;
+    case GUIDE:
+      toRender = <Guide />
       break;
     default:
       console.log("Window mode error:" + currentWindow);

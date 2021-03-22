@@ -1,0 +1,29 @@
+.guide {
+    background-color: #fdda97;
+    font-family: fantasy;
+    text-align: center;
+}
+
+.transparent {
+    opacity: 0.8;
+    filter: alpha(opacity=40);
+}
+
+.bigHeader {
+    font-size: xx-large;
+}
+
+.smallHeader {
+    font-size: x-large;
+}
+
+.description {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.list {
+    text-align: start;
+    margin-left: 25%;
+    font-size: x-large;
+}

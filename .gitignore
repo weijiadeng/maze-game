@@ -108,3 +108,5 @@ package-lock.json
 
 # npm build
 build/
+
+.DS_Store

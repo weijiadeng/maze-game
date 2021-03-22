@@ -7,6 +7,8 @@ import smallPopUpWindowReducer from './reducers/smallPopUpWindowSlice';
 import programWindowReducer from './reducers/programWindowSlice';
 import leaderboardReducer from './reducers/leaderboardSlice';
 import gameModeReducer from './reducers/gameModeSlice';
+import helperPageReducer from './reducers/helperPageSlice';
+
 
 export default configureStore({
   reducer: {
@@ -15,8 +17,9 @@ export default configureStore({
     backgroundMusic: backgroundMusicReducer,
     playerStatus: playerStatusReducer,
     smallPopUpWindow: smallPopUpWindowReducer,
-    programWindow:programWindowReducer,
-    leaderboard:leaderboardReducer,
-    gameMode:gameModeReducer
+    programWindow: programWindowReducer,
+    leaderboard: leaderboardReducer,
+    gameMode: gameModeReducer,
+    helperPage: helperPageReducer,
   },
 });

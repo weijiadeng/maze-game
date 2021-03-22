@@ -66,7 +66,7 @@ export const LabyrinthCamera = ({
   useFrame(() => {
     // console.log(posX, coordX, camera.position.x)
     // update the view as the vis is interacted with
-    //controls.current.update();
+    controls.current.update();
     console.log(currentAction);
     switch (currentAction) {
       case MOVE_FORWARD:

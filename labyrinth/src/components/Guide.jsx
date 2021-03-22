@@ -1,14 +1,18 @@
 import React from 'react';
 import movesGuide from '../images/movesGuide.png';
+import GameModeDescription from './GameModeDescription';
 import styles from './guide.module.css'
 const Guide = () => {
     return (
         <div className={styles.guide}>
-            <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze!</h2>
-            <p className={styles.description}>The purpose of the game is to find the exit.</p>
-            <p className={styles.description}>Use "W", "A", "S", "D" to move forward, left, backward, right.</p>
-            <img className={styles.transparent} src={movesGuide} />
             <div>
+                <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze!</h2>
+                <p className={styles.plainText}>The purpose of the game is to find the exit.</p>
+                <p className={styles.plainText}>Use "W", "A", "S", "D" to move forward, left, backward, right.</p>
+                <img className={styles.transparent} src={movesGuide} />
+            </div>
+
+            <div className={styles.description}>
                 <h3 className={styles.smallHeader}> Tips:</h3>
                 <ul className={styles.list}>
                     <li>During your exploration, your moves might invoke different kinds of effects.
@@ -18,7 +22,7 @@ const Guide = () => {
                     <li>Maybe you already know, but again, trying to go through the walls directly won't work!</li>
                 </ul>
             </div>
-            <div>
+            <div className={styles.description}>
                 <h3 className={styles.smallHeader}>Effects you might invoke:</h3>
                 <ul className={styles.list}>
                     <li>Minimap ON/OFF
@@ -34,7 +38,8 @@ const Guide = () => {
                         HP points GAIN/LOSE
                     </li>
                 </ul>
-            </div>
+            </div >
+            <GameModeDescription />
             <br />
             <br />
             <br />

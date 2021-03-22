@@ -6,7 +6,6 @@ import { EventManager } from './EventManager';
 import { MiniMap } from './MiniMap'
 import { BackgroundMusic, useBgmPlay } from '../commons/BackgroundMusic'
 import PlayerStatusPanel from './PlayerStatusPanel';
-import TestPlayerStatusPanel from '../exampleComponents/TestPlayerStatusPanel';
 import styles from "./labyrinthGame.module.css"
 
 export default function LabyrinthGame() {
@@ -37,7 +36,6 @@ export default function LabyrinthGame() {
       <ElapseTimer />
       <BackgroundMusic />
       <PlayerStatusPanel />
-      <TestPlayerStatusPanel />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { disablePresense, enablePresense, selectPresense, selectIsToOpen, disableIsToOpen } from '../reducers/smallPopUpWindowSlice';
 import styles from './smallPopUpWindow.module.css'
 import Modal from "react-modal"
-import background from '../images/smallWindowBackground.png'
 
 
 const SmallPopUpWindow = (props) => {

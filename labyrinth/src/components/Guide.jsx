@@ -1,15 +1,15 @@
 import React from 'react';
-import movesGuide from '../images/movesGuide.png';
 import GameModeDescription from './GameModeDescription';
 import styles from './guide.module.css'
+import HelperPage from './HelperPage';
+import OperationDescription from './OperationDescription';
 const Guide = () => {
     return (
         <div className={styles.guide}>
             <div>
                 <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze!</h2>
                 <p className={styles.plainText}>The purpose of the game is to find the exit.</p>
-                <p className={styles.plainText}>Use "W", "A", "S", "D" to move forward, left, backward, right.</p>
-                <img className={styles.transparent} src={movesGuide} />
+                <OperationDescription />
             </div>
 
             <div className={styles.description}>

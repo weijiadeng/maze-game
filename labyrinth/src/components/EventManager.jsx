@@ -83,7 +83,7 @@ function EndEventRender() {
         dispatch(popEvent());
         dispatch(disablePresense());
       }}
-      > Okay </div>
+      > Play again </div>
       <div> See the leaderboard </div>
     </React.Fragment>
   );

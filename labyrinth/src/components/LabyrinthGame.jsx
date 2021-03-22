@@ -7,10 +7,30 @@ import { MiniMap } from './MiniMap'
 import { BackgroundMusic, useBgmPlay } from '../commons/BackgroundMusic'
 import PlayerStatusPanel from './PlayerStatusPanel';
 import styles from "./labyrinthGame.module.css"
+import { useSelector } from 'react-redux';
+import { EASY, HARD, MEDIUM, selectGameMode } from '../reducers/gameModeSlice';
 
 export default function LabyrinthGame() {
-  const numX = 3;
-  const numZ = 3;
+  const gameMode = useSelector(selectGameMode);
+  let numX;
+  let numZ;
+  switch (gameMode) {
+    case EASY:
+      numX = 5;
+      numZ = 5;
+      break;
+    case MEDIUM:
+      numX = 10;
+      numZ = 10;
+      break;
+    case HARD:
+      numX = 15;
+      numZ = 15;
+      break;
+    default:
+      console.log("game mode error: " + gameMode);
+
+  }
   const blockWidth = 20;
   const blockDepth = 0.5;
   const blockHeight = 10;

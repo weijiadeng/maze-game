@@ -17,7 +17,7 @@ export function ModeSelection() {
     }
 
     return (
-        <React.Fragment>
+        <div className={styles.container}>
             <h1 className={styles.title}>Maze</h1>
             <div className={styles.options}>
                 <h3 className={styles.buttons} onClick={() => handleModeSelect(EASY)}>Easy</h3>
@@ -25,8 +25,9 @@ export function ModeSelection() {
                 <h3 className={styles.buttons} onClick={() => handleModeSelect(HARD)}>Hard</h3>
                 <h3 className={styles.buttons} onClick={() => handleModeSelect(CUSTOM)}>Custom</h3>
                 <h3 className={styles.buttons} onClick={() => handleGoBack()}>Go Back</h3>
-            </div>
-        </React.Fragment>);
+                </div>
+            <div className={styles.footnote}></div>
+        </div>);
 }
 
 export function Welcome() {
@@ -41,12 +42,13 @@ export function Welcome() {
     }
 
     return (
-        <React.Fragment>
+        <div className={styles.container}>
             <h1 className={styles.title}>Maze</h1>
             <div className={styles.options}>
                 <h3 className={styles.buttons} onClick={() => handleGameStart()}>Game Start</h3>
                 <h3 className={styles.buttons} onClick={() => handleGuide()}>Guide</h3>
                 <h3 className={styles.buttons}>About</h3>
             </div>
-        </React.Fragment >);
+            <div className={styles.footnote}></div>
+        </div>);
 }

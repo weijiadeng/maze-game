@@ -1,47 +1,61 @@
-@font-face
-{
+@font-face {
     font-family: 'Parchment_MF';
-  src: 
-      url('Parchment_MF.woff') format('woff');
+    src: url('Parchment_MF.woff') format('woff');
 }
-
 
 body {
-  background: url("../images/titlebackground.png") center center/cover no-repeat;
-  /* Keep the inherited background full size. */
-  height: 100%;
-  background-attachment:fixed; 
-  background-size:cover;
-}
-
-* {
-    font-family: Parchment_MF;
+    background: url("../images/titlebackground.png") center center/cover no-repeat;
+    /* Keep the inherited background full size. */
+    height: 100%;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 .container {
-    margin-left: 4%;
-    width: 100%;
-    height: 100vh;
+    margin-left: 2%;
     display: flex;
     justify-content: center;
     flex-direction: column;
-  
 }
 
 .title {
+    position: absolute;
+    top: 1.4vh;
+    font-family: 'Ubuntu', sans-serif;
+    ;
     font-size: 15vh;
 }
 
+.options {
+    position: absolute;
+    top: 30vh;
+}
+
 .buttons {
-    font-size: 5vh;
+    font-family: 'Coming Soon', cursive;
+    transition: 500ms;
+    font-size: 4.8vh;
 }
 
 .buttons:hover {
-    color: #db5c27 ;
+    color: #db5c27;
     cursor: pointer;
 }
 
-
-.footnote {
-    margin-top: auto;
+/* .alert-enter {
+    opacity: 0.01;
 }
+
+.alert-enter.alert-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.alert-leave {
+    opacity: 1;
+}
+
+.alert-leave.alert-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+} */

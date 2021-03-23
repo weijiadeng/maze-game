@@ -3,3 +3,9 @@
     cursor: pointer;
     border: 2px solid blue;
 }
+
+.buttons {
+    font-family: 'Coming Soon', cursive;
+    font-size: 4vh;
+    font-weight: bolder;
+}

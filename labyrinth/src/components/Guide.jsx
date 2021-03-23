@@ -7,7 +7,7 @@ const Guide = () => {
     return (
         <div className={styles.guide}>
             <div>
-                <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze!</h2>
+                <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze !</h2>
                 <p className={styles.plainText}>The purpose of the game is to find the exit.</p>
                 <OperationDescription />
             </div>

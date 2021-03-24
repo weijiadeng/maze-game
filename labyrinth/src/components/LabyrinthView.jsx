@@ -26,7 +26,7 @@ import {
   selectDebuff
 } from '../reducers/playerStatusSlice';
 import styles from "./labyrinthView.module.css"
-import { EASY, HARD, selectGameMode } from '../reducers/gameModeSlice';
+import { EASY, HARD, MEDIUM, selectGameMode } from '../reducers/gameModeSlice';
 
 export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth }) {
 
@@ -72,6 +72,9 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
     } else if (gameMode == HARD) {
       dispatch(addADebuff(MINI_MAP_OFF));
       dispatch(addADebuff(DARK_MODE_ON)); 
+    } else if (gameMode == MEDIUM) {
+      dispatch(addABuff(DARK_MODE_OFF)); 
+      dispatch(addADebuff(MINI_MAP_OFF));
     }
     dispatch(assignInit(true));
   }

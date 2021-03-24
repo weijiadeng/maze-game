@@ -28,7 +28,7 @@ export default function LabyrinthGame() {
       numZ = 15;
       break;
     default:
-      console.log("game mode error: " + gameMode);
+    // console.log("game mode error: " + gameMode);
 
   }
   const blockWidth = 20;

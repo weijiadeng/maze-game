@@ -64,10 +64,10 @@ export const LabyrinthCamera = ({
   const dispatch = useDispatch();
 
   useFrame(() => {
-    // console.log(posX, coordX, camera.position.x)
+    // // console.log(posX, coordX, camera.position.x)
     // update the view as the vis is interacted with
     // controls.current.update();
-    console.log(currentAction);
+    // console.log(currentAction);
     switch (currentAction) {
       case MOVE_FORWARD:
         switch (direction) {
@@ -96,7 +96,7 @@ export const LabyrinthCamera = ({
             }
             break;
           default:
-            console.log("direction error!");
+          // console.log("direction error!");
         }
         if (Math.abs(camera.position.x - coordX) < actualMoveSpeed) {
           if (Math.abs(camera.position.z - coordZ) < actualMoveSpeed) {
@@ -133,7 +133,7 @@ export const LabyrinthCamera = ({
             }
             break;
           default:
-            console.log("direction error!");
+          // console.log("direction error!");
         }
         if (Math.abs(camera.position.x - coordX) < actualMoveSpeed) {
           if (Math.abs(camera.position.z - coordZ) < actualMoveSpeed) {
@@ -178,7 +178,7 @@ export const LabyrinthCamera = ({
       case RANDOM_EVENT:
         break;
       default:
-        console.log("button error!");
+      // console.log("button error!");
     }
     camera.updateProjectionMatrix();
   });

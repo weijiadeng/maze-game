@@ -8,6 +8,7 @@ export function useBgmPlay() {
     const [play, { stop }] = useSound(bgm, {
         interrupt: true,
         volume: 0.35,
+        loop: true,
     });
     return { play, stop };
 }

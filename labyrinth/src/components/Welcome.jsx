@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import styles from "./welcome.module.css"
 import { displayGame, displayModeSelection, displayWelcome, displayGuide } from '../reducers/programWindowSlice';
 import { CUSTOM, EASY, HARD, MEDIUM, setGameMode } from "../reducers/gameModeSlice";
+import { CSSTransition } from 'react-transition-group';
 
 function WelcomeScreens(props) {
     return (
@@ -52,10 +53,10 @@ export function Welcome() {
     return (
         <WelcomeScreens>
 
-            <div className={styles.options}>
-                <h3 className={styles.buttons} onClick={() => handleGameStart()}>Game Start</h3>
-                <h3 className={styles.buttons} onClick={() => handleGuide()}>Guide</h3>
-                <h3 className={styles.buttons}>About</h3>
-            </div>
-        </ WelcomeScreens>);
+                <div className={styles.options}>
+                    <h3 className={styles.buttons} onClick={() => handleGameStart()}>Game Start</h3>
+                    <h3 className={styles.buttons} onClick={() => handleGuide()}>Guide</h3>
+                    <h3 className={styles.buttons}>About</h3>
+                </div>
+                </ WelcomeScreens>);
 }

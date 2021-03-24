@@ -7,7 +7,7 @@
 .container {
     position: absolute;
     width: auto;
-    top: 0;
+    top: 90vh;
     left: 0;
     z-index: 20;
 }
@@ -15,8 +15,8 @@
 .square {
     border: 1px solid rgba(240, 248, 255, 0.5);
     float: left;
-    height: 15px;
-    width: 15px;
+    height: 2vh;
+    width: 2vh;
 }
 
 .square:focus {

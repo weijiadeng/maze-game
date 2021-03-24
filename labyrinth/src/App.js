@@ -11,7 +11,7 @@ Modal.setAppElement('#root')
 export default function App() {
   let toRender = null;
   const currentWindow = useSelector(selectWindow);
-  console.log(currentWindow);
+  // console.log(currentWindow);
   switch (currentWindow) {
     case WELCOME:
       toRender = <Welcome />
@@ -26,7 +26,7 @@ export default function App() {
       toRender = <Guide />
       break;
     default:
-      console.log("Window mode error:" + currentWindow);
+    // console.log("Window mode error:" + currentWindow);
   }
   return toRender;
 }

@@ -9,7 +9,7 @@ export const backgroundMusicSlice = createSlice({
     reducers: {
         toggleIsMuted: state => {
             state.IsMuted = !state.IsMuted;
-            console.log("toggleIsMuted is called")
+            // console.log("toggleIsMuted is called")
         },
     },
 });

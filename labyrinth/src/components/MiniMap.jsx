@@ -62,7 +62,7 @@ export function MiniMap({ discovered }) {
 
     return (
         <div>
-            <div className={styles.container}>
+            <div className={styles.container}       style={{top:(100-numX*2)+'vh'} }>
                 {showMiniMap ? display : null}
             </div>
         </div>

@@ -241,7 +241,7 @@ class Event {
 }
 
 function initEventMap(numX, numZ, gameMode) {
-  console.log("game mode is: " + gameMode);
+  // console.log("game mode is: " + gameMode);
   const eventMap = Array(numX * numZ).fill(null);
   // eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
   // new Event(<StartEventRender />
@@ -294,7 +294,6 @@ export function EventManager({ discovered }) {
   // const { play: playConfrontBattleSound } = useConfrontBattleSound();
   //TODO: add gameover event
   // const { play: playGameOverSound } = useGameOverSound();
-  console.log(MINI_MAP_OFF);
   let currentCallback = () => { };
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {

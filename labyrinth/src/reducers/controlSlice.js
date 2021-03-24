@@ -102,7 +102,7 @@ export const controlSlice = createSlice({
         }
       }
     },
-    resetLastMoveHitWall: state=> {
+    resetLastMoveHitWall: state => {
       state.lastMoveHitWall = false;
     },
     turnLeft: state => {

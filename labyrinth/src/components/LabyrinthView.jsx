@@ -1,34 +1,23 @@
 import * as React from 'react';
-import { useSelector, useDispatch, ReactReduxContext } from 'react-redux';
+import { useSelector, ReactReduxContext } from 'react-redux';
 import { Canvas } from 'react-three-fiber'
 import { Sky, Stars, Plane, useContextBridge } from '@react-three/drei'
 import { LabyrinthCamera } from './LabyrinthCamera';
-import { Walls, initLabyrinthWalls } from './Walls';
-import {
-  assignInit,
-  assignNumX,
-  assignNumZ,
-  assignPosX,
-  assignPosZ,
-  assignWallTop,
-  assignWallLeft,
-  selectIsInit,
-  selectWallLeft,
-  selectWallTop,
-} from '../reducers/controlSlice';
-import {
-  addABuff,
-  addADebuff,
-  DARK_MODE_OFF,
-  DARK_MODE_ON,
-  MINI_MAP_ON,
-  MINI_MAP_OFF,
-  selectDebuff
-} from '../reducers/playerStatusSlice';
+import { Walls } from './Walls';
 import styles from "./labyrinthView.module.css"
-import { EASY, HARD, MEDIUM, selectGameMode } from '../reducers/gameModeSlice';
 
-export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth, mazeWidth, mazeDepth }) {
+export function LabyrinthView({
+  numX,
+  numZ,
+  blockWidth,
+  blockHeight,
+  blockDepth,
+  mazeWidth,
+  mazeDepth,
+  wallTop,
+  wallLeft,
+  darkModeIsOn
+}) {
 
   // Direction definination:
   //
@@ -55,49 +44,28 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
   // the bottom wall.
   //
   // To lookup the top wall info cell(x, y), we call wallTop[x + y*numZ]
-  const isInit = useSelector(selectIsInit);
-  const gameMode = useSelector(selectGameMode);
-  const dispatch = useDispatch();
-  if (!isInit) {
-    dispatch(assignPosX(numX - 1));
-    dispatch(assignPosZ(numZ - 1));
-    const [wallLeft, wallTop] = initLabyrinthWalls(numX, numZ);
-    dispatch(assignWallLeft(wallLeft));
-    dispatch(assignWallTop(wallTop));
-    dispatch(assignNumX(numX));
-    dispatch(assignNumZ(numZ));
-    if (gameMode == EASY) {
-      dispatch(addABuff(MINI_MAP_ON));
-      dispatch(addABuff(DARK_MODE_OFF)); 
-    } else if (gameMode == HARD) {
-      dispatch(addADebuff(MINI_MAP_OFF));
-      dispatch(addADebuff(DARK_MODE_ON)); 
-    } else if (gameMode == MEDIUM) {
-      dispatch(addABuff(DARK_MODE_OFF)); 
-      dispatch(addADebuff(MINI_MAP_OFF));
-    }
-    dispatch(assignInit(true));
-  }
+
   // Starting point in the x and z axis(this is coordinate, not index)
   const startCoordX = -numX * blockWidth / 2;
   const startCoordZ = -numZ * blockWidth / 2;
   // Get the current view coordinate
   const posCoordX = -blockWidth / 2 + numX * blockWidth + startCoordX;
-  const posCoordY = -blockWidth / 2 + numZ * blockWidth + startCoordZ;
-  const isDarkMode = (useSelector(selectDebuff) & DARK_MODE_ON);
+  const posCoordZ = -blockWidth / 2 + (numZ + 1) * blockWidth + startCoordZ;
   // Needed to use react-redux in react-three-fiber canvas. 
   // For details: https://standard.ai/blog/introducing-standard-view-and-react-three-fiber-context-bridge/
   const ContextBridge = useContextBridge(ReactReduxContext);
   return (
     <div className={styles.canvasDiv}>
       <Canvas camera={{
-        fov: 80, position: [posCoordX, 0, posCoordY + blockWidth]
+        fov: 80, position: [posCoordX, 0, posCoordZ + blockWidth]
       }}>
         <ContextBridge>
           <LabyrinthCamera
             blockWidth={blockWidth}
             startCoordX={startCoordX}
             startCoordZ={startCoordZ}
+            cameraInitCoordX={posCoordX}
+            cameraInitCoordZ={posCoordZ}
             moveSpeed={0.5}
             turnSpeed={2}
           />
@@ -106,22 +74,22 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
         {/* Reference: https://drei.pmnd.rs/?path=/story/shaders-softshadows--soft-shadows-st
             Make the light the same direction with the sun
         */}
-        {isDarkMode ? null : <directionalLight
+        {darkModeIsOn ? null : <directionalLight
           position={[-500, 20, startCoordZ + blockWidth / 2]}
           intensity={1.5}
         />}
         <Walls
           numX={numX}
           numZ={numZ}
-          wallTop={useSelector(selectWallTop)}
-          wallLeft={useSelector(selectWallLeft)}
+          wallTop={wallTop}
+          wallLeft={wallLeft}
           blockWidth={blockWidth}
           blockHeight={blockHeight}
           blockDepth={blockDepth}
           mazeWidth={mazeWidth}
           mazeDepth={mazeDepth}
         />
-        {isDarkMode ? null : <Sky
+        {darkModeIsOn ? null : <Sky
           distance={10000} // Camera distance (default=450000)
           // Sun position normal(Make the exit faces the sun, x should be less than -mazeWidth+blockWidth, 
           // y should be greater than 0, z should be -mazeHeight+blockWidth)
@@ -134,14 +102,14 @@ export function LabyrinthView({ numX, numZ, blockWidth, blockHeight, blockDepth,
           radius={mazeWidth * 2} // Radius of the inner sphere (default=100)
           depth={50} // Depth of area where stars should fit (default=50)
           count={5000} // Amount of stars (default=5000)
-          factor={20*(numX/5)} // Size factor (default=4)
+          factor={20 * (numX / 5)} // Size factor (default=4)
           saturation={0} // Saturation 0-1 (default=0)
           fade // Faded dots (default=false)
         />
         <Plane rotation-x={-Math.PI / 2} position={[0, -blockHeight / 2, 0]} args={[mazeWidth, mazeDepth, 4, 4]}>
           <meshBasicMaterial attach="material" opacity={0.5} color="#405940" />
         </Plane>
-        {isDarkMode ? <fog attach="fog" args={['black', 0, blockWidth]} /> : null}
+        {darkModeIsOn ? <fog attach="fog" args={['black', 0, blockWidth]} /> : null}
       </Canvas>
     </div>
   );

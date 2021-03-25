@@ -1,32 +1,20 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import {
-    selectPosX,
-    selectPosZ,
-    selectWallTop,
-    selectWallLeft,
-    selectNumX,
-    selectAction,
-    NOTHING,
-} from '../reducers/controlSlice';
-import {
-    selectBuff,
-    MINI_MAP_ON,
-} from '../reducers/playerStatusSlice';
+import { NOTHING } from '../reducers/controlSlice';
 import styles from './miniMap.module.css';
 
 
-
-export function MiniMap({ discovered }) {
-    const wallTop = useSelector(selectWallTop);
-    const wallLeft = useSelector(selectWallLeft);
-    const numX = useSelector(selectNumX);
-    const numZ = useSelector(selectNumX);
-    const posX = useSelector(selectPosX);
-    const posZ = useSelector(selectPosZ);
-    const showMiniMap = (useSelector(selectBuff) & MINI_MAP_ON);
+export function MiniMap({
+    discovered,
+    numX,
+    numZ,
+    posX,
+    posZ,
+    wallLeft,
+    wallTop,
+    currentAction,
+    miniMapIsOn
+}) {
     const display = [];
-    const currentAction = useSelector(selectAction);
     if (currentAction === NOTHING) {
         discovered.current[posZ * numX + posX] = true;
     }
@@ -64,7 +52,7 @@ export function MiniMap({ discovered }) {
         <div className={styles.container}>
             <div></div>
             <div className={styles.map}>
-                {showMiniMap ? display : null}
+                {miniMapIsOn ? display : null}
             </div>
         </div>
     );

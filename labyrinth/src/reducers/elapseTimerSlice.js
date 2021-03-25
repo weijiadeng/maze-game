@@ -10,6 +10,7 @@ export const elapseTimerSlice = createSlice({
     initialState: {
         curNumSeconds: 0,
         status: UNINIT,
+        intervalHasSet: false,
     },
     reducers: {
         countUp: state => {
@@ -31,6 +32,9 @@ export const elapseTimerSlice = createSlice({
         },
         adjustCountByAmount: (state, action) => {
             state.curNumSeconds += action.payload;
+        },
+        markIntervalSet: state=>{
+            state.intervalHasSet = true;
         }
 
     },
@@ -42,11 +46,13 @@ export const {
     resumeCount,
     resetCount,
     readyCount,
-    adjustCountByAmount
+    adjustCountByAmount,
+    markIntervalSet
 } = elapseTimerSlice.actions;
 
 export const selectCurNumSeconds = state => state.elapseTimer.curNumSeconds;
 export const selectStatus = state => state.elapseTimer.status;
+export const selectIntervalHasSet = state => state.elapseTimer.intervalHasSet;
 
 
 export default elapseTimerSlice.reducer;

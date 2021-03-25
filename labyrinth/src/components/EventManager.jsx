@@ -25,7 +25,7 @@ import {
   SPEED_UP,
   SPEED_DOWN
 } from '../reducers/playerStatusSlice';
-import { EASY, HARD, selectGameMode } from "../reducers/gameModeSlice";
+import { PURE, EASY, HARD, selectGameMode } from "../reducers/gameModeSlice";
 import { useBgmPlay } from "../commons/BackgroundMusic";
 
 const NUM_DEBUFF_TYPE = 4;
@@ -246,31 +246,30 @@ class Event {
 function initEventMap(numX, numZ, gameMode) {
   // console.log("game mode is: " + gameMode);
   const eventMap = Array(numX * numZ).fill(null);
-  // eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
-  // new Event(<StartEventRender />
   eventMap[numX * (numZ - 1) + numX - 1] = new Event(<StartEventRender />, startEventCallback, START_GAME_EVENT);
-  // eventMap[0] = [<EndEventRender />, endEventCallback];
   eventMap[0] = new Event(<EndEventRender />, endEventCallback, END_GAME_EVENT);
-  for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
-    const eventId = genRandomInt(NUM_EVENT_TYPE);
-    switch (eventId) {
-      case NEGATIVE_EFFECT_EVENT:
-        if (gameMode !== EASY) {
-          const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
-          eventMap[i] = new Event(<SmellyWindEventRender debuffId={debuffId} />, partialApply(smellyWindEventCallBack, debuffId), NEGATIVE_EFFECT_EVENT);
-        }
-        break;
-      case POSITIVE_EFFECT_EVENT:
-        if (gameMode !== HARD) {
-          const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
-          eventMap[i] = new Event(<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId), POSITIVE_EFFECT_EVENT);
-        }
-        break;
-      case NEUTRAL_EFFECT_EVENT:
-        eventMap[i] = new Event(<StrongWindEventRender />, strongWindEventCallBack, NEUTRAL_EFFECT_EVENT);
-        break;
-      default:
-        break;
+  if (gameMode !== PURE) {
+    for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
+      const eventId = genRandomInt(NUM_EVENT_TYPE);
+      switch (eventId) {
+        case NEGATIVE_EFFECT_EVENT:
+          if (gameMode !== EASY) {
+            const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
+            eventMap[i] = new Event(<SmellyWindEventRender debuffId={debuffId} />, partialApply(smellyWindEventCallBack, debuffId), NEGATIVE_EFFECT_EVENT);
+          }
+          break;
+        case POSITIVE_EFFECT_EVENT:
+          if (gameMode !== HARD) {
+            const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
+            eventMap[i] = new Event(<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId), POSITIVE_EFFECT_EVENT);
+          }
+          break;
+        case NEUTRAL_EFFECT_EVENT:
+          eventMap[i] = new Event(<StrongWindEventRender />, strongWindEventCallBack, NEUTRAL_EFFECT_EVENT);
+          break;
+        default:
+          break;
+      }
     }
   }
   return eventMap;
@@ -315,7 +314,8 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             currentCallback = () => { callBack(dispatch); play(); dispatch(enableBigPopUpIsToOpen()); };
             break;
           case END_GAME_EVENT:
-            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ+2)) };
+            // currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
+            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
             break;
           case POSITIVE_EFFECT_EVENT:
             currentCallback = () => { callBack(dispatch, playPositiveEffectSound); dispatch(enableSmallPopUpIsToOpen()) };

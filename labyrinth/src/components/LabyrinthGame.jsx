@@ -44,27 +44,25 @@ import styles from "./labyrinthGame.module.css"
 
 export default function LabyrinthGame() {
   const gameMode = useSelector(selectGameMode);
-  // let numX;
-  // let numZ;
-  // switch (gameMode) {
-  //   case EASY:
-  //     numX = 5;
-  //     numZ = 5;
-  //     break;
-  //   case MEDIUM:
-  //     numX = 10;
-  //     numZ = 10;
-  //     break;
-  //   case HARD:
-  //     numX = 15;
-  //     numZ = 15;
-  //     break;
-  //   default:
-  //     console.log("game mode error: " + gameMode);
+  let numX;
+  let numZ;
+  switch (gameMode) {
+    case EASY:
+      numX = 5;
+      numZ = 5;
+      break;
+    case MEDIUM:
+      numX = 10;
+      numZ = 10;
+      break;
+    case HARD:
+      numX = 15;
+      numZ = 15;
+      break;
+    default:
+      console.log("game mode error: " + gameMode);
 
-  // }
-  const numX = useSelector(selectNumX);
-  const numZ = useSelector(selectNumZ);
+  }
 
   const blockWidth = 20;
   const blockDepth = 0.5;
@@ -73,6 +71,8 @@ export default function LabyrinthGame() {
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
   if (!isInit) {
+    dispatch(assignNumX(numX));
+    dispatch(assignNumZ(numZ));
     dispatch(assignPosX(numX - 1));
     dispatch(assignPosZ(numZ - 1));
     dispatch(assignResetCamera(false));

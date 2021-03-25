@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSelector, ReactReduxContext } from 'react-redux';
+import { ReactReduxContext } from 'react-redux';
 import { Canvas } from 'react-three-fiber'
 import { Sky, Stars, Plane, useContextBridge } from '@react-three/drei'
 import { LabyrinthCamera } from './LabyrinthCamera';

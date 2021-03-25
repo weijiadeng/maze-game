@@ -33,11 +33,13 @@ body {
 .buttons {
     font-family: 'Coming Soon', cursive;
     transition: 500ms;
+    text-shadow: 2px 2px gray;
     font-size: 4.8vh;
 }
 
 .buttons:hover {
     color: #db5c27;
+    text-shadow: 0px 0px;
     cursor: pointer;
 }
 

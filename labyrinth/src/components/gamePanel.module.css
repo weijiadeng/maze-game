@@ -1,42 +1,42 @@
 .forwardButton {
     position: absolute;
     right: 16px;
-    top: 24px;
+    top: 240px;
     z-index: 10;
 }
 
 .backwardButton {
     position: absolute;
     right: 16px;
-    top: 48px;
+    top: 480px;
     z-index: 10;
 }
 
 .turnLeftButton {
     position: absolute;
     right: 16px;
-    top: 72px;
+    top: 720px;
     z-index: 10;
 }
 
 .turnRightButton {
     position: absolute;
     right: 16px;
-    top: 96px;
+    top: 960px;
     z-index: 10;
 }
 
 .toggleMiniMap {
     position: absolute;
     right: 16px;
-    top: 128px;
+    top: 1280px;
     z-index: 10;
 }
 
 .toggleDarkMode {
     position: absolute;
     right: 16px;
-    top: 160px;
+    top: 1600 px;
     z-index: 10;
 }
 

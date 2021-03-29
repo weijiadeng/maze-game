@@ -1,11 +1,10 @@
-@font-face {
+/* @font-face {
     font-family: 'Parchment_MF';
     src: url('Parchment_MF.woff') format('woff');
-}
+} */
 
 body {
     background: url("../images/titlebackground.png") center center/cover no-repeat;
-    /* Keep the inherited background full size. */
     height: 100%;
     background-attachment: fixed;
     background-size: cover;
@@ -34,11 +33,13 @@ body {
 .buttons {
     font-family: 'Coming Soon', cursive;
     transition: 500ms;
+    text-shadow: 2px 2px gray;
     font-size: 4.8vh;
 }
 
 .buttons:hover {
     color: #db5c27;
+    text-shadow: 0px 0px;
     cursor: pointer;
 }
 

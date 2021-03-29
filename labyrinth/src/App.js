@@ -2,7 +2,8 @@ import LabyrinthGame from './components/LabyrinthGame';
 import './styles.css';
 import { useSelector } from 'react-redux';
 import { selectWindow, WELCOME, GAME, MODE_SELECTION, GUIDE } from './reducers/programWindowSlice';
-import { ModeSelection, Welcome } from './components/Welcome';
+import { Welcome } from './components/Welcome';
+import { ModeSelection } from './components/ModeSelection'
 import Modal from "react-modal"
 import Guide from './components/Guide';
 

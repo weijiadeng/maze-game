@@ -1,27 +1,27 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { disablePresense, enablePresense, selectPresense, selectIsToOpen, disableIsToOpen } from '../reducers/smallPopUpWindowSlice';
+import { disableSmallPopUpPresense, enableSmallPopUpPresense, selectSmallPopUpPresense, selectSmallPopUpIsToOpen, disableSmallPopUpIsToOpen } from '../reducers/popUpWindowSlice';
 import styles from './smallPopUpWindow.module.css'
 import Modal from "react-modal"
 
 
 const SmallPopUpWindow = (props) => {
     const dispatch = useDispatch();
-    const isToOpen = useSelector(selectIsToOpen)
+    const isToOpen = useSelector(selectSmallPopUpIsToOpen)
     useEffect(() => {
         if (isToOpen) {
-            dispatch(enablePresense());
-            dispatch(disableIsToOpen());
+            dispatch(enableSmallPopUpPresense());
+            dispatch(disableSmallPopUpIsToOpen());
         }
     });
     const handlePresenseChange = () => {
-        dispatch(disablePresense());
+        dispatch(disableSmallPopUpPresense());
     }
 
     useEffect(() => {
         setTimeout(handlePresenseChange, 2000);
     });
-    const isOpen = useSelector(selectPresense);
+    const isOpen = useSelector(selectSmallPopUpPresense);
 
     return (
         <Modal

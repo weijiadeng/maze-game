@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { NOTHING, popEvent, RANDOM_EVENT, resetLastMoveHitWall, selectAction, selectNumX, selectNumZ, selectPosX, selectPosZ } from "../reducers/controlSlice";
+import { assignInit, assignNumX, assignNumZ, assignResetEvent, NOTHING, popEvent, RANDOM_EVENT, selectResetEvent } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
-import { readyCount, selectCurNumSeconds, resumeCount, pauseCount } from '../reducers/elapseTimerSlice'
-import { } from "../reducers/playerStatusSlice";
+import { readyCount, selectCurNumSeconds, resumeCount, pauseCount, resetCount } from '../reducers/elapseTimerSlice'
+import { resetPlayerStatus } from "../reducers/playerStatusSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import SmallPopUpWindow from "./SmallPopUpWindow";
-import { disablePresense, enableIsToOpen } from "../reducers/smallPopUpWindowSlice";
+import { disableBigPopUpPresense, enableBigPopUpIsToOpen, enableSmallPopUpIsToOpen } from "../reducers/popUpWindowSlice";
 import { partialApply, genRandomInt } from "../commons/utils";
 import background from '../images/bigWindowBackground.png'
 import { appendToLeaderBoard } from "../reducers/leaderboardSlice";
@@ -25,7 +25,7 @@ import {
   SPEED_UP,
   SPEED_DOWN
 } from '../reducers/playerStatusSlice';
-import { EASY, HARD, MEDIUM, selectGameMode } from "../reducers/gameModeSlice";
+import { PURE, EASY, HARD, selectGameMode } from "../reducers/gameModeSlice";
 import { useBgmPlay } from "../commons/BackgroundMusic";
 
 const NUM_DEBUFF_TYPE = 4;
@@ -53,7 +53,7 @@ function StartEventRender() {
   const buttons = (<div onClick={() => {
     dispatch(resumeCount());
     dispatch(popEvent());
-    dispatch(disablePresense());
+    dispatch(disableBigPopUpPresense());
   }}>Play now!</div>);
   return (<BigPopUpWindow buttons={buttons} background={background}>
     <h1>You are in a maze</h1>
@@ -81,9 +81,12 @@ function EndEventRender() {
     <React.Fragment>
       <div onClick={() => {
         dispatch(popEvent());
-        dispatch(disablePresense());
+        dispatch(resetPlayerStatus());
+        dispatch(resetCount());
+        dispatch(assignInit(false));
+        dispatch(disableBigPopUpPresense());
       }}
-      > Play again </div>
+      > Play next level </div>
       <div> See the leaderboard </div>
     </React.Fragment>
   );
@@ -106,12 +109,12 @@ function endEventCallback(dispatch, play) {
 function strongWindEventCallBack(dispatch, play, gameMode) {
   play();
   dispatch(resetBuffAndDebuff());
-  if (gameMode == EASY) {
+  if (gameMode === EASY) {
     dispatch(addABuff(DARK_MODE_OFF));
     dispatch(removeADebuff(DARK_MODE_ON));
     dispatch(addABuff(MINI_MAP_ON));
     dispatch(removeADebuff(MINI_MAP_OFF));
-  } else if (gameMode == HARD) {
+  } else if (gameMode === HARD) {
     dispatch(addADebuff(DARK_MODE_ON));
     dispatch(removeABuff(DARK_MODE_OFF));
     dispatch(addADebuff(MINI_MAP_OFF));
@@ -243,48 +246,49 @@ class Event {
 function initEventMap(numX, numZ, gameMode) {
   // console.log("game mode is: " + gameMode);
   const eventMap = Array(numX * numZ).fill(null);
-  // eventMap[numX * (numZ - 1) + numX - 1] = [<StartEventRender />, startEventCallback];
-  // new Event(<StartEventRender />
   eventMap[numX * (numZ - 1) + numX - 1] = new Event(<StartEventRender />, startEventCallback, START_GAME_EVENT);
-  // eventMap[0] = [<EndEventRender />, endEventCallback];
   eventMap[0] = new Event(<EndEventRender />, endEventCallback, END_GAME_EVENT);
-  for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
-    const eventId = genRandomInt(NUM_EVENT_TYPE);
-    switch (eventId) {
-      case NEGATIVE_EFFECT_EVENT:
-        if (gameMode !== EASY) {
-          const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
-          eventMap[i] = new Event(<SmellyWindEventRender debuffId={debuffId} />, partialApply(smellyWindEventCallBack, debuffId), NEGATIVE_EFFECT_EVENT);
-        }
-        break;
-      case POSITIVE_EFFECT_EVENT:
-        if (gameMode !== HARD) {
-          const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
-          eventMap[i] = new Event(<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId), POSITIVE_EFFECT_EVENT);
-        }
-        break;
-      case NEUTRAL_EFFECT_EVENT:
-        eventMap[i] = new Event(<StrongWindEventRender />, strongWindEventCallBack, NEUTRAL_EFFECT_EVENT);
-        break;
-      default:
-        break;
+  if (gameMode !== PURE) {
+    for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
+      const eventId = genRandomInt(NUM_EVENT_TYPE);
+      switch (eventId) {
+        case NEGATIVE_EFFECT_EVENT:
+          if (gameMode !== EASY) {
+            const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
+            eventMap[i] = new Event(<SmellyWindEventRender debuffId={debuffId} />, partialApply(smellyWindEventCallBack, debuffId), NEGATIVE_EFFECT_EVENT);
+          }
+          break;
+        case POSITIVE_EFFECT_EVENT:
+          if (gameMode !== HARD) {
+            const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
+            eventMap[i] = new Event(<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId), POSITIVE_EFFECT_EVENT);
+          }
+          break;
+        case NEUTRAL_EFFECT_EVENT:
+          eventMap[i] = new Event(<StrongWindEventRender />, strongWindEventCallBack, NEUTRAL_EFFECT_EVENT);
+          break;
+        default:
+          break;
+      }
     }
   }
   return eventMap;
 }
 
-export function EventManager({ discovered }) {
-  const numX = useSelector(selectNumX);
-  const numZ = useSelector(selectNumZ);
+export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction, isResetEvent }) {
   const gameMode = useSelector(selectGameMode);
 
-  const [eventMap,] = useState(initEventMap(numX, numZ, gameMode));
+  const [eventMap, setEventMap] = useState(initEventMap(numX, numZ, gameMode));
+
   const currentRender = useRef(null);
-  const posX = useSelector(selectPosX);
-  const posZ = useSelector(selectPosZ);
   const currentIndex = posZ * numX + posX;
-  const currentAction = useSelector(selectAction);
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (isResetEvent) {
+      setEventMap(initEventMap(numX, numZ, gameMode));
+      dispatch(assignResetEvent(false));
+    }
+  });
   const { play: playGameCompletionSound } = useGameCompletionSound();
   const { play: playPositiveEffectSound } = usePositiveEffectSound();
   const { play: playNegativeEffectSound } = useNegativeEffectSound();
@@ -294,7 +298,6 @@ export function EventManager({ discovered }) {
   // const { play: playConfrontBattleSound } = useConfrontBattleSound();
   //TODO: add gameover event
   // const { play: playGameOverSound } = useGameOverSound();
-  // console.log(MINI_MAP_OFF);
   let currentCallback = () => { };
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex] !== null && eventMap[currentIndex] !== undefined) {
@@ -308,19 +311,20 @@ export function EventManager({ discovered }) {
 
         switch (eventTypeId) {
           case START_GAME_EVENT:
-            currentCallback = () => { callBack(dispatch); play(); dispatch(enableIsToOpen()); };
+            currentCallback = () => { callBack(dispatch); play(); dispatch(enableBigPopUpIsToOpen()); };
             break;
           case END_GAME_EVENT:
-            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableIsToOpen()) };
+            // currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
+            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
             break;
           case POSITIVE_EFFECT_EVENT:
-            currentCallback = () => { callBack(dispatch, playPositiveEffectSound); dispatch(enableIsToOpen()) };
+            currentCallback = () => { callBack(dispatch, playPositiveEffectSound); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           case NEGATIVE_EFFECT_EVENT:
-            currentCallback = () => { callBack(dispatch, playNegativeEffectSound); dispatch(enableIsToOpen()) };
+            currentCallback = () => { callBack(dispatch, playNegativeEffectSound); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           case NEUTRAL_EFFECT_EVENT:
-            currentCallback = () => { callBack(dispatch, playNeutralEffectSound, gameMode); dispatch(enableIsToOpen()) };
+            currentCallback = () => { callBack(dispatch, playNeutralEffectSound, gameMode); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           // TODO: add confront battle event
           // case CONFRONT_BATTLE_EVENT:

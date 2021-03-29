@@ -22,9 +22,11 @@ export const controlSlice = createSlice({
     isInit: false,
     wallTop: [],
     wallLeft: [],
-    numX: 0,
-    numZ: 0,
-    lastMoveHitWall: false
+    numX: 5,
+    numZ: 5,
+    lastMoveHitWall: false,
+    isResetCamera: false,
+    resetEvent: true,
   },
   reducers: {
     moveForward: state => {
@@ -122,6 +124,12 @@ export const controlSlice = createSlice({
         state.currentAction = RANDOM_EVENT;
       }
     },
+    resetCurrentAction: state=> {
+      state.currentAction = MOVE_FORWARD;
+    },
+    assignResetEvent: (state, action) => {
+      state.resetEvent = action.payload;
+    },
     popEvent: state => {
       state.currentAction = NOTHING;
     },
@@ -146,6 +154,12 @@ export const controlSlice = createSlice({
     assignInit: (state, action) => {
       state.isInit = action.payload;
     },
+    assignResetCamera: (state, action) => {
+      state.isResetCamera = action.payload;
+      if (!action.payload) {
+        state.direction = UP;
+      }
+    },
   },
 });
 
@@ -163,7 +177,10 @@ export const {
   assignWallLeft,
   assignNumX,
   assignNumZ,
-  assignInit
+  assignInit,
+  assignResetCamera,
+  resetCurrentAction,
+  assignResetEvent
 } = controlSlice.actions;
 
 export const selectDirection = state => state.control.direction;
@@ -176,6 +193,7 @@ export const selectWallLeft = state => state.control.wallLeft;
 export const selectNumX = state => state.control.numX;
 export const selectNumZ = state => state.control.numZ;
 export const selectLastMoveHitWall = state => state.control.lastMoveHitWall;
-
+export const selectIsResetCamera = state => state.control.isResetCamera;
+export const selectResetEvent = state=>state.control.resetEvent;
 
 export default controlSlice.reducer;

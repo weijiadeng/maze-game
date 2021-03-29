@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { disablePresense, enablePresense, selectPresense, selectIsToOpen, disableIsToOpen } from '../reducers/smallPopUpWindowSlice';
+import { enableBigPopUpPresense, selectBigPopUpPresense, selectBigPopUpIsToOpen, disableBigPopUpIsToOpen } from '../reducers/popUpWindowSlice';
 import styles from './bigPopUpWindow.module.css'
 import Modal from "react-modal"
-import { pauseCount, resumeCount } from '../reducers/elapseTimerSlice';
-import { occurEvent, popEvent } from '../reducers/controlSlice';
+import { pauseCount } from '../reducers/elapseTimerSlice';
+import { occurEvent } from '../reducers/controlSlice';
 
 const BigPopUpWindow = (props) => {
     const dispatch = useDispatch();
-    const isToOpen = useSelector(selectIsToOpen)
+    const isToOpen = useSelector(selectBigPopUpIsToOpen)
     useEffect(() => {
         if (isToOpen) {
-            dispatch(enablePresense());
+            dispatch(enableBigPopUpPresense());
             dispatch(occurEvent());
-            dispatch(disableIsToOpen());
+            dispatch(disableBigPopUpIsToOpen());
         }
     });
 
-    const isOpen = useSelector(selectPresense);
+    const isOpen = useSelector(selectBigPopUpPresense);
     useEffect(() => {
         if (isOpen) {
             dispatch(pauseCount());

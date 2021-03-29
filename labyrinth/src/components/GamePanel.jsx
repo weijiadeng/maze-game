@@ -61,7 +61,7 @@ export function GamePanel() {
 
   return (
     <div>
-      <button className={styles.forwardButton} onClick={() => handleMoveForward()}>
+      {/* <button className={styles.forwardButton} onClick={() => handleMoveForward()}>
         Move Forward
         </button>
       <button className={styles.backwardButton} onClick={() => handleMoveBackward()}>
@@ -72,7 +72,7 @@ export function GamePanel() {
         </button>
       <button className={styles.turnRightButton} onClick={() => handleTurnRight()}>
         Turn Right
-        </button>
+        </button> */}
     </div>
   );
 }

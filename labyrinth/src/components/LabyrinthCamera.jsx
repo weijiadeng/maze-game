@@ -18,7 +18,9 @@ import {
   DOWN,
   LEFT,
   RIGHT,
-  RANDOM_EVENT
+  RANDOM_EVENT,
+  selectIsResetCamera,
+  assignResetCamera
 } from '../reducers/controlSlice';
 import { selectBuff, selectDebuff, SPEED_DOWN, SPEED_UP } from '../reducers/playerStatusSlice';
 
@@ -34,6 +36,8 @@ export const LabyrinthCamera = ({
   blockWidth,
   startCoordX,
   startCoordZ,
+  cameraInitCoordX,
+  cameraInitCoordZ,
   moveSpeed,
   turnSpeed,
 }) => {
@@ -60,6 +64,7 @@ export const LabyrinthCamera = ({
 
   const coordX = (-blockWidth / 2 + (posX + 1) * blockWidth + startCoordX);
   const coordZ = (-blockWidth / 2 + (posZ + 1) * blockWidth + startCoordZ);
+  const isResetCamera = useSelector(selectIsResetCamera);
 
   const dispatch = useDispatch();
 
@@ -68,6 +73,11 @@ export const LabyrinthCamera = ({
     // update the view as the vis is interacted with
     // controls.current.update();
     // console.log(currentAction);
+    if (!isResetCamera) {
+      camera.position.x = cameraInitCoordX;
+      camera.position.z = cameraInitCoordZ;
+      dispatch(assignResetCamera(true));
+    }
     switch (currentAction) {
       case MOVE_FORWARD:
         switch (direction) {

@@ -4,6 +4,7 @@ export const EASY = 0;
 export const MEDIUM = 1;
 export const HARD = 2;
 export const CUSTOM = 3;
+export const PURE = 4;
 
 export const gameModeSlice = createSlice({
     name: 'gameMode',

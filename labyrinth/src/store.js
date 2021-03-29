@@ -3,7 +3,7 @@ import controlReducer from './reducers/controlSlice';
 import elapseTimerReducer from './reducers/elapseTimerSlice';
 import backgroundMusicReducer from './reducers/backgroundMusicSlice';
 import playerStatusReducer from './reducers/playerStatusSlice';
-import smallPopUpWindowReducer from './reducers/smallPopUpWindowSlice';
+import popUpWindowReducer from './reducers/popUpWindowSlice';
 import programWindowReducer from './reducers/programWindowSlice';
 import leaderboardReducer from './reducers/leaderboardSlice';
 import gameModeReducer from './reducers/gameModeSlice';
@@ -16,7 +16,7 @@ export default configureStore({
     elapseTimer: elapseTimerReducer,
     backgroundMusic: backgroundMusicReducer,
     playerStatus: playerStatusReducer,
-    smallPopUpWindow: smallPopUpWindowReducer,
+    popUpWindow: popUpWindowReducer,
     programWindow: programWindowReducer,
     leaderboard: leaderboardReducer,
     gameMode: gameModeReducer,

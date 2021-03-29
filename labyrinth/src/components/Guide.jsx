@@ -1,11 +1,21 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { displayWelcome } from '../reducers/programWindowSlice';
 import GameModeDescription from './GameModeDescription';
 import styles from './guide.module.css'
 import HelperPage from './HelperPage';
 import OperationDescription from './OperationDescription';
 const Guide = () => {
+    const dispatch = useDispatch();
+    const handleGoBack = () => {
+        dispatch(displayWelcome());
+    }
+    const goBack = "< Go Back";
+
     return (
         <div className={styles.guide}>
+            <span className={`${styles.goBackButton} ${styles.topGoBackButton}`} onClick={() => handleGoBack()}>{goBack}</span>
+
             <div>
                 <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze !</h2>
                 <p className={styles.plainText}>The purpose of the game is to find the exit.</p>
@@ -43,6 +53,7 @@ const Guide = () => {
             <br />
             <br />
             <br />
+            <span className={styles.goBackButton} onClick={() => handleGoBack()}>{goBack}</span >
             <br />
             <br />
         </div >

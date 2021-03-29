@@ -108,7 +108,7 @@ export default function LabyrinthGame() {
   const isResetEvent = useSelector(selectResetEvent);
   const currentHP = useSelector(selectHP);
   const currentCurNumSeconds = useSelector(selectCurNumSeconds);
-  const isGameFail = (currentHP <=0 || 10 - currentCurNumSeconds <= 0);
+  const isGameFail = (currentHP <=0 || 100 - currentCurNumSeconds <= 0);
 
   return (
     <div className={styles.visContainer}>

@@ -39,8 +39,11 @@ import {
   MINI_MAP_OFF,
   selectBuff,
   selectDebuff,
+  selectHP,
+  setGameFail,
 } from '../reducers/playerStatusSlice';
 import styles from "./labyrinthGame.module.css"
+import { selectCurNumSeconds } from '../reducers/elapseTimerSlice';
 
 export default function LabyrinthGame() {
   const gameMode = useSelector(selectGameMode);
@@ -67,9 +70,10 @@ export default function LabyrinthGame() {
   const blockWidth = 20;
   const blockDepth = 0.5;
   const blockHeight = 10;
-  const discovered = useRef(Array(numX * numZ).fill(false));
+  const discovered = useRef(Array(numX * numZ + 1).fill(false));
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
+  // Reset the game when initialization
   if (!isInit) {
     dispatch(assignNumX(numX));
     dispatch(assignNumZ(numZ));
@@ -92,7 +96,7 @@ export default function LabyrinthGame() {
     }
     dispatch(assignInit(true));
     dispatch(assignResetEvent(true));
-    discovered.current = Array(numX * numZ).fill(false);
+    discovered.current = Array(numX * numZ + 1).fill(false);
   }
   const posX = useSelector(selectPosX);
   const posZ = useSelector(selectPosZ);
@@ -102,6 +106,10 @@ export default function LabyrinthGame() {
   const buff = useSelector(selectBuff);
   const debuff = useSelector(selectDebuff);
   const isResetEvent = useSelector(selectResetEvent);
+  const currentHP = useSelector(selectHP);
+  const currentCurNumSeconds = useSelector(selectCurNumSeconds);
+  const isGameFail = (currentHP <=0 || 10 - currentCurNumSeconds <= 0);
+
   return (
     <div className={styles.visContainer}>
       <LabyrinthView
@@ -125,6 +133,7 @@ export default function LabyrinthGame() {
         numZ={numZ}
         currentAction={currentAction}
         isResetEvent={isResetEvent}
+        isGameFail={isGameFail}
       />
       <MiniMap
         discovered={discovered}
@@ -136,6 +145,7 @@ export default function LabyrinthGame() {
         wallTop={wallTop}
         currentAction={currentAction}
         miniMapIsOn={buff & MINI_MAP_ON}
+        isGameFail={isGameFail}
       />
       <ElapseTimer />
       <BackgroundMusic />

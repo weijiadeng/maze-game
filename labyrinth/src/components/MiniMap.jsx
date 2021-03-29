@@ -12,11 +12,15 @@ export function MiniMap({
     wallLeft,
     wallTop,
     currentAction,
-    miniMapIsOn
+    miniMapIsOn,
+    isGameFail
 }) {
     const display = [];
     if (currentAction === NOTHING) {
         discovered.current[posZ * numX + posX] = true;
+    }
+    if (isGameFail) {
+        discovered.current[numX*numZ + 1] = true;
     }
     for (let i = 0; i < numZ; i++) {
         let currentRow = [];

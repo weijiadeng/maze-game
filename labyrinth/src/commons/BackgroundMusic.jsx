@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
 import bgm from '../music/mixkit-game-level-music-689.wav'
 
@@ -12,6 +12,8 @@ export function useBgmPlay() {
 }
 
 export const BackgroundMusic = () => {
+    const {play, stop} = useBgmPlay();
+    const isPlaying = useState(true);
     return (
         <React.Fragment>
         </React.Fragment>

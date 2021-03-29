@@ -22,6 +22,41 @@
     width: 70vw;
 }
 
+.eventIcon {
+    width: 4vw;
+    height: 4vw;
+    margin-right: 1vw;
+}
+
+.eventPicture {
+    width: 50vw;
+    height: 30vw;
+}
+
+.mimiMapEventPicture {
+    width: 30vw;
+    height: 30vw;
+}
+
+.liHeaderContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+
+.liHeader {
+    line-height: 5vw;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+.eventDetail {
+    margin: 0;
+}
+
 .bigHeader {
     font-size: 3vw;
     padding-left: 3vw;
@@ -40,6 +75,10 @@
 .list {
     text-align: start;
     font-size: 2vw;
+}
+
+.list>li {
+    margin-bottom: 2vh;
 }
 
 .gameModeName {

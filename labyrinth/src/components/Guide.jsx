@@ -5,6 +5,11 @@ import GameModeDescription from './GameModeDescription';
 import styles from './guide.module.css'
 import HelperPage from './HelperPage';
 import OperationDescription from './OperationDescription';
+import MiniMapEventDescription from './MiniMapEventDescription';
+import DarkModeEventDescription from './DarkModeEventDescription';
+import SpeedChangeEventDescription from './SpeedChangeEventDescription';
+import HPChangeEventDescription from './HPChangeEventDescription';
+
 const Guide = () => {
     const dispatch = useDispatch();
     const handleGoBack = () => {
@@ -35,17 +40,17 @@ const Guide = () => {
             <div className={styles.description}>
                 <h3 className={styles.smallHeader}>Effects you might invoke:</h3>
                 <ul className={styles.list}>
-                    <li>Minimap ON/OFF
-                        {/* <img /> */}
+                    <li>
+                        <MiniMapEventDescription />
                     </li>
                     <li>
-                        Dark mode ON/OFF
+                        <DarkModeEventDescription />
                     </li>
                     <li>
-                        Speed UP/DOWN
+                        <SpeedChangeEventDescription />
                     </li>
                     <li>
-                        HP points GAIN/LOSE
+                        <HPChangeEventDescription />
                     </li>
                 </ul>
             </div >

@@ -1,5 +1,6 @@
 import React from 'react';
 import useSound from 'use-sound';
+// The following 7 music pieces credit to https://mixkit.co/free-sound-effects/game/.
 import GameCompletionSound from '../music/mixkit-game-level-completed-2059.wav'
 import PositiveEffectSound from '../music/mixkit-video-game-health-recharge-2837.wav'
 import NegativeEffectSound from '../music/mixkit-negative-guitar-tone-2324.wav'

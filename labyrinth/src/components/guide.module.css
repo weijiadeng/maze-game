@@ -3,30 +3,35 @@
     font-family: 'Coming Soon', cursive;
     text-align: center;
     top: 0;
-    padding-top: 20px;
+    padding-top: 2vh;
+    padding-left: 3vw;
+    padding-right: 3vw;
 }
 
-.transparent {
+.moveGuide {
     opacity: 0.8;
     filter: alpha(opacity=40);
+    width: 70vw;
 }
 
 .bigHeader {
-    font-size: xx-large;
+    font-size: 3vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
 }
 
 .smallHeader {
-    font-size: x-large;
+    font-size: 3vw;
 }
 
 .plainText {
-    font-size: x-large;
+    font-size: 2vw;
     font-weight: bold;
 }
 
 .list {
     text-align: start;
-    font-size: x-large;
+    font-size: 2vw;
 }
 
 .gameModeName {
@@ -36,6 +41,6 @@
 .description {
     margin-bottom: 3%;
     text-align: start;
-    margin-left: 25%;
-    margin-right: 20%;
+    padding-left: 10vw;
+    padding-right: 10vw;
 }

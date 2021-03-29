@@ -7,7 +7,7 @@ const OperationDescription = () => {
     return (
         <div>
             <p className={styles.plainText}>Use "W", "A", "S", "D" to move forward, left, backward, right.</p>
-            <img className={styles.transparent} src={movesGuide} alt="move guide"/>
+            <img className={styles.moveGuide} src={movesGuide} alt="move guide" />
         </div>
     );
 }

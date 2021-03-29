@@ -63,7 +63,7 @@ export const controlSlice = createSlice({
             }
             break;
           default:
-            console.log("Direction error: ", state.direction);
+          // console.log("Direction error: ", state.direction);
         }
       }
     },
@@ -100,7 +100,7 @@ export const controlSlice = createSlice({
             }
             break;
           default:
-            console.log("Direction error: ", state.direction);
+          // console.log("Direction error: ", state.direction);
         }
       }
     },

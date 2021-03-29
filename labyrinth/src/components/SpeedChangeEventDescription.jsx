@@ -8,7 +8,7 @@ const SpeedChangeEventDescription = () => {
         <React.Fragment>
             <div className={styles.liHeaderContainer} >
                 <p className={styles.liHeader}>
-                    Speed Up/Down ON/OFF <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span className={styles.liHeaderText}> Speed Up/Down ON/OFF </span> <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <img className={styles.eventIcon} src={speedUpIcon} alt="speed up Icon" />
                     <img className={styles.eventIcon} src={speedDownIcon} alt="speed down Icon" />
                     <br />

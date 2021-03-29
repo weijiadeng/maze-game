@@ -9,7 +9,7 @@ const DarkModeEventDescription = () => {
         <React.Fragment>
             <div className={styles.liHeaderContainer} >
                 <p className={styles.liHeader}>
-                    Dark/Bright Mode ON/OFF <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span className={styles.liHeaderText}>Dark/Bright Mode ON/OFF</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <img className={styles.eventIcon} src={darkModeIcon} alt="dark mode Icon" />
                     <img className={styles.eventIcon} src={brightModeIcon} alt="bright mode Icon" />
                     <br />

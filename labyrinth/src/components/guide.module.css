@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     overflow: auto;
-    color: #3e423e;
+    color: #222422;
 }
 
 .moveGuide {
@@ -49,13 +49,6 @@
     text-align: center;
 }
 
-.liHeader {
-    line-height: 5vw;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin: 0;
-}
-
 .eventDetail {
     margin: 0;
 }
@@ -68,6 +61,7 @@
 
 .smallHeader {
     font-size: 2vw;
+    color: #3e423e;
 }
 
 .plainText {
@@ -79,7 +73,20 @@
     text-align: start;
     font-size: 1.5vw;
     font-weight: bold;
-    color: #454d46;
+    color: #2a2e2a;
+}
+
+.liHeader {
+    line-height: 5vw;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    font-weight: bolder;
+}
+
+.liHeaderText {
+    font-weight: 900;
+    color: #222422;
 }
 
 .list>li {

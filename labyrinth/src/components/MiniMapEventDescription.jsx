@@ -8,7 +8,7 @@ const MiniMapEventDescription = () => {
         <React.Fragment>
             <div className={styles.liHeaderContainer} >
                 <p className={styles.liHeader}>
-                    Minimap ON/OFF <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span className={styles.liHeaderText}> Minimap ON/OFF </span> <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <img className={styles.eventIcon} src={miniMapIcon} alt="miniMap Icon" />
                     <br />
                 </p>

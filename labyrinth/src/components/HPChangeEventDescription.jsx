@@ -7,7 +7,7 @@ const HPChangeEventDescription = () => {
         <React.Fragment>
             <div className={styles.liHeaderContainer} >
                 <p className={styles.liHeader}>
-                    HP Gain/Lose <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span className={styles.liHeaderText}>HP Gain/Lose</span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <img className={styles.eventIcon} src={heartIcon} alt="heart Icon" />
                     <br />
                 </p>

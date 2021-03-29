@@ -1,22 +1,25 @@
+// TODO: define interface
 export class UnionFind {
     partsCount;
     rank;
-    path;
+    parent;
 
     constructor(elementNum) {
         this.partsCount = elementNum;
-        this.path = Array.apply(null, { length: elementNum }).map(Number.call, Number)
+        this.parent = Array.apply(null, { length: elementNum }).map(Number.call, Number)
         this.rank = Array.apply(0, { length: elementNum });
     }
 
+    // Find the parent of the given index
     find(index) {
-        while (index !== this.path[index]) {
-            this.path[index] = this.path[this.path[index]];
-            index = this.path[index];
+        while (index !== this.parent[index]) {
+            this.parent[index] = this.parent[this.parent[index]];
+            index = this.parent[index];
         }
         return index;
     }
 
+    // Union the left element and right element, so that they become connected
     union(left, right) {
         const leftRoot = this.find(left);
         const rightRoot = this.find(right);
@@ -25,11 +28,11 @@ export class UnionFind {
         }
         this.partsCount -= 1;
         if (this.rank[leftRoot] < this.rank[rightRoot]) {
-            this.path[leftRoot] = rightRoot;
+            this.parent[leftRoot] = rightRoot;
         } else if (this.rank[leftRoot] > this.rank[rightRoot]) {
-            this.path[rightRoot] = leftRoot;
+            this.parent[rightRoot] = leftRoot;
         } else {
-            this.path[leftRoot] = rightRoot;
+            this.parent[leftRoot] = rightRoot;
             this.rank[rightRoot] += 1;
         }
     }

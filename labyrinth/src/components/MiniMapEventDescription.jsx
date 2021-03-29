@@ -18,7 +18,7 @@ const MiniMapEventDescription = () => {
                 When you see this icon,
                 It means the Mini Map has been shown for you. You can see the map of the maze on the top left.
                 Like this:<br />
-                <span><img className={styles.mimiMapEventPicture} src={miniMap} alt="MiniMap" /></span>
+                <span><img className={`${styles.eventPicture} ${styles.mimiMapEventPicture}`} src={miniMap} alt="MiniMap" /></span>
             </p>
         </React.Fragment >
     );

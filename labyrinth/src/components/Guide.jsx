@@ -4,6 +4,7 @@ import { displayWelcome } from '../reducers/programWindowSlice';
 import GameModeDescription from './GameModeDescription';
 import styles from './guide.module.css'
 import HelperPage from './HelperPage';
+import movesGuide from '../images/movesGuide.png';
 import OperationDescription from './OperationDescription';
 import MiniMapEventDescription from './MiniMapEventDescription';
 import DarkModeEventDescription from './DarkModeEventDescription';
@@ -24,7 +25,13 @@ const Guide = () => {
             <div>
                 <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze !</h2>
                 <p className={styles.plainText}>The purpose of the game is to find the exit.</p>
-                <OperationDescription />
+            </div>
+            <div className={styles.description}>
+                <h3 className={styles.smallHeader}> How to play:</h3>
+                <ul className={styles.list}>
+                    <li>Use "W", "A", "S", "D" to move forward, left, backward, right.</li>
+                    <img className={styles.moveGuide} src={movesGuide} alt="move guide" />
+                </ul>
             </div>
 
             <div className={styles.description}>

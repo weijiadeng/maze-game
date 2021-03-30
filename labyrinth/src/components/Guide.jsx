@@ -1,6 +1,4 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { displayWelcome } from '../reducers/programWindowSlice';
 import GameModeDescription from './GameModeDescription';
 import styles from './guide.module.css'
 import HelperPage from './HelperPage';
@@ -10,11 +8,12 @@ import MiniMapEventDescription from './MiniMapEventDescription';
 import DarkModeEventDescription from './DarkModeEventDescription';
 import SpeedChangeEventDescription from './SpeedChangeEventDescription';
 import HPChangeEventDescription from './HPChangeEventDescription';
+import { useHistory } from 'react-router-dom';
 
 const Guide = () => {
-    const dispatch = useDispatch();
+    const history = useHistory();
     const handleGoBack = () => {
-        dispatch(displayWelcome());
+        history.push("");
     }
     const goBack = "< Go Back";
 

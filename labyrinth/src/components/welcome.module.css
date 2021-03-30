@@ -23,8 +23,16 @@
 }
 
 .buttons {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
     font-family: 'Coming Soon', cursive;
     transition: 500ms;
+    color: black;
+    text-decoration: none;
     text-shadow: 2px 2px gray;
     font-size: 4.8vh;
 }

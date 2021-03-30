@@ -6,7 +6,6 @@ import { EventManager } from './EventManager';
 import { MiniMap } from './MiniMap'
 import { BackgroundMusic } from '../commons/BackgroundMusic'
 import PlayerStatusPanel from './PlayerStatusPanel';
-import { EASY, HARD, MEDIUM, selectGameMode } from '../reducers/gameModeSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { initLabyrinthWalls } from './Walls';
 import {
@@ -38,24 +37,26 @@ import {
   selectBuff,
   selectDebuff,
   selectHP,
+  resetPlayerStatus,
 } from '../reducers/playerStatusSlice';
 import styles from "./labyrinthGame.module.css"
-import { selectCurNumSeconds } from '../reducers/elapseTimerSlice';
+import { resetCount, selectCurNumSeconds } from '../reducers/elapseTimerSlice';
+import { useParams, useHistory } from "react-router-dom";
 
 export default function LabyrinthGame() {
-  const gameMode = useSelector(selectGameMode);
+  const { gameMode } = useParams();
   let numX;
   let numZ;
   switch (gameMode) {
-    case EASY:
+    case "easy":
       numX = 5;
       numZ = 5;
       break;
-    case MEDIUM:
+    case "medium":
       numX = 10;
       numZ = 10;
       break;
-    case HARD:
+    case "hard":
       numX = 15;
       numZ = 15;
       break;
@@ -81,13 +82,15 @@ export default function LabyrinthGame() {
     dispatch(assignWallLeft(wallLeft));
     dispatch(assignWallTop(wallTop));
     dispatch(resetCurrentAction());
-    if (gameMode === EASY) {
+    dispatch(resetCount());
+    dispatch(resetPlayerStatus());
+    if (gameMode === 'easy') {
       dispatch(addABuff(MINI_MAP_ON));
       dispatch(addABuff(DARK_MODE_OFF));
-    } else if (gameMode === HARD) {
+    } else if (gameMode === 'hard') {
       dispatch(addADebuff(MINI_MAP_OFF));
       dispatch(addADebuff(DARK_MODE_ON));
-    } else if (gameMode === MEDIUM) {
+    } else if (gameMode === 'medium') {
       dispatch(addABuff(DARK_MODE_OFF));
       dispatch(addADebuff(MINI_MAP_OFF));
     }
@@ -131,6 +134,7 @@ export default function LabyrinthGame() {
         currentAction={currentAction}
         isResetEvent={isResetEvent}
         isGameFail={isGameFail}
+        gameMode = {gameMode}
       />
       <MiniMap
         discovered={discovered}

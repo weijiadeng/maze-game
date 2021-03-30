@@ -1,8 +1,8 @@
 import React from "react"
 import { useDispatch } from "react-redux";
-import { displayModeSelection, displayGuide } from '../reducers/programWindowSlice';
 import Footer from "./Footer";
 import styles from "./welcome.module.css"
+import { NavLink, Link } from 'react-router-dom';
 
 
 export function WelcomeScreens(props) {
@@ -15,22 +15,12 @@ export function WelcomeScreens(props) {
 }
 
 export function Welcome() {
-    const dispatch = useDispatch();
-
-    const handleGameStart = () => {
-        dispatch(displayModeSelection());
-    }
-
-    const handleGuide = () => {
-        dispatch(displayGuide());
-    }
-
     return (
         <WelcomeScreens>
             <div className={styles.options}>
-                <h3 className={styles.buttons} onClick={() => handleGameStart()}>Game Start</h3>
-                <h3 className={styles.buttons} onClick={() => handleGuide()}>Guide</h3>
-                <h3 className={styles.buttons}>About</h3>
+                <NavLink to="/mode" className={styles.buttons}>Game Start</NavLink>
+                <NavLink to="/guide" className={styles.buttons}>Guide</NavLink>
+                <NavLink to="/about" className={styles.buttons}>About</NavLink>
             </div>
         </ WelcomeScreens>);
 }

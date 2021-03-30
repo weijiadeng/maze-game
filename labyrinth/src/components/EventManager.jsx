@@ -25,7 +25,6 @@ import {
   SPEED_UP,
   SPEED_DOWN
 } from '../reducers/playerStatusSlice';
-import { PURE, EASY, HARD, selectGameMode } from "../reducers/gameModeSlice";
 import { useBgmPlay } from "../commons/BackgroundMusic";
 
 const NUM_DEBUFF_TYPE = 4;
@@ -132,12 +131,12 @@ function endEventCallback(dispatch, play) {
 function strongWindEventCallBack(dispatch, play, gameMode) {
   play();
   dispatch(resetBuffAndDebuff());
-  if (gameMode === EASY) {
+  if (gameMode === "easy") {
     dispatch(addABuff(DARK_MODE_OFF));
     dispatch(removeADebuff(DARK_MODE_ON));
     dispatch(addABuff(MINI_MAP_ON));
     dispatch(removeADebuff(MINI_MAP_OFF));
-  } else if (gameMode === HARD) {
+  } else if (gameMode === "hard") {
     dispatch(addADebuff(DARK_MODE_ON));
     dispatch(removeABuff(DARK_MODE_OFF));
     dispatch(addADebuff(MINI_MAP_OFF));
@@ -272,18 +271,18 @@ function initEventMap(numX, numZ, gameMode) {
   eventMap[numX * (numZ - 1) + numX - 1] = new Event(<StartEventRender />, startEventCallback, START_GAME_EVENT);
   eventMap[0] = new Event(<EndEventRender />, endEventCallback, END_GAME_EVENT);
   eventMap[numX * numZ + 1] = new Event(<FailGameEventRender />, endEventCallback, GAME_FAIL_EVENT);
-  if (gameMode !== PURE) {
+  if (gameMode !== "pure") {
     for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
       const eventId = genRandomInt(NUM_EVENT_TYPE);
       switch (eventId) {
         case NEGATIVE_EFFECT_EVENT:
-          if (gameMode !== EASY) {
+          if (gameMode !== "easy") {
             const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
             eventMap[i] = new Event(<SmellyWindEventRender debuffId={debuffId} />, partialApply(smellyWindEventCallBack, debuffId), NEGATIVE_EFFECT_EVENT);
           }
           break;
         case POSITIVE_EFFECT_EVENT:
-          if (gameMode !== HARD) {
+          if (gameMode !== "hard") {
             const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
             eventMap[i] = new Event(<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId), POSITIVE_EFFECT_EVENT);
           }
@@ -299,8 +298,7 @@ function initEventMap(numX, numZ, gameMode) {
   return eventMap;
 }
 
-export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction, isResetEvent, isGameFail }) {
-  const gameMode = useSelector(selectGameMode);
+export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction, isResetEvent, isGameFail,gameMode }) {
   const [eventMap, setEventMap] = useState(initEventMap(numX, numZ, gameMode));
 
   const currentRender = useRef(null);

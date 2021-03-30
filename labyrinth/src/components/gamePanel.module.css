@@ -1,42 +1,58 @@
-.forwardButton {
+.panelContainer {
     position: absolute;
-    right: 16px;
-    top: 240px;
-    z-index: 10;
+    top: 90%;
+    left: 95%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 15vh;
+    height: 15vh;   
+}
+
+.panelContainer > * {
+    font-size: 5vh;
+    z-index: 100;
+    color: rgba(0, 0, 0,0.4);
+    place-self: center;
+    transition: 500ms;
+}
+
+.panelContainer > *:hover, .panelContainer > *:active {
+    color: #db5d27c7;
+    cursor: pointer;
+}
+
+@media (max-width:576px) {
+    .panelContainer {
+        top: 80%;
+        left: 50%;
+        width: 30vh;
+        height: 30vh;   
+    }
+    
+    .panelContainer > *{
+         font-size: 10vh;
+    }
+}
+
+.forwardButton {
+    grid-row: 1;
+    grid-column: 2;
 }
 
 .backwardButton {
-    position: absolute;
-    right: 16px;
-    top: 480px;
-    z-index: 10;
+    grid-row: 3;
+    grid-column: 2;
 }
 
 .turnLeftButton {
-    position: absolute;
-    right: 16px;
-    top: 720px;
-    z-index: 10;
+    grid-row: 2;
+    grid-column: 1;
 }
 
 .turnRightButton {
-    position: absolute;
-    right: 16px;
-    top: 960px;
-    z-index: 10;
+    grid-row: 2;
+    grid-column: 3;
 }
-
-.toggleMiniMap {
-    position: absolute;
-    right: 16px;
-    top: 1280px;
-    z-index: 10;
-}
-
-.toggleDarkMode {
-    position: absolute;
-    right: 16px;
-    top: 1600 px;
-    z-index: 10;
-}
-

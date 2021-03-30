@@ -19,9 +19,6 @@ export function MiniMap({
     if (currentAction === NOTHING) {
         discovered.current[posZ * numX + posX] = true;
     }
-    if (isGameFail) {
-        discovered.current[numX*numZ + 1] = true;
-    }
     for (let i = 0; i < numZ; i++) {
         let currentRow = [];
         for (let j = 0; j < numX; j++) {

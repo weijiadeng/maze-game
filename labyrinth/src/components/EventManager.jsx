@@ -299,7 +299,7 @@ function initEventMap(numX, numZ, gameMode) {
   return eventMap;
 }
 
-export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction, isResetEvent, isGameFail}) {
+export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction, isResetEvent, isGameFail }) {
   const gameMode = useSelector(selectGameMode);
   const [eventMap, setEventMap] = useState(initEventMap(numX, numZ, gameMode));
 
@@ -324,10 +324,10 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
   let currentIndex = posZ * numX + posX;
 
   if (isGameFail) {
-    currentIndex = numX*numZ + 1;
+    currentIndex = numX * numZ + 1;
   }
 
-  let currentCallback = ()=>{}
+  let currentCallback = () => { }
 
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex]) {
@@ -345,7 +345,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             break;
           case END_GAME_EVENT:
             // currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
-            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen());};
+            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); };
             break;
           case POSITIVE_EFFECT_EVENT:
             currentCallback = () => { callBack(dispatch, playPositiveEffectSound); dispatch(enableSmallPopUpIsToOpen()) };
@@ -357,7 +357,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             currentCallback = () => { callBack(dispatch, playNeutralEffectSound, gameMode); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           case GAME_FAIL_EVENT:
-            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(enableBigPopUpIsToOpen());};
+            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(enableBigPopUpIsToOpen()); discovered.current[numX * numZ + 1] = true;};
             break;
           // TODO: add confront battle event
           // case CONFRONT_BATTLE_EVENT:

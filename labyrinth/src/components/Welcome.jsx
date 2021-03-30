@@ -1,6 +1,7 @@
 import React from "react"
 import { useDispatch } from "react-redux";
 import { displayModeSelection, displayGuide } from '../reducers/programWindowSlice';
+import Footer from "./Footer";
 import styles from "./welcome.module.css"
 
 
@@ -9,6 +10,7 @@ export function WelcomeScreens(props) {
         <div className={styles.container}>
             <h1 className={styles.title}>Maze</h1>
             {props.children}
+            <Footer />
         </div>);
 }
 

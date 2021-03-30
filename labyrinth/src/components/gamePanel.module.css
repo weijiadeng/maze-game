@@ -1,14 +1,14 @@
 .panelContainer {
     position: absolute;
-    top: 70%;
+    top: 80%;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    width: 20vh;
-    height: 20vh;   
+    width: 30vh;
+    height: 30vh;   
 }
 
 .panelContainer > * {

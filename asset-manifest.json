@@ -1,21 +1,23 @@
 {
   "files": {
-    "main.css": "/weijia-deng-wenhua-yao-assignment2/static/css/main.e21be24c.chunk.css",
-    "main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/main.988935d5.chunk.js",
-    "main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/main.988935d5.chunk.js.map",
-    "runtime-main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.b8fcd6d2.js",
-    "runtime-main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.b8fcd6d2.js.map",
-    "static/js/2.bb703ce0.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/2.bb703ce0.chunk.js",
-    "static/js/2.bb703ce0.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/2.bb703ce0.chunk.js.map",
-    "static/js/3.68ee05e2.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/3.68ee05e2.chunk.js",
-    "static/js/3.68ee05e2.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/3.68ee05e2.chunk.js.map",
+    "main.css": "/weijia-deng-wenhua-yao-assignment2/static/css/main.4943e6d2.chunk.css",
+    "main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/main.37299a25.chunk.js",
+    "main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/main.37299a25.chunk.js.map",
+    "runtime-main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.d42c212a.js",
+    "runtime-main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.d42c212a.js.map",
+    "static/js/2.816c2ae6.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/2.816c2ae6.chunk.js",
+    "static/js/2.816c2ae6.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/2.816c2ae6.chunk.js.map",
+    "static/js/3.b4149d34.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/3.b4149d34.chunk.js",
+    "static/js/3.b4149d34.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/3.b4149d34.chunk.js.map",
     "index.html": "/weijia-deng-wenhua-yao-assignment2/index.html",
-    "static/css/main.e21be24c.chunk.css.map": "/weijia-deng-wenhua-yao-assignment2/static/css/main.e21be24c.chunk.css.map",
-    "static/js/2.bb703ce0.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/2.bb703ce0.chunk.js.LICENSE.txt",
-    "static/js/3.68ee05e2.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/3.68ee05e2.chunk.js.LICENSE.txt",
+    "static/css/main.4943e6d2.chunk.css.map": "/weijia-deng-wenhua-yao-assignment2/static/css/main.4943e6d2.chunk.css.map",
+    "static/js/2.816c2ae6.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/2.816c2ae6.chunk.js.LICENSE.txt",
+    "static/js/3.b4149d34.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/3.b4149d34.chunk.js.LICENSE.txt",
     "static/media/bigWindowBackground.851d04fd.png": "/weijia-deng-wenhua-yao-assignment2/static/media/bigWindowBackground.851d04fd.png",
+    "static/media/darkMode.d01dbca6.png": "/weijia-deng-wenhua-yao-assignment2/static/media/darkMode.d01dbca6.png",
     "static/media/heart-icon.5f6c67fd.png": "/weijia-deng-wenhua-yao-assignment2/static/media/heart-icon.5f6c67fd.png",
     "static/media/mapicon.376644ec.png": "/weijia-deng-wenhua-yao-assignment2/static/media/mapicon.376644ec.png",
+    "static/media/miniMap.763b6727.png": "/weijia-deng-wenhua-yao-assignment2/static/media/miniMap.763b6727.png",
     "static/media/mixkit-arcade-retro-jump-223.ec530168.wav": "/weijia-deng-wenhua-yao-assignment2/static/media/mixkit-arcade-retro-jump-223.ec530168.wav",
     "static/media/mixkit-bonus-extra-in-a-video-game-2064.fc57cf28.wav": "/weijia-deng-wenhua-yao-assignment2/static/media/mixkit-bonus-extra-in-a-video-game-2064.fc57cf28.wav",
     "static/media/mixkit-game-level-completed-2059.9b5b1a62.wav": "/weijia-deng-wenhua-yao-assignment2/static/media/mixkit-game-level-completed-2059.9b5b1a62.wav",
@@ -34,9 +36,9 @@
     "static/media/turtleicon.fcc4bf50.png": "/weijia-deng-wenhua-yao-assignment2/static/media/turtleicon.fcc4bf50.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.b8fcd6d2.js",
-    "static/js/2.bb703ce0.chunk.js",
-    "static/css/main.e21be24c.chunk.css",
-    "static/js/main.988935d5.chunk.js"
+    "static/js/runtime-main.d42c212a.js",
+    "static/js/2.816c2ae6.chunk.js",
+    "static/css/main.4943e6d2.chunk.css",
+    "static/js/main.37299a25.chunk.js"
   ]
 }

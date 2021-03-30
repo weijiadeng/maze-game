@@ -27,6 +27,7 @@ import {
 } from '../reducers/playerStatusSlice';
 import { useBgmPlay } from "../commons/BackgroundMusic";
 import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
+import { LearderboardSection } from "./Leaderboard";
 
 const NUM_DEBUFF_TYPE = 4;
 const DARK_MODE_ID = 0;
@@ -68,16 +69,16 @@ function startEventCallback(dispatch) {
 
 function EndEventRender() {
   const time = useSelector(selectCurNumSeconds);
-  const [hasAppend, setHasAppend] = useState(false);
+  const hasAppend = useRef(false);
   const dispatch = useDispatch();
+  console.log(hasAppend.current);
   useEffect(() => {
-    if (!hasAppend) {
+    if (!hasAppend.current) {
+      console.log("appended");
       dispatch(appendToLeaderBoard(time));
+      hasAppend.current = true;
     }
-  });
-  if (!hasAppend) {
-    setHasAppend(true);
-  }
+  })
   const buttons = (
     <React.Fragment>
       <div onClick={() => {
@@ -95,6 +96,7 @@ function EndEventRender() {
   return (<BigPopUpWindow buttons={buttons} background={background}>
     <h1>Congrats!</h1>
     <div>You've passed the maze within {time} seconds!</div>
+    <LearderboardSection />
   </BigPopUpWindow>);
 }
 
@@ -299,7 +301,7 @@ function initEventMap(numX, numZ, gameMode) {
   return eventMap;
 }
 
-export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction, isResetEvent, isGameFail,gameMode }) {
+export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction, isResetEvent, isGameFail, gameMode }) {
   const [eventMap, setEventMap] = useState(initEventMap(numX, numZ, gameMode));
 
   const currentRender = useRef(null);
@@ -327,9 +329,9 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
   }
 
   let currentCallback = () => { }
-  const callBackCommonTail = ()=> {
+  const callBackCommonTail = () => {
     if (currentAction === NOTHING) {
-        discovered.current[currentIndex] = true;
+      discovered.current[currentIndex] = true;
     }
   }
 
@@ -349,7 +351,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             break;
           case END_GAME_EVENT:
             // currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
-            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(stopBGM());dispatch(enableBigPopUpIsToOpen()); };
+            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(stopBGM()); dispatch(enableBigPopUpIsToOpen()); };
             break;
           case POSITIVE_EFFECT_EVENT:
             currentCallback = () => { callBack(dispatch, playPositiveEffectSound); dispatch(enableSmallPopUpIsToOpen()) };
@@ -361,7 +363,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             currentCallback = () => { callBack(dispatch, playNeutralEffectSound, gameMode); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           case GAME_FAIL_EVENT:
-            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(stopBGM());dispatch(enableBigPopUpIsToOpen());};
+            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(stopBGM()); dispatch(enableBigPopUpIsToOpen()); };
             break;
           // TODO: add confront battle event
           // case CONFRONT_BATTLE_EVENT:
@@ -373,7 +375,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
       }
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     currentCallback();
     callBackCommonTail();
   });

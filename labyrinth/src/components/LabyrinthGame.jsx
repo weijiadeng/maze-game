@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { GamePanel } from './GamePanel';
 import ElapseTimer from './ElapseTimer';
 import { LabyrinthView } from './LabyrinthView';
@@ -42,6 +42,7 @@ import {
 import styles from "./labyrinthGame.module.css"
 import { resetCount, selectCurNumSeconds } from '../reducers/elapseTimerSlice';
 import { useParams, useHistory } from "react-router-dom";
+import { genRandomInt } from '../commons/utils';
 
 export default function LabyrinthGame() {
   const { gameMode } = useParams();
@@ -71,8 +72,10 @@ export default function LabyrinthGame() {
   const discovered = useRef(Array(numX * numZ + 1).fill(false));
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
+  // const [gameRoundID, setGameRoundID] = useState(0);
   // Reset the game when initialization
   if (!isInit) {
+    // setGameRoundID(genRandomInt(1024));
     dispatch(assignNumX(numX));
     dispatch(assignNumZ(numZ));
     dispatch(assignPosX(numX - 1));

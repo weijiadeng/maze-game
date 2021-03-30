@@ -4,6 +4,7 @@ import { displayGame, displayWelcome } from '../reducers/programWindowSlice';
 import { PURE, EASY, HARD, MEDIUM, setGameMode } from "../reducers/gameModeSlice";
 import styles from "./welcome.module.css"
 import { WelcomeScreens } from "./Welcome";
+import Footer from "./Footer";
 
 
 export function ModeSelection() {
@@ -28,6 +29,7 @@ export function ModeSelection() {
                 <h3 className={styles.buttons} onClick={() => handleGoBack()}>Go Back</h3>
             </div>
             <div className={styles.footnote}></div>
+            <Footer />
         </WelcomeScreens>
     );
 }

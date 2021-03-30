@@ -24,7 +24,7 @@ const Guide = () => {
 
             <div>
                 <h2 className={styles.bigHeader}>Welcome! You have entered a dangerous maze !</h2>
-                <p className={styles.plainText}>The purpose of the game is to find the exit.</p>
+                <span className={styles.plainText}>The purpose of the game is to find the exit.</span>
             </div>
             <div className={styles.description}>
                 <h3 className={styles.smallHeader}> How to play:</h3>

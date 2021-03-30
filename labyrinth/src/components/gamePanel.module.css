@@ -1,18 +1,18 @@
 .panelContainer {
     position: absolute;
-    top: 80%;
-    left: 50%;
+    top: 90%;
+    left: 95%;
     margin-right: -50%;
     transform: translate(-50%, -50%);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    width: 30vh;
-    height: 30vh;   
+    width: 15vh;
+    height: 15vh;   
 }
 
 .panelContainer > * {
-    font-size: 10vh;
+    font-size: 5vh;
     z-index: 100;
     color: rgba(0, 0, 0,0.4);
     place-self: center;
@@ -26,13 +26,14 @@
 
 @media (max-width:576px) {
     .panelContainer {
-        top: 70%;
-        width: 50vh;
-        height: 50vh;   
+        top: 80%;
+        left: 50%;
+        width: 30vh;
+        height: 30vh;   
     }
     
     .panelContainer > *{
-         font-size: 16vh;
+         font-size: 10vh;
     }
 }
 

@@ -26,8 +26,6 @@ import {
   selectWallLeft,
   selectWallTop,
   selectAction,
-  selectNumX,
-  selectNumZ,
   selectResetEvent,
 } from '../reducers/controlSlice';
 import {
@@ -40,7 +38,6 @@ import {
   selectBuff,
   selectDebuff,
   selectHP,
-  setGameFail,
 } from '../reducers/playerStatusSlice';
 import styles from "./labyrinthGame.module.css"
 import { selectCurNumSeconds } from '../reducers/elapseTimerSlice';

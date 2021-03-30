@@ -2,10 +2,11 @@ import React from "react"
 import { useDispatch } from "react-redux";
 import Footer from "./Footer";
 import styles from "./welcome.module.css"
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 
 export function WelcomeScreens(props) {
+    console.log(useLocation());
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Maze</h1>
@@ -18,9 +19,9 @@ export function Welcome() {
     return (
         <WelcomeScreens>
             <div className={styles.options}>
-                <NavLink to="/labyrinth/mode" className={styles.buttons}>Game Start</NavLink>
-                <NavLink to="/labyrinth/guide" className={styles.buttons}>Guide</NavLink>
-                <NavLink to="/labyrinth/about" className={styles.buttons}>About</NavLink>
+                <NavLink to="/game" className={styles.buttons}>Game Start</NavLink>
+                <NavLink to="/guide" className={styles.buttons}>Guide</NavLink>
+                <NavLink to="/about" className={styles.buttons}>About</NavLink>
             </div>
         </ WelcomeScreens>);
 }

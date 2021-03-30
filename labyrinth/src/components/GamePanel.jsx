@@ -10,6 +10,8 @@ import {
 } from '../reducers/controlSlice';
 import styles from "./gamePanel.module.css"
 import { useHitWallSound } from '../commons/SoundHooks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronCircleDown, faChevronCircleUp, faChevronCircleLeft, faChevronCircleRight } from '@fortawesome/free-solid-svg-icons'
 
 export function GamePanel() {
 
@@ -60,19 +62,11 @@ export function GamePanel() {
 
 
   return (
-    <div>
-      {/* <button className={styles.forwardButton} onClick={() => handleMoveForward()}>
-        Move Forward
-        </button>
-      <button className={styles.backwardButton} onClick={() => handleMoveBackward()}>
-        Move Backward
-        </button>
-      <button className={styles.turnLeftButton} onClick={() => handleTurnLeft()}>
-        Turn Left
-        </button>
-      <button className={styles.turnRightButton} onClick={() => handleTurnRight()}>
-        Turn Right
-        </button> */}
+    <div className={styles.panelContainer}>
+      <FontAwesomeIcon className={styles.forwardButton} icon={faChevronCircleUp} onClick={()=>handleMoveForward()}/>
+      <FontAwesomeIcon className={styles.backwardButton} icon={faChevronCircleDown } onClick={()=>handleMoveBackward()}/>
+      <FontAwesomeIcon className={styles.turnLeftButton} icon={faChevronCircleLeft} onClick={()=>handleTurnLeft()}/>
+      <FontAwesomeIcon className={styles.turnRightButton} icon={faChevronCircleRight} onClick={()=>handleTurnRight()}/>
     </div>
   );
 }

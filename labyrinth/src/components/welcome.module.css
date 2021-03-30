@@ -3,14 +3,6 @@
     src: url('Parchment_MF.woff') format('woff');
 } */
 
-body {
-    background: url("../images/titlebackground.png") center center/cover no-repeat;
-    height: 100%;
-    background-attachment: fixed;
-    background-size: cover;
-    overflow: hidden;
-}
-
 .container {
     margin-left: 2%;
     display: flex;

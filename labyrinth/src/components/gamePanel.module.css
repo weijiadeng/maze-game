@@ -33,7 +33,8 @@
     }
     
     .panelContainer > *{
-         font-size: 10vh;
+        color: rgba(255, 255, 255,0.1);
+        font-size: 10vh;
     }
 }
 

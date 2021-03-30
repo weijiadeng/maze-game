@@ -1,24 +1,36 @@
 import { createSlice } from '@reduxjs/toolkit';
-const INITIAL_MUTED_STATUS = false;
+
+export const START_PLAY = 0;
+export const PLAYING = 1;
+export const TO_STOP = 2;
+export const STOPPED = 3;
 
 export const backgroundMusicSlice = createSlice({
     name: 'backgroundMusic',
     initialState: {
-        IsMuted: INITIAL_MUTED_STATUS,
+        isPlaying: STOPPED,
     },
     reducers: {
-        toggleIsMuted: state => {
-            state.IsMuted = !state.IsMuted;
-            // console.log("toggleIsMuted is called")
+        playBGM: state => {
+            state.isPlaying = START_PLAY;
+        },
+        playingBGM: state => {
+            state.isPlaying = PLAYING;
+        },
+        stopBGM: state => {
+            state.isPlaying = TO_STOP;
+        },
+        stopedBGM: state => {
+            state.isPlaying = STOPPED;
         },
     },
 });
 
 export const {
-    toggleIsMuted,
+    playBGM, stopBGM, playingBGM, stopedBGM
 } = backgroundMusicSlice.actions;
 
-export const selectIsMuted = state => state.backgroundMusic.IsMuted;
+export const selectIsPlaying = state => state.backgroundMusic.isPlaying;
 
 
 export default backgroundMusicSlice.reducer;

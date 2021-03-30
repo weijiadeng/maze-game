@@ -1,12 +1,19 @@
-import React from "react"
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "./Footer";
 import styles from "./welcome.module.css"
 import { NavLink, useLocation } from 'react-router-dom';
+import { PLAYING, selectIsPlaying, stopBGM } from "../reducers/backgroundMusicSlice";
 
 
 export function WelcomeScreens(props) {
-    console.log(useLocation());
+    const disptach = useDispatch();
+    const isPlayBGM = useSelector(selectIsPlaying);
+    useEffect(() => {
+        if (isPlayBGM === PLAYING) {
+            disptach(stopBGM());
+        }
+    });
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Maze</h1>

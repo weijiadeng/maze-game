@@ -26,6 +26,7 @@ import {
   SPEED_DOWN
 } from '../reducers/playerStatusSlice';
 import { useBgmPlay } from "../commons/BackgroundMusic";
+import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
 
 const NUM_DEBUFF_TYPE = 4;
 const DARK_MODE_ID = 0;
@@ -344,11 +345,11 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
 
         switch (eventTypeId) {
           case START_GAME_EVENT:
-            currentCallback = () => { callBack(dispatch); play(); dispatch(enableBigPopUpIsToOpen()); };
+            currentCallback = () => { callBack(dispatch); dispatch(playBGM()); dispatch(enableBigPopUpIsToOpen()); };
             break;
           case END_GAME_EVENT:
             // currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
-            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); };
+            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(stopBGM());dispatch(enableBigPopUpIsToOpen()); };
             break;
           case POSITIVE_EFFECT_EVENT:
             currentCallback = () => { callBack(dispatch, playPositiveEffectSound); dispatch(enableSmallPopUpIsToOpen()) };
@@ -360,7 +361,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             currentCallback = () => { callBack(dispatch, playNeutralEffectSound, gameMode); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           case GAME_FAIL_EVENT:
-            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(enableBigPopUpIsToOpen());};
+            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(stopBGM());dispatch(enableBigPopUpIsToOpen());};
             break;
           // TODO: add confront battle event
           // case CONFRONT_BATTLE_EVENT:

@@ -328,6 +328,11 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
   }
 
   let currentCallback = () => { }
+  const callBackCommonTail = ()=> {
+    if (currentAction === NOTHING) {
+        discovered.current[currentIndex] = true;
+    }
+  }
 
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex]) {
@@ -357,7 +362,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             currentCallback = () => { callBack(dispatch, playNeutralEffectSound, gameMode); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           case GAME_FAIL_EVENT:
-            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(enableBigPopUpIsToOpen()); discovered.current[numX * numZ + 1] = true;};
+            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(enableBigPopUpIsToOpen());};
             break;
           // TODO: add confront battle event
           // case CONFRONT_BATTLE_EVENT:
@@ -369,6 +374,9 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
       }
     }
   }
-  useEffect(currentCallback);
+  useEffect(()=>{
+    currentCallback();
+    callBackCommonTail();
+  });
   return currentRender.current;
 }

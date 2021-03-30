@@ -12,7 +12,7 @@ export function ModeSelection(props) {
 
     const handleModeSelect = (mode) => {
         dispatch(assignInit(false));
-        history.push('/game/'+ mode);
+        history.push('/labyrinth/game/'+ mode);
     }
 
     return (
@@ -22,7 +22,7 @@ export function ModeSelection(props) {
                 <h3 className={styles.buttons} onClick={() => handleModeSelect("medium")}>Medium</h3>
                 <h3 className={styles.buttons} onClick={() => handleModeSelect("hard")}>Hard</h3>
                 <h3 className={styles.buttons} onClick={() => handleModeSelect("pure")}>Pure Maze</h3>
-                <NavLink to="/" className={styles.buttons}>Go back</NavLink>
+                <NavLink to="/labyrinth" className={styles.buttons}>Go back</NavLink>
             </div>
         </WelcomeScreens>
     );

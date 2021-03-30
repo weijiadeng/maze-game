@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 const Guide = () => {
     const history = useHistory();
     const handleGoBack = () => {
-        history.push("");
+        history.push("/labyrinth");
     }
     const goBack = "< Go Back";
 

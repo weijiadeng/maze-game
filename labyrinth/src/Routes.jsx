@@ -8,16 +8,16 @@ import Guide from "./components/Guide";
 export default function Routes() {
     return (
         <Switch>
-            <Route exact path="/">
+            <Route exact path="/labyrinth">
                 <Welcome />
             </Route>
-            <Route exact path="/mode">
+            <Route exact path="/labyrinth/mode">
                 <ModeSelection />
             </Route>
-            <Route exact path="/game/:gameMode">
+            <Route exact path="/labyrinth/game/:gameMode">
                 <LabyrinthGame />
             </Route>
-            <Route exact path="/guide">
+            <Route exact path="/labyrinth/guide">
                 <Guide />
             </Route>
             {/* Finally, catch all unmatched routes */}

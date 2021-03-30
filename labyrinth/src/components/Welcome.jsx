@@ -18,9 +18,9 @@ export function Welcome() {
     return (
         <WelcomeScreens>
             <div className={styles.options}>
-                <NavLink to="/mode" className={styles.buttons}>Game Start</NavLink>
-                <NavLink to="/guide" className={styles.buttons}>Guide</NavLink>
-                <NavLink to="/about" className={styles.buttons}>About</NavLink>
+                <NavLink to="/labyrinth/mode" className={styles.buttons}>Game Start</NavLink>
+                <NavLink to="/labyrinth/guide" className={styles.buttons}>Guide</NavLink>
+                <NavLink to="/labyrinth/about" className={styles.buttons}>About</NavLink>
             </div>
         </ WelcomeScreens>);
 }

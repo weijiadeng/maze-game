@@ -1,7 +1,7 @@
 import React from 'react';
 import speedUpIcon from '../images/rocket.png';
 import speedDownIcon from '../images/turtleicon.png';
-import styles from './guide.module.css'
+import styles from '../containers/guide.module.css';
 
 const SpeedChangeEventDescription = () => {
     return (

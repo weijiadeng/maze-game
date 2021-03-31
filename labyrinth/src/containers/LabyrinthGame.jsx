@@ -1,13 +1,13 @@
 import { useRef } from 'react';
-import { GamePanel } from './GamePanel';
-import ElapseTimer from './ElapseTimer';
-import { LabyrinthView } from './LabyrinthView';
-import { EventManager } from './EventManager';
-import { MiniMap } from './MiniMap'
+import { GamePanel } from '../components/GamePanel';
+import ElapseTimer from '../components/ElapseTimer';
+import { LabyrinthView } from '../components/LabyrinthView';
+import { EventManager } from '../components/EventManager';
+import { MiniMap } from '../components/MiniMap'
 import { BackgroundMusic } from '../commons/BackgroundMusic'
-import PlayerStatusPanel from './PlayerStatusPanel';
+import PlayerStatusPanel from '../components/PlayerStatusPanel';
 import { useSelector, useDispatch } from 'react-redux';
-import { initLabyrinthWalls } from './Walls';
+import { initLabyrinthWalls } from '../components/Walls';
 import {
   assignInit,
   assignNumX,
@@ -39,10 +39,10 @@ import {
   selectHP,
   resetPlayerStatus,
 } from '../reducers/playerStatusSlice';
-import styles from "./labyrinthGame.module.css"
 import { resetCount, selectCurNumSeconds } from '../reducers/elapseTimerSlice';
 import { useParams, useHistory } from "react-router-dom";
-import { NavPanel } from './NavPanel';
+import { NavPanel } from '../components/NavPanel';
+import styles from "./labyrinthGame.module.css"
 
 export default function LabyrinthGame() {
   const { gameMode } = useParams();
@@ -128,6 +128,7 @@ export default function LabyrinthGame() {
         darkModeIsOn={debuff & DARK_MODE_ON}
       />
       <GamePanel />
+      <NavPanel />
       <EventManager
         discovered={discovered}
         posX={posX}
@@ -152,9 +153,7 @@ export default function LabyrinthGame() {
         isGameFail={isGameFail}
       />
       <ElapseTimer />
-      <BackgroundMusic />
       <PlayerStatusPanel buff={buff} debuff={debuff} />
-      <NavPanel />
     </div>
   );
 }

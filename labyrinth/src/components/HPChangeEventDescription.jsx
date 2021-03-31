@@ -1,6 +1,6 @@
 import React from 'react';
 import heartIcon from '../images/heart-icon.png';
-import styles from './guide.module.css'
+import styles from '../containers/guide.module.css';
 
 const HPChangeEventDescription = () => {
     return (

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { assignInit, assignNumX, assignNumZ, assignResetEvent, NOTHING, popEvent, RANDOM_EVENT, selectResetEvent } from "../reducers/controlSlice";
+import { assignInit, assignResetEvent, NOTHING, popEvent, RANDOM_EVENT } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { readyCount, selectCurNumSeconds, resumeCount, pauseCount, resetCount } from '../reducers/elapseTimerSlice'
-import { selectHP, resetPlayerStatus } from "../reducers/playerStatusSlice";
+import { resetPlayerStatus } from "../reducers/playerStatusSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import SmallPopUpWindow from "./SmallPopUpWindow";
-import { disableBigPopUpPresense, enableBigPopUpIsToOpen, enableSmallPopUpIsToOpen } from "../reducers/popUpWindowSlice";
+import { EVENT_WINDOW, disableBigPopUpPresense, enableBigPopUpIsToOpen, enableSmallPopUpIsToOpen } from "../reducers/popUpWindowSlice";
 import { partialApply, genRandomInt } from "../commons/utils";
 import background from '../images/bigWindowBackground.png'
 import { appendToLeaderBoard } from "../reducers/leaderboardSlice";
@@ -57,7 +57,7 @@ function StartEventRender() {
     dispatch(popEvent());
     dispatch(disableBigPopUpPresense());
   }}>Play now!</div>);
-  return (<BigPopUpWindow buttons={buttons} background={background}>
+  return (<BigPopUpWindow buttons={buttons} background={background} openType={EVENT_WINDOW}>
     <h1>You are in a maze</h1>
     <div>This is a dangerous maze, good luck!</div>
   </BigPopUpWindow>);
@@ -103,7 +103,7 @@ function EndEventRender() {
     </React.Fragment>
   );
 
-  return (<BigPopUpWindow buttons={buttons} background={background}>
+  return (<BigPopUpWindow buttons={buttons} background={background} openType={EVENT_WINDOW}>
     {
       isShowLeaderboard?<LearderboardSection />:<><h1>Congrats!</h1>
       <div>You've passed the maze within {time} seconds!</div></>
@@ -129,7 +129,7 @@ function FailGameEventRender() {
     </React.Fragment>
   );
 
-  return (<BigPopUpWindow buttons={buttons} background={background}>
+  return (<BigPopUpWindow buttons={buttons} background={background} openType={EVENT_WINDOW}>
     <h1>Oops!</h1>
     <div>You've failed the game (▰˘︹˘▰)!</div>
   </BigPopUpWindow>);
@@ -360,11 +360,11 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
 
         switch (eventTypeId) {
           case START_GAME_EVENT:
-            currentCallback = () => { callBack(dispatch); dispatch(playBGM()); dispatch(enableBigPopUpIsToOpen()); };
+            currentCallback = () => { callBack(dispatch); dispatch(playBGM()); dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW)); };
             break;
           case END_GAME_EVENT:
             // currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
-            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(stopBGM()); dispatch(enableBigPopUpIsToOpen()); };
+            currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(stopBGM()); dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW)); };
             break;
           case POSITIVE_EFFECT_EVENT:
             currentCallback = () => { callBack(dispatch, playPositiveEffectSound); dispatch(enableSmallPopUpIsToOpen()) };
@@ -376,7 +376,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
             currentCallback = () => { callBack(dispatch, playNeutralEffectSound, gameMode); dispatch(enableSmallPopUpIsToOpen()) };
             break;
           case GAME_FAIL_EVENT:
-            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(stopBGM()); dispatch(enableBigPopUpIsToOpen()); };
+            currentCallback = () => { callBack(dispatch, playGameOverSound); dispatch(stopBGM()); dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW)); };
             break;
           // TODO: add confront battle event
           // case CONFRONT_BATTLE_EVENT:

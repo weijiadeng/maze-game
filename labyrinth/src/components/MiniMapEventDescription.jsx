@@ -1,7 +1,7 @@
 import React from 'react';
 import miniMapIcon from '../images/mapicon.png';
 import miniMap from '../images/miniMap.png';
-import styles from './guide.module.css'
+import styles from '../containers/guide.module.css';
 
 const MiniMapEventDescription = () => {
     return (

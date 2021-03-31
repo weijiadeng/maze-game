@@ -6,6 +6,8 @@ export const TURN_RIGHT = 1;
 export const MOVE_BACKWARD = 3;
 export const RANDOM_EVENT = 4;
 export const NOTHING = 5;
+export const INTERRUPTED = 6;
+export const CACHE_UNUSED = 7;
 export const UP = 0;
 export const RIGHT = 3;
 export const DOWN = 2;
@@ -19,6 +21,7 @@ export const controlSlice = createSlice({
     posZ: 0,
     // Used to block a new action when an action is exectuting
     currentAction: MOVE_FORWARD,
+    actionCache: CACHE_UNUSED,
     isInit: false,
     wallTop: [],
     wallLeft: [],
@@ -126,12 +129,23 @@ export const controlSlice = createSlice({
     },
     resetCurrentAction: state=> {
       state.currentAction = MOVE_FORWARD;
+      state.actionCache = CACHE_UNUSED;
     },
     assignResetEvent: (state, action) => {
       state.resetEvent = action.payload;
     },
     popEvent: state => {
       state.currentAction = NOTHING;
+    },
+    pauseAction: state=> {
+      state.actionCache = state.currentAction;
+      state.currentAction = INTERRUPTED;
+    },
+    resumeAction: state=> {
+      if (state.actionCache !== CACHE_UNUSED) {
+        state.currentAction = state.actionCache;
+        state.actionCache = CACHE_UNUSED;
+      }
     },
     assignPosX: (state, action) => {
       state.posX = action.payload;
@@ -180,7 +194,9 @@ export const {
   assignInit,
   assignResetCamera,
   resetCurrentAction,
-  assignResetEvent
+  assignResetEvent,
+  pauseAction,
+  resumeAction
 } = controlSlice.actions;
 
 export const selectDirection = state => state.control.direction;

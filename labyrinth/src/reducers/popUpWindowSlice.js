@@ -1,13 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const INITIAL_PRESENSE = false;
+export const NOT_PRESENT = 0;
+export const EVENT_WINDOW = 1;
+export const HELPER_WINDOW = 2;
+
 export const popUpWindowSlice = createSlice({
     name: 'popUpWindow',
     initialState: {
         smallPopUpPresense: INITIAL_PRESENSE,
         smallPopIsToOpen: INITIAL_PRESENSE,
-        bigPopUpPresense: INITIAL_PRESENSE,
-        bigPopUpIsToOpen: INITIAL_PRESENSE
+        bigPopUpPresense: NOT_PRESENT,
+        bigPopUpIsToOpen: NOT_PRESENT
     },
     reducers: {
         enableSmallPopUpPresense: state => {
@@ -22,17 +26,17 @@ export const popUpWindowSlice = createSlice({
         disableSmallPopUpIsToOpen: state => {
             state.smallPopIsToOpen = false;
         },
-        enableBigPopUpPresense: state => {
-            state.bigPopUpPresense = true;
+        enableBigPopUpPresense: (state, action) => {
+            state.bigPopUpPresense = action.payload;
         },
         disableBigPopUpPresense: state => {
             state.bigPopUpPresense = false;
         },
-        enableBigPopUpIsToOpen: state => {
-            state.bigPopUpIsToOpen = true;
+        enableBigPopUpIsToOpen: (state, action) => {
+            state.bigPopUpIsToOpen = action.payload;
         },
         disableBigPopUpIsToOpen: state => {
-            state.bigPopUpIsToOpen = false;
+            state.bigPopUpIsToOpen = NOT_PRESENT;
         },
     },
 });

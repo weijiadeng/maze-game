@@ -2,7 +2,7 @@ import React from 'react';
 import darkModeIcon from '../images/night.png';
 import brightModeIcon from '../images/sun.png';
 import darkModePicture from '../images/darkMode.png';
-import styles from './guide.module.css'
+import styles from '../containers/guide.module.css';
 
 const DarkModeEventDescription = () => {
     return (

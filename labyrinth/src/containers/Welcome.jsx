@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 import styles from "./welcome.module.css"
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { PLAYING, selectIsPlaying, stopBGM } from "../reducers/backgroundMusicSlice";
 
 

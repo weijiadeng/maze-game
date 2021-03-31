@@ -10,14 +10,14 @@ const BigPopUpWindow = (props) => {
     const dispatch = useDispatch();
     const isToOpen = useSelector(selectBigPopUpIsToOpen)
     useEffect(() => {
-        if (isToOpen) {
-            dispatch(enableBigPopUpPresense());
+        if (isToOpen === props.openType) {
+            dispatch(enableBigPopUpPresense(props.openType));
             dispatch(occurEvent());
             dispatch(disableBigPopUpIsToOpen());
         }
     });
 
-    const isOpen = useSelector(selectBigPopUpPresense);
+    const isOpen = useSelector(selectBigPopUpPresense) === props.openType;
     useEffect(() => {
         if (isOpen) {
             dispatch(pauseCount());

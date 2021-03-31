@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './guide.module.css';
+import styles from '../containers/guide.module.css';
 
 const GameModeDescription = () => {
     return (

@@ -1,13 +1,13 @@
 import React from 'react';
-import GameModeDescription from './GameModeDescription';
+import GameModeDescription from '../components/GameModeDescription';
 import styles from './guide.module.css'
-import HelperPage from './HelperPage';
+import HelperPage from '../components/HelperPage';
 import movesGuide from '../images/movesGuide.png';
-import OperationDescription from './OperationDescription';
-import MiniMapEventDescription from './MiniMapEventDescription';
-import DarkModeEventDescription from './DarkModeEventDescription';
-import SpeedChangeEventDescription from './SpeedChangeEventDescription';
-import HPChangeEventDescription from './HPChangeEventDescription';
+import OperationDescription from '../components/OperationDescription';
+import MiniMapEventDescription from '../components/MiniMapEventDescription';
+import DarkModeEventDescription from '../components/DarkModeEventDescription';
+import SpeedChangeEventDescription from '../components/SpeedChangeEventDescription';
+import HPChangeEventDescription from '../components/HPChangeEventDescription';
 import { useHistory } from 'react-router-dom';
 
 const Guide = () => {

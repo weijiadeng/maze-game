@@ -20,6 +20,7 @@ import rocket from '../images/rocket.png'
 import turtleicon from '../images/turtleicon.png'
 import { selectCurNumSeconds } from '../reducers/elapseTimerSlice';
 
+
 // Ref: https://medium.com/@ItsMeDannyZ/how-to-build-a-progress-bar-with-react-8c5e79731d1f
 const ProgressBar = (props) => {
     return (
@@ -33,8 +34,7 @@ const Filler = (props) => {
     return <div className={styles.filler} style={{ width: `${props.percentage}%`, background: props.color }} />
 }
 
-
-const PlayerStatusPanel = ({buff, debuff}) => {
+const PlayerStatusPanel = ({ buff, debuff }) => {
     const hp = useSelector(selectHP);
     const clock = 100 - useSelector(selectCurNumSeconds);
     return (

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { GamePanel } from './GamePanel';
 import ElapseTimer from './ElapseTimer';
 import { LabyrinthView } from './LabyrinthView';
@@ -42,6 +42,7 @@ import {
 import styles from "./labyrinthGame.module.css"
 import { resetCount, selectCurNumSeconds } from '../reducers/elapseTimerSlice';
 import { useParams, useHistory } from "react-router-dom";
+import { NavPanel } from './NavPanel';
 
 export default function LabyrinthGame() {
   const { gameMode } = useParams();
@@ -153,6 +154,7 @@ export default function LabyrinthGame() {
       <ElapseTimer />
       <BackgroundMusic />
       <PlayerStatusPanel buff={buff} debuff={debuff} />
+      <NavPanel />
     </div>
   );
 }

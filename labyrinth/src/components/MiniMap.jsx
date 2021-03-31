@@ -1,5 +1,4 @@
 import React from 'react';
-import { NOTHING } from '../reducers/controlSlice';
 import styles from './miniMap.module.css';
 
 
@@ -19,7 +18,7 @@ export function MiniMap({
         for (let j = 0; j < numX; j++) {
             if (discovered.current[i * numX + j] || (posX === j && posZ === i)) {
                 currentRow.push(
-                    <button className={styles.square} key={String(i) + ',' + String(j)}
+                    <div className={styles.square} key={String(i) + ',' + String(j)}
                         style={{
                             borderTop: wallTop[i * (numX + 1) + j] ? '0.5px solid white' : '0.5px solid rgba(240, 248, 255, 0.25)',
                             borderLeft: wallLeft[i * (numX + 1) + j] ? '0.5px solid white' : '0.5px solid rgba(240, 248, 255, 0.25)',
@@ -27,7 +26,7 @@ export function MiniMap({
                             borderRight: wallLeft[i * (numX + 1) + j + 1] ? '0.5px solid white' : '0.5px solid rgba(240, 248, 255, 0.25)',
                             backgroundColor: (posX === j && posZ === i) ? 'rgb(37, 110, 194)' : 'rgba(240, 248, 255, 0.5)'
                         }} >
-                    </button>
+                    </div>
                 );
             }
             else {

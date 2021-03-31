@@ -1,0 +1,52 @@
+.navPanelContainer {
+    position: absolute;
+    bottom: 2.4vh;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+}
+
+.icon {
+    margin-top: 1vh;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    font-size: 4vh;
+    color: rgba(0, 0, 0,0.4);
+    transition: 500ms;
+}
+
+.icon:hover, .icon > *:active {
+    color: #db5d27c7;
+    cursor: pointer;
+}
+
+@media (max-width:576px) {
+    .navPanelContainer {
+        width: 100%;
+    }
+    .icon {
+        font-size: 10vh;
+        color: rgba(255, 255, 255,0.1);
+    }
+
+    .icon:last-child {
+        margin-left: auto;
+    }
+    
+    .icon:hover, .icon > *:active {
+        color: #db5d27c7;
+        cursor: pointer;
+    }
+}
+
+@media (max-width:576px) {
+    .icon {
+        margin-top: 1vh;
+        margin-left: 1vh;
+        margin-right: 1vh;
+        height: 8vh;
+        width: 8vh;
+    }
+      
+}

@@ -13,6 +13,7 @@ export function WelcomeScreens(props) {
         if (isPlayBGM === PLAYING) {
             disptach(stopBGM());
         }
+
     });
     return (
         <div className={styles.container}>

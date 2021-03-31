@@ -1,0 +1,21 @@
+.leaderSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.leaderRow {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    align-items: center;
+}
+
+.leaderRow > * {
+    align-self: center;
+}
+
+.entry {
+    margin-left: auto;
+}

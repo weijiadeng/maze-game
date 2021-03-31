@@ -69,6 +69,7 @@ function startEventCallback(dispatch) {
 
 function EndEventRender() {
   const time = useSelector(selectCurNumSeconds);
+  const [isShowLeaderboard, setIsShowLeaderboard] = useState(false);
   const hasAppend = useRef(false);
   const dispatch = useDispatch();
   console.log(hasAppend.current);
@@ -79,6 +80,15 @@ function EndEventRender() {
       hasAppend.current = true;
     }
   })
+  const handleLeaderboard = ()=>{
+    if (isShowLeaderboard) {
+    setIsShowLeaderboard(false);
+    } else {
+      setIsShowLeaderboard(true);
+
+    }
+  }
+
   const buttons = (
     <React.Fragment>
       <div onClick={() => {
@@ -88,15 +98,18 @@ function EndEventRender() {
         dispatch(assignInit(false));
         dispatch(disableBigPopUpPresense());
       }}
-      > Play next level </div>
-      <div> See the leaderboard </div>
+      > Play Again</div>
+      <div onClick={()=>handleLeaderboard()}> {isShowLeaderboard?"Go back":"See the leaderboard"} </div>
     </React.Fragment>
   );
 
   return (<BigPopUpWindow buttons={buttons} background={background}>
-    <h1>Congrats!</h1>
-    <div>You've passed the maze within {time} seconds!</div>
-    <LearderboardSection />
+    {
+      isShowLeaderboard?<LearderboardSection />:<><h1>Congrats!</h1>
+      <div>You've passed the maze within {time} seconds!</div></>
+    }
+    
+    
   </BigPopUpWindow>);
 }
 

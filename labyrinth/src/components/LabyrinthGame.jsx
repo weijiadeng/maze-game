@@ -42,7 +42,6 @@ import {
 import styles from "./labyrinthGame.module.css"
 import { resetCount, selectCurNumSeconds } from '../reducers/elapseTimerSlice';
 import { useParams, useHistory } from "react-router-dom";
-import { genRandomInt } from '../commons/utils';
 
 export default function LabyrinthGame() {
   const { gameMode } = useParams();

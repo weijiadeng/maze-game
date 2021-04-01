@@ -8,60 +8,104 @@ import NeutralEffectSound from '../music/mixkit-bonus-extra-in-a-video-game-2064
 import ConfrontBattleSound from '../music/mixkit-arcade-retro-jump-223.wav'
 import HitWallSound from '../music/mixkit-small-hit-in-a-game-2072.wav'
 import GameOverSound from '../music/mixkit-player-losing-or-failing-2042.wav'
+import { useSelector } from 'react-redux';
+import { MUTED, selectIsPlaying, TO_MUTE } from '../reducers/backgroundMusicSlice';
 
 export function useGameCompletionSound() {
-    const [play, { stop }] = useSound(GameCompletionSound, {
+    const [playSound, { stop }] = useSound(GameCompletionSound, {
         interrupt: true,
         volume: 0.75,
     });
+    const isPlaying = useSelector(selectIsPlaying);
+    const play = ()=>{
+        if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
+            playSound();
+        }
+    }
     return { play, stop };
 }
 
 export function usePositiveEffectSound() {
-    const [play, { stop }] = useSound(PositiveEffectSound, {
+    const [playSound, { stop }] = useSound(PositiveEffectSound, {
         interrupt: true,
         volume: 0.45,
     });
+    const isPlaying = useSelector(selectIsPlaying);
+    const play = ()=>{
+        if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
+            playSound();
+        }
+    }
     return { play, stop };
 }
 
 export function useNegativeEffectSound() {
-    const [play, { stop }] = useSound(NegativeEffectSound, {
+    const [playSound, { stop }] = useSound(NegativeEffectSound, {
         interrupt: true,
         volume: 0.65,
     });
+    const isPlaying = useSelector(selectIsPlaying);
+    const play = ()=>{
+        if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
+            playSound();
+        }
+    }
     return { play, stop };
 }
 
 // Clears all effects, no matter positive or negative.
 export function useNeutralEffectSound() {
-    const [play, { stop }] = useSound(NeutralEffectSound, {
+    const [playSound, { stop }] = useSound(NeutralEffectSound, {
         interrupt: true,
         volume: 0.65,
     });
+    const isPlaying = useSelector(selectIsPlaying);
+    const play = ()=>{
+        if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
+            playSound();
+        }
+    }
     return { play, stop };
 }
 
 export function useConfrontBattleSound() {
-    const [play, { stop }] = useSound(ConfrontBattleSound, {
+    const [playSound, { stop }] = useSound(ConfrontBattleSound, {
         interrupt: true,
         volume: 0.65,
     });
+    const isPlaying = useSelector(selectIsPlaying);
+    const play = ()=>{
+        if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
+            playSound();
+        }
+    }
     return { play, stop };
 }
 export function useGameOverSound() {
-    const [play, { stop }] = useSound(GameOverSound, {
+    const [playSound, { stop }] = useSound(GameOverSound, {
         interrupt: true,
         volume: 0.65,
     });
+    const isPlaying = useSelector(selectIsPlaying);
+    const play = ()=>{
+        if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
+            playSound();
+        }
+    }
     return { play, stop };
 }
 
 export function useHitWallSound() {
-    const [play, { stop }] = useSound(HitWallSound, {
+    const [playSound, { stop }] = useSound(HitWallSound, {
         interrupt: true,
         volume: 0.65,
     });
+    const isPlaying = useSelector(selectIsPlaying);
+    const play = ()=>{
+        if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
+            playSound();
+        }
+    }
     return { play, stop };
 }
 

@@ -2,10 +2,10 @@ import styles from "./navPanel.module.css"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faQuestionCircle, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from "react-redux"
-import { pauseAction, resumeAction } from "../reducers/controlSlice";
+import { useDispatch, useSelector } from "react-redux"
+import { resumeAction } from "../reducers/controlSlice";
 import { useHistory } from "react-router";
-import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
+import { muteBGM, MUTED, playBGM, selectIsPlaying, stopBGM, TO_MUTE, unmuteBGM } from "../reducers/backgroundMusicSlice";
 import { CONFIRM_WINDOW, disableBigPopUpPresense, enableBigPopUpIsToOpen, HELPER_WINDOW } from "../reducers/popUpWindowSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import background from '../images/bigWindowBackground.png'
@@ -51,7 +51,7 @@ function GobackConfirm() {
 }
 
 export function NavPanel({ }) {
-    const [isMuted, setIsMuted] = useState(false);
+    const isPlayingBGM = useSelector(selectIsPlaying);
     const dispatch = useDispatch();
     const handleGoHome = () => {
         //history.push("");
@@ -62,12 +62,10 @@ export function NavPanel({ }) {
         dispatch(enableBigPopUpIsToOpen(HELPER_WINDOW));
     }
     const handleMute = () => {
-        if (isMuted) {
-            setIsMuted(false);
-            dispatch(playBGM());
+        if (isPlayingBGM === MUTED || isPlayingBGM === TO_MUTE) {
+            dispatch(unmuteBGM());
         } else {
-            setIsMuted(true);
-            dispatch(stopBGM());
+            dispatch(muteBGM());
         }
     }
 
@@ -78,7 +76,7 @@ export function NavPanel({ }) {
             <div className={styles.navPanelContainer}>
                 <FontAwesomeIcon className={styles.icon} icon={faHome} onClick={() => { handleGoHome(); }} />
                 <FontAwesomeIcon className={styles.icon} icon={faQuestionCircle} onClick={() => { handleHelperPage(); }} />
-                <FontAwesomeIcon className={styles.icon} icon={isMuted?faVolumeMute:faVolumeUp} onClick={() => { handleMute(); }} />
+                <FontAwesomeIcon className={styles.icon} icon={(isPlayingBGM === MUTED || isPlayingBGM === TO_MUTE) ? faVolumeMute : faVolumeUp} onClick={() => { handleMute(); }} />
             </div>
         </>
     )

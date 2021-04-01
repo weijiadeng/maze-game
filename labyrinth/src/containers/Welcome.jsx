@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../components/Footer";
 import styles from "./welcome.module.css"
 import { NavLink } from 'react-router-dom';
-import { PLAYING, selectIsPlaying, stopBGM } from "../reducers/backgroundMusicSlice";
+import { PLAYING, selectIsPlaying, stopBGM, STOPPED } from "../reducers/backgroundMusicSlice";
 
 
 export function WelcomeScreens(props) {
     const disptach = useDispatch();
     const isPlayBGM = useSelector(selectIsPlaying);
     useEffect(() => {
-        if (isPlayBGM === PLAYING) {
+        if (isPlayBGM !== STOPPED) {
             disptach(stopBGM());
         }
-
     });
     return (
         <div className={styles.container}>

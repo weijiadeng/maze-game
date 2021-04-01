@@ -31,12 +31,15 @@ export function MiniMap({
             }
             else {
                 currentRow.push(
-                    <button className={styles.square} key={String(i) + ',' + String(j)}
+                    <div className={styles.square} key={String(i) + ',' + String(j)}
                         style={{
-                            border: '0.5px solid rgba(100, 0, 0, 0.1)',
+                            borderTop: '0.5px solid rgba(0, 0, 0, 0.1)',
+                            borderLeft: '0.5px solid rgba(0, 0, 0, 0.1)',
+                            borderBottom: '0.5px solid rgba(0, 0, 0, 0.1)',
+                            borderRight: '0.5px solid rgba(0, 0, 0, 0.1)',
                             backgroundColor: 'rgba(0, 0, 0, 0.1)'
                         }} >
-                    </button>);
+                    </div>);
 
             }
         }

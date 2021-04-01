@@ -8,7 +8,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Coming Soon", cursive;
 }
 
 .popup:focus {
@@ -35,7 +34,6 @@
 }
 
 .content {
-  font-family: "Coming Soon", cursive;
   width: 500px;
   height: 600px;
   display: flex;
@@ -43,7 +41,7 @@
   text-align: center;
 }
 
-.content > div {
+.content>div {
   font-size: x-large;
 }
 
@@ -57,13 +55,13 @@
   gap: 20px;
 }
 
-.buttonsection > div {
+.buttonsection>div {
   font-weight: bolder;
   transition: 500ms;
   margin-top: auto;
 }
 
-.buttonsection > div:hover {
+.buttonsection>div:hover {
   color: #db5c27;
   text-shadow: 0px 0px;
   cursor: pointer;
@@ -80,7 +78,6 @@
   }
   .content {
     bottom: 10vh;
-    font-family: "Coming Soon", cursive;
     width: 70%;
     height: 70%;
     display: flex;

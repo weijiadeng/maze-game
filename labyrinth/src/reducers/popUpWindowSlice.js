@@ -4,6 +4,7 @@ const INITIAL_PRESENSE = false;
 export const NOT_PRESENT = 0;
 export const EVENT_WINDOW = 1;
 export const HELPER_WINDOW = 2;
+export const CONFIRM_WINDOW = 3;
 
 export const popUpWindowSlice = createSlice({
     name: 'popUpWindow',

@@ -4,7 +4,7 @@ import { enableBigPopUpPresense, selectBigPopUpPresense, selectBigPopUpIsToOpen,
 import styles from './bigPopUpWindow.module.css'
 import Modal from "react-modal"
 import { pauseCount } from '../reducers/elapseTimerSlice';
-import { occurEvent } from '../reducers/controlSlice';
+import { pauseAction } from '../reducers/controlSlice';
 
 const BigPopUpWindow = (props) => {
     const dispatch = useDispatch();
@@ -12,7 +12,7 @@ const BigPopUpWindow = (props) => {
     useEffect(() => {
         if (isToOpen === props.openType) {
             dispatch(enableBigPopUpPresense(props.openType));
-            dispatch(occurEvent());
+            dispatch(pauseAction());
             dispatch(disableBigPopUpIsToOpen());
         }
     });

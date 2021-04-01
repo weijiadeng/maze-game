@@ -33,7 +33,7 @@ export function MiniMap({
                 currentRow.push(
                     <button className={styles.square} key={String(i) + ',' + String(j)}
                         style={{
-                            border: '0.5px solid rgba(0, 0, 0, 0.1)',
+                            border: '0.5px solid rgba(100, 0, 0, 0.1)',
                             backgroundColor: 'rgba(0, 0, 0, 0.1)'
                         }} >
                     </button>);

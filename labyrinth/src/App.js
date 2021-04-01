@@ -1,4 +1,5 @@
 import Modal from "react-modal"
+import { BackgroundMusic } from "./commons/BackgroundMusic";
 import Routes from './Routes';
 
 import './styles.css';
@@ -6,5 +7,7 @@ import './styles.css';
 Modal.setAppElement('#root')
 
 export default function App() {
-  return <Routes />
+  return (<>
+    <BackgroundMusic />
+    <Routes /></>)
 }

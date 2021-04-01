@@ -127,7 +127,7 @@ export const controlSlice = createSlice({
         state.currentAction = RANDOM_EVENT;
       }
     },
-    resetCurrentAction: state=> {
+    resetCurrentAction: state => {
       state.currentAction = MOVE_FORWARD;
       state.actionCache = CACHE_UNUSED;
     },
@@ -137,11 +137,13 @@ export const controlSlice = createSlice({
     popEvent: state => {
       state.currentAction = NOTHING;
     },
-    pauseAction: state=> {
-      state.actionCache = state.currentAction;
-      state.currentAction = INTERRUPTED;
+    pauseAction: state => {
+      if (state.currentAction !== INTERRUPTED) {
+        state.actionCache = state.currentAction;
+        state.currentAction = INTERRUPTED;
+      }
     },
-    resumeAction: state=> {
+    resumeAction: state => {
       if (state.actionCache !== CACHE_UNUSED) {
         state.currentAction = state.actionCache;
         state.actionCache = CACHE_UNUSED;
@@ -210,6 +212,6 @@ export const selectNumX = state => state.control.numX;
 export const selectNumZ = state => state.control.numZ;
 export const selectLastMoveHitWall = state => state.control.lastMoveHitWall;
 export const selectIsResetCamera = state => state.control.isResetCamera;
-export const selectResetEvent = state=>state.control.resetEvent;
+export const selectResetEvent = state => state.control.resetEvent;
 
 export default controlSlice.reducer;

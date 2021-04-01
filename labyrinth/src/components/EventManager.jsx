@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { assignInit, assignResetEvent, NOTHING, popEvent, RANDOM_EVENT } from "../reducers/controlSlice";
+import { assignInit, assignResetEvent, NOTHING, popEvent, RANDOM_EVENT, resumeAction } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import { readyCount, selectCurNumSeconds, resumeCount, pauseCount, resetCount } from '../reducers/elapseTimerSlice'
 import { resetPlayerStatus } from "../reducers/playerStatusSlice";
@@ -54,7 +54,7 @@ function StartEventRender() {
   const dispatch = useDispatch();
   const buttons = (<div onClick={() => {
     dispatch(resumeCount());
-    dispatch(popEvent());
+    dispatch(resumeAction());
     dispatch(disableBigPopUpPresense());
   }}>Play now!</div>);
   return (<BigPopUpWindow buttons={buttons} background={background} openType={EVENT_WINDOW}>
@@ -80,9 +80,9 @@ function EndEventRender() {
       hasAppend.current = true;
     }
   })
-  const handleLeaderboard = ()=>{
+  const handleLeaderboard = () => {
     if (isShowLeaderboard) {
-    setIsShowLeaderboard(false);
+      setIsShowLeaderboard(false);
     } else {
       setIsShowLeaderboard(true);
 
@@ -92,24 +92,24 @@ function EndEventRender() {
   const buttons = (
     <React.Fragment>
       <div onClick={() => {
-        dispatch(popEvent());
+        dispatch(resumeAction());
         dispatch(resetPlayerStatus());
         dispatch(resetCount());
         dispatch(assignInit(false));
         dispatch(disableBigPopUpPresense());
       }}
       > Play Again</div>
-      <div onClick={()=>handleLeaderboard()}> {isShowLeaderboard?"Go back":"See the leaderboard"} </div>
+      <div onClick={() => handleLeaderboard()}> {isShowLeaderboard ? "Go back" : "See the leaderboard"} </div>
     </React.Fragment>
   );
 
   return (<BigPopUpWindow buttons={buttons} background={background} openType={EVENT_WINDOW}>
     {
-      isShowLeaderboard?<LearderboardSection />:<><h1>Congrats!</h1>
-      <div>You've passed the maze within {time} seconds!</div></>
+      isShowLeaderboard ? <LearderboardSection /> : <><h1>Congrats!</h1>
+        <div>You've passed the maze within {time} seconds!</div></>
     }
-    
-    
+
+
   </BigPopUpWindow>);
 }
 
@@ -118,7 +118,7 @@ function FailGameEventRender() {
   const buttons = (
     <React.Fragment>
       <div onClick={() => {
-        dispatch(popEvent());
+        dispatch(resumeAction());
         dispatch(resetPlayerStatus());
         dispatch(resetCount());
         dispatch(assignInit(false));
@@ -138,8 +138,6 @@ function FailGameEventRender() {
 // function endEventCallback(dispatch, playGameCompletionSound) {
 function endEventCallback(dispatch, play) {
   play();
-  dispatch(pauseCount);
-  dispatch(popEvent);
 }
 
 // With a Strong wind, all buff and debuff are cleared.

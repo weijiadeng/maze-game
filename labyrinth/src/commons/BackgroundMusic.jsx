@@ -8,7 +8,6 @@ import {
   selectIsPlaying,
   stopedBGM,
   START_PLAY,
-  STOPPED,
   TO_STOP,
   TO_MUTE,
   mutedBGM,

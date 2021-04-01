@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import styles from "./welcome.module.css";
 import { NavLink } from "react-router-dom";
 import {
-  PLAYING,
   selectIsPlaying,
   stopBGM,
   STOPPED,

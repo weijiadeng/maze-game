@@ -4,7 +4,6 @@ import ElapseTimer from "../components/ElapseTimer";
 import { LabyrinthView } from "../components/LabyrinthView";
 import { EventManager } from "../components/EventManager";
 import { MiniMap } from "../components/MiniMap";
-import { BackgroundMusic } from "../commons/BackgroundMusic";
 import PlayerStatusPanel from "../components/PlayerStatusPanel";
 import { useSelector, useDispatch } from "react-redux";
 import { initLabyrinthWalls } from "../components/Walls";
@@ -40,7 +39,7 @@ import {
   resetPlayerStatus,
 } from "../reducers/playerStatusSlice";
 import { resetCount, selectCurNumSeconds } from "../reducers/elapseTimerSlice";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { NavPanel } from "../components/NavPanel";
 import styles from "./labyrinthGame.module.css";
 

@@ -28,10 +28,6 @@
 .backgroundPic {
     position: absolute;
     border: 0px;
-    margin-top: 0;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 0;
     width: 600px;
     height: 800px;
     z-index: -10;
@@ -77,8 +73,6 @@
     .backgroundPic {
         position: absolute;
         border: 0px;
-        margin-left: 0;
-        margin-right: 0;
         bottom: 10vh;
         width: 80%;
         height: 75%;

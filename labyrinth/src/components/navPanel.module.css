@@ -26,8 +26,11 @@
         width: 100%;
     }
     .icon {
-        font-size: 10vh;
+        font-size: 6vh;
         color: rgba(255, 255, 255,0.1);
+        margin-top: 1vh;
+        margin-left: 1vw;
+        margin-right: 1vw;
     }
 
     .icon:last-child {
@@ -38,15 +41,4 @@
         color: #db5d27c7;
         cursor: pointer;
     }
-}
-
-@media (max-width:576px) {
-    .icon {
-        margin-top: 1vh;
-        margin-left: 1vh;
-        margin-right: 1vh;
-        height: 8vh;
-        width: 8vh;
-    }
-      
 }

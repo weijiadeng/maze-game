@@ -5,12 +5,11 @@ import { faHome, faQuestionCircle, faVolumeMute, faVolumeUp } from '@fortawesome
 import { useDispatch, useSelector } from "react-redux"
 import { resumeAction } from "../reducers/controlSlice";
 import { useHistory } from "react-router";
-import { muteBGM, MUTED, playBGM, selectIsPlaying, stopBGM, TO_MUTE, unmuteBGM } from "../reducers/backgroundMusicSlice";
+import { muteBGM, MUTED, selectIsPlaying, stopBGM, TO_MUTE, unmuteBGM } from "../reducers/backgroundMusicSlice";
 import { CONFIRM_WINDOW, disableBigPopUpPresense, enableBigPopUpIsToOpen, HELPER_WINDOW } from "../reducers/popUpWindowSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import background from '../images/bigWindowBackground.png'
 import HelperPage from "./HelperPage";
-import { useState } from "react";
 
 function HelperPageWindow() {
     const dispatch = useDispatch();
@@ -45,7 +44,7 @@ function GobackConfirm() {
     return (
         <BigPopUpWindow buttons={buttons} background={background} openType={CONFIRM_WINDOW}>
             <h1>Are you sure?</h1>
-            <div>You are going back to welcome page, all your current game progess will be lost, are you sure?</div>
+            <div>You are going back to the welcome page, all your current game progess will be lost, are you sure?</div>
         </BigPopUpWindow>
     );
 }
@@ -68,7 +67,6 @@ export function NavPanel({ }) {
             dispatch(muteBGM());
         }
     }
-
     return (
         <>
             <HelperPageWindow />

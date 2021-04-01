@@ -145,17 +145,15 @@ function endEventCallback(dispatch, play) {
 function strongWindEventCallBack(dispatch, play, gameMode) {
   play();
   dispatch(resetBuffAndDebuff());
-  if (gameMode === "easy") {
-    dispatch(addABuff(DARK_MODE_OFF));
-    dispatch(removeADebuff(DARK_MODE_ON));
-    dispatch(addABuff(MINI_MAP_ON));
-    dispatch(removeADebuff(MINI_MAP_OFF));
-  } else if (gameMode === "hard") {
+  if (gameMode === "hard") {
     dispatch(addADebuff(DARK_MODE_ON));
     dispatch(removeABuff(DARK_MODE_OFF));
-    dispatch(addADebuff(MINI_MAP_OFF));
-    dispatch(removeABuff(MINI_MAP_ON));
+  } else {
+    dispatch(addABuff(DARK_MODE_OFF));
+    dispatch(removeADebuff(DARK_MODE_ON));
   }
+  dispatch(addADebuff(MINI_MAP_OFF));
+  dispatch(removeABuff(MINI_MAP_ON));
 }
 
 function StrongWindEventRender() {
@@ -290,16 +288,12 @@ function initEventMap(numX, numZ, gameMode) {
       const eventId = genRandomInt(NUM_EVENT_TYPE);
       switch (eventId) {
         case NEGATIVE_EFFECT_EVENT:
-          if (gameMode !== "easy") {
-            const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
-            eventMap[i] = new Event(<SmellyWindEventRender debuffId={debuffId} />, partialApply(smellyWindEventCallBack, debuffId), NEGATIVE_EFFECT_EVENT);
-          }
+          const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
+          eventMap[i] = new Event(<SmellyWindEventRender debuffId={debuffId} />, partialApply(smellyWindEventCallBack, debuffId), NEGATIVE_EFFECT_EVENT);
           break;
         case POSITIVE_EFFECT_EVENT:
-          if (gameMode !== "hard") {
-            const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
-            eventMap[i] = new Event(<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId), POSITIVE_EFFECT_EVENT);
-          }
+          const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
+          eventMap[i] = new Event(<FreshWindEventRender buffId={buffId} />, partialApply(freshWindEventCallBack, buffId), POSITIVE_EFFECT_EVENT);
           break;
         case NEUTRAL_EFFECT_EVENT:
           eventMap[i] = new Event(<StrongWindEventRender />, strongWindEventCallBack, NEUTRAL_EFFECT_EVENT);
@@ -327,10 +321,8 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
   const { play: playPositiveEffectSound } = usePositiveEffectSound();
   const { play: playNegativeEffectSound } = useNegativeEffectSound();
   const { play: playNeutralEffectSound } = useNeutralEffectSound();
-  const { play } = useBgmPlay();
   // TODO: add confront battle event
   // const { play: playConfrontBattleSound } = useConfrontBattleSound();
-  //TODO: add gameover event
   const { play: playGameOverSound } = useGameOverSound();
 
   let currentIndex = posZ * numX + posX;
@@ -350,12 +342,7 @@ export function EventManager({ discovered, posX, posZ, numX, numZ, currentAction
     if (eventMap[currentIndex]) {
       if (!discovered.current[currentIndex]) {
         const { toRender, callBack, eventTypeId } = eventMap[currentIndex];
-        // currentRender.current = eventMap[currentIndex];
         currentRender.current = toRender;
-        //toRender = eventMap[currentIndex][0];
-        // currentCallback = () => { eventMap[currentIndex][1](dispatch, select); dispatch(enableIsToOpen()) };
-        // currentCallback = () => { callback(dispatch, select); dispatch(enableIsToOpen()) };
-
         switch (eventTypeId) {
           case START_GAME_EVENT:
             currentCallback = () => { callBack(dispatch); dispatch(playBGM()); dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW)); };

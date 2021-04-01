@@ -1,0 +1,15 @@
+.icon {
+  height: 8vh;
+  width: 8vh;
+  margin: auto;
+}
+
+.negativeKeywords {
+    color: red;
+    font-weight: bold;
+}
+
+.positiveKeywords {
+    color: blue;
+    font-weight: bold;
+}

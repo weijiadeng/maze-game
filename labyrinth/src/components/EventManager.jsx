@@ -12,7 +12,6 @@ import {
   readyCount,
   selectCurNumSeconds,
   resumeCount,
-  pauseCount,
   resetCount,
 } from "../reducers/elapseTimerSlice";
 import { resetPlayerStatus } from "../reducers/playerStatusSlice";
@@ -52,11 +51,22 @@ import {
 import { useBgmPlay } from "../commons/BackgroundMusic";
 import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
 import { LearderboardSection } from "./Leaderboard";
+import styles from "./eventManager.module.css";
+import dayIcon from "../images/sun.png";
+// Ref: https://www.flaticon.com/free-icon/night_208293
+import nightIcon from "../images/night.png";
+// Ref: https://www.flaticon.com/free-icon/rocket_1356479
+import rocket from "../images/rocket.png";
+// Ref: https://iconarchive.com/show/noto-emoji-animals-nature-icons-by-google/22283-turtle-icon.html
+import turtleIcon from "../images/turtleicon.png";
+import mapOnIcon from "../images/mapicon.png";
+import mapOffIcon from "../images/mapoff.png";
 
-const NUM_DEBUFF_TYPE = 4;
+const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
 const SPEED_DOWN_ID = 1;
 const HIDE_MINI_MAP = 2;
+
 const HP_DOWN_BY_TEN = 3;
 
 const NUM_BUFF_TYPE = 4;
@@ -65,13 +75,18 @@ const SPEED_UP_ID = 1;
 const SHOW_MINI_MAP = 2;
 const HP_UP_BY_TEN = 3;
 
-const NUM_EVENT_TYPE = 6;
-const START_GAME_EVENT = 0;
-const END_GAME_EVENT = 1;
-const POSITIVE_EFFECT_EVENT = 2;
-const NEGATIVE_EFFECT_EVENT = 3;
-const NEUTRAL_EFFECT_EVENT = 4;
-const CONFRONT_BATTLE_EVENT = 5;
+const RANDOM_ID_MAX = 100;
+const RANDOM_ID_WITHHOLD = 33;
+
+const NUM_RANDOM_EVENT_TYPE = NUM_DEBUFF_TYPE + NUM_BUFF_TYPE + 2;
+
+const POSITIVE_EFFECT_EVENT = 0;
+const NEGATIVE_EFFECT_EVENT = 1;
+const NEUTRAL_EFFECT_EVENT = 2;
+const CONFRONT_BATTLE_EVENT = 3;
+
+const START_GAME_EVENT = 4;
+const END_GAME_EVENT = 5;
 const GAME_FAIL_EVENT = 6;
 
 function StartEventRender() {
@@ -253,28 +268,112 @@ function smellyWindEventCallBack(debuffId, dispatch, play) {
 }
 
 function SmellyWindEventRender({ debuffId }) {
-  let specificEventContent = null;
+  let specificEventContent = <></>;
+  let specificIcon = <></>;
   switch (debuffId) {
     case DARK_MODE_ID:
-      specificEventContent = "Dark Mode is on!";
+      specificIcon = (
+        <img className={styles.icon} src={nightIcon} alt="Dark mode" />
+      );
+      specificEventContent = (
+        <div>
+          <span className={styles.negativeKeywords}>Dark Mode</span> is on!
+        </div>
+      );
       break;
     case SPEED_DOWN_ID:
-      specificEventContent = "Your speed is slowed down!";
+      specificIcon = (
+        <img className={styles.icon} src={turtleIcon} alt="Slow down" />
+      );
+      specificEventContent = (
+        <div>
+          Your speed is{" "}
+          <span className={styles.negativeKeywords}>slowed down</span>!
+        </div>
+      );
       break;
     case HIDE_MINI_MAP:
-      specificEventContent = "Mini map is gone!";
+      specificIcon = (
+        <img className={styles.icon} src={mapOffIcon} alt="Mini map off" />
+      );
+      specificEventContent = (
+        <div>
+          <span className={styles.negativeKeywords}>Mini map</span> is gone!
+        </div>
+      );
       break;
     case HP_DOWN_BY_TEN:
-      specificEventContent = "Your lost 10 HP!";
+      specificIcon = (
+        <img className={styles.icon} src={dayIcon} alt="Dark mode" />
+      );
+      specificEventContent = <div>Your lost 10 HP!</div>;
       break;
     default:
       break;
   }
   return (
     <SmallPopUpWindow>
+      {specificIcon}
       <h1>Oh no!</h1>
       <div>You met a smelly wind...</div>
-      <div>{specificEventContent}</div>
+      {specificEventContent}
+    </SmallPopUpWindow>
+  );
+}
+
+function FreshWindEventRender({ buffId }) {
+  let specificEventContent = <></>;
+  let specificIcon = <></>;
+  switch (buffId) {
+    case BRIGHT_MODE_ID:
+      specificIcon = (
+        <img className={styles.icon} src={dayIcon} alt="Day mode" />
+      );
+
+      specificEventContent = (
+        <div>
+          <span className={styles.positiveKeywords}>Bright mode</span> is on!
+        </div>
+      );
+      break;
+    case SPEED_UP_ID:
+      specificIcon = (
+        <img className={styles.icon} src={rocket} alt="Day mode" />
+      );
+      specificEventContent = (
+        <div>
+          <span className={styles.positiveKeywords}>Speed up</span> is applied
+          to you!
+        </div>
+      );
+      break;
+    case SHOW_MINI_MAP:
+      specificIcon = (
+        <img className={styles.icon} src={mapOnIcon} alt="Day mode" />
+      );
+      specificEventContent = (
+        <div>
+          <span className={styles.positiveKeywords}>Mini map</span> is shown for
+          you!
+        </div>
+      );
+      break;
+    case HP_UP_BY_TEN:
+      specificEventContent = (
+        <div>
+          Your got <span className={styles.positiveKeywords}>10 HP</span>!
+        </div>
+      );
+      break;
+    default:
+      break;
+  }
+  return (
+    <SmallPopUpWindow>
+      {specificIcon}
+      <h1>Great!</h1>
+      <div>A fresh wind brought you something helpful! </div>
+      {specificEventContent}
     </SmallPopUpWindow>
   );
 }
@@ -305,33 +404,6 @@ function freshWindEventCallBack(buffId, dispatch, play) {
   }
 }
 
-function FreshWindEventRender({ buffId }) {
-  let specificEventContent = null;
-  switch (buffId) {
-    case BRIGHT_MODE_ID:
-      specificEventContent = "Bright mode is on!";
-      break;
-    case SPEED_UP_ID:
-      specificEventContent = "Your speed is up!";
-      break;
-    case SHOW_MINI_MAP:
-      specificEventContent = "Mini map is shown for you!";
-      break;
-    case HP_UP_BY_TEN:
-      specificEventContent = "Your got 10 HP!";
-      break;
-    default:
-      break;
-  }
-  return (
-    <SmallPopUpWindow>
-      <h1>Great!</h1>
-      <div>A fresh wind brought you something helpful! </div>
-      <div>{specificEventContent}</div>
-    </SmallPopUpWindow>
-  );
-}
-
 class Event {
   constructor(toRender, callBack, eventTypeId) {
     this.toRender = toRender;
@@ -341,7 +413,6 @@ class Event {
 }
 
 function initEventMap(numX, numZ, gameMode) {
-  // console.log("game mode is: " + gameMode);
   const eventMap = Array(numX * numZ + 1).fill(null);
   eventMap[numX * (numZ - 1) + numX - 1] = new Event(
     <StartEventRender />,
@@ -356,33 +427,43 @@ function initEventMap(numX, numZ, gameMode) {
   );
   if (gameMode !== "pure") {
     for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
-      const eventId = genRandomInt(NUM_EVENT_TYPE);
-      switch (eventId) {
-        case NEGATIVE_EFFECT_EVENT:
-          const debuffId = genRandomInt(NUM_DEBUFF_TYPE + 1);
-          eventMap[i] = new Event(
-            <SmellyWindEventRender debuffId={debuffId} />,
-            partialApply(smellyWindEventCallBack, debuffId),
-            NEGATIVE_EFFECT_EVENT
-          );
-          break;
-        case POSITIVE_EFFECT_EVENT:
-          const buffId = genRandomInt(NUM_BUFF_TYPE + 1);
-          eventMap[i] = new Event(
-            <FreshWindEventRender buffId={buffId} />,
-            partialApply(freshWindEventCallBack, buffId),
-            POSITIVE_EFFECT_EVENT
-          );
-          break;
-        case NEUTRAL_EFFECT_EVENT:
+      const randomID = genRandomInt(RANDOM_ID_MAX);
+      // Make only about RANDOM_ID_WITHHOLD/RANDOM_ID_MAX cells have events
+      if (randomID < RANDOM_ID_WITHHOLD) {
+        // Only 1/(NUM_BUFF_TYPE + NUM_DEBUFF_TYPE + 1) type event is netural
+        if (randomID < RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) {
           eventMap[i] = new Event(
             <StrongWindEventRender />,
             strongWindEventCallBack,
             NEUTRAL_EFFECT_EVENT
           );
-          break;
-        default:
-          break;
+        } else if (
+          randomID <
+          (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * 2
+        ) {
+          eventMap[i] = new Event(
+            <SmellyWindEventRender debuffId={HP_DOWN_BY_TEN} />,
+            partialApply(smellyWindEventCallBack, HP_DOWN_BY_TEN),
+            NEGATIVE_EFFECT_EVENT
+          );
+        } else if (
+          randomID <
+          (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * (2 + NUM_BUFF_TYPE)
+        ) {
+          const buffId = genRandomInt(NUM_BUFF_TYPE);
+          eventMap[i] = new Event(
+            <FreshWindEventRender buffId={buffId} />,
+            partialApply(freshWindEventCallBack, buffId),
+            POSITIVE_EFFECT_EVENT
+          );
+        } else {
+          const debuffId = genRandomInt(NUM_DEBUFF_TYPE);
+          eventMap[i] = new Event(
+            <SmellyWindEventRender debuffId={debuffId} />,
+            partialApply(smellyWindEventCallBack, debuffId),
+            NEGATIVE_EFFECT_EVENT
+          );
+        }
       }
     }
   }
@@ -445,7 +526,6 @@ export function EventManager({
             };
             break;
           case END_GAME_EVENT:
-            // currentCallback = () => { callBack(dispatch, playGameCompletionSound); dispatch(enableBigPopUpIsToOpen()); dispatch(assignNumX(numX + 2)); dispatch(assignNumZ(numZ + 2)) };
             currentCallback = () => {
               callBack(dispatch, playGameCompletionSound);
               dispatch(stopBGM());

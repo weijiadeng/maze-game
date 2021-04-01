@@ -76,14 +76,12 @@ const Guide = () => {
         </ul>
       </div>
       <GameModeDescription />
-      <br />
-      <br />
-      <br />
-      <span className={styles.goBackButton} onClick={() => handleGoBack()}>
+      <span
+        className={`${styles.goBackButton} ${styles.bottomGoBackButton}`}
+        onClick={() => handleGoBack()}
+      >
         {goBack}
       </span>
-      <br />
-      <br />
       <Footer />
     </div>
   );

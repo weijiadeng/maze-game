@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/weijia-deng-wenhua-yao-assignment2/static/css/main.57cb79de.chunk.css",
-    "main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/main.c4ab6698.chunk.js",
-    "main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/main.c4ab6698.chunk.js.map",
+    "main.css": "/weijia-deng-wenhua-yao-assignment2/static/css/main.f913d245.chunk.css",
+    "main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/main.4b2cb27f.chunk.js",
+    "main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/main.4b2cb27f.chunk.js.map",
     "runtime-main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.d56eb273.js",
     "runtime-main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.d56eb273.js.map",
-    "static/js/2.58ed42c4.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/2.58ed42c4.chunk.js",
-    "static/js/2.58ed42c4.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/2.58ed42c4.chunk.js.map",
+    "static/js/2.e0d0d343.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/2.e0d0d343.chunk.js",
+    "static/js/2.e0d0d343.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/2.e0d0d343.chunk.js.map",
     "static/js/3.06d15287.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/3.06d15287.chunk.js",
     "static/js/3.06d15287.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/3.06d15287.chunk.js.map",
     "index.html": "/weijia-deng-wenhua-yao-assignment2/index.html",
-    "static/css/main.57cb79de.chunk.css.map": "/weijia-deng-wenhua-yao-assignment2/static/css/main.57cb79de.chunk.css.map",
-    "static/js/2.58ed42c4.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/2.58ed42c4.chunk.js.LICENSE.txt",
+    "static/css/main.f913d245.chunk.css.map": "/weijia-deng-wenhua-yao-assignment2/static/css/main.f913d245.chunk.css.map",
+    "static/js/2.e0d0d343.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/2.e0d0d343.chunk.js.LICENSE.txt",
     "static/js/3.06d15287.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/3.06d15287.chunk.js.LICENSE.txt",
     "static/media/bigWindowBackground.851d04fd.png": "/weijia-deng-wenhua-yao-assignment2/static/media/bigWindowBackground.851d04fd.png",
     "static/media/darkMode.d01dbca6.png": "/weijia-deng-wenhua-yao-assignment2/static/media/darkMode.d01dbca6.png",
@@ -37,8 +37,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.d56eb273.js",
-    "static/js/2.58ed42c4.chunk.js",
-    "static/css/main.57cb79de.chunk.css",
-    "static/js/main.c4ab6698.chunk.js"
+    "static/js/2.e0d0d343.chunk.js",
+    "static/css/main.f913d245.chunk.css",
+    "static/js/main.4b2cb27f.chunk.js"
   ]
 }

@@ -8,7 +8,6 @@ import {
   disableSmallPopUpIsToOpen,
 } from "../reducers/popUpWindowSlice";
 import styles from "./smallPopUpWindow.module.css";
-import Modal from "react-modal";
 
 const SmallPopUpWindow = (props) => {
   const dispatch = useDispatch();

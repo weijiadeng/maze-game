@@ -4,7 +4,6 @@
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%);
-  font-family: "Coming Soon", cursive;
   width: 400px;
   height: 200px;
   display: flex;
@@ -20,7 +19,7 @@
   }
 }
 
-.content > div {
+.content>div {
   font-size: x-large;
 }
 
@@ -34,12 +33,12 @@
   gap: 20px;
 }
 
-.buttonsection > div {
+.buttonsection>div {
   color: darkblue;
   margin-top: auto;
 }
 
-.buttonsection > div:hover {
+.buttonsection>div:hover {
   color: blue;
   cursor: pointer;
 }

@@ -1,6 +1,5 @@
 .guide {
   background-color: #fdda97;
-  font-family: "Coming Soon", cursive;
   text-align: center;
   padding-top: 4vh;
   padding-left: 3vw;
@@ -90,7 +89,7 @@
   color: #222422;
 }
 
-.list > li {
+.list>li {
   margin-bottom: 0.2vh;
 }
 
@@ -107,6 +106,11 @@
 
 .topGoBackButton {
   align-self: flex-start;
+}
+
+.bottomGoBackButton {
+  margin-top: 3vh;
+  padding-bottom: 2.5vh;
 }
 
 .goBackButton:hover {
@@ -154,7 +158,7 @@
     text-align: start;
     font-size: 2vw;
   }
-  .list > li {
+  .list>li {
     margin-bottom: 2vh;
   }
   .goBackButton:hover {

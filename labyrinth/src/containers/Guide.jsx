@@ -1,9 +1,7 @@
 import React from "react";
 import GameModeDescription from "../components/GameModeDescription";
 import styles from "./guide.module.css";
-import HelperPage from "../components/HelperPage";
 import movesGuide from "../images/movesGuide.png";
-import OperationDescription from "../components/OperationDescription";
 import MiniMapEventDescription from "../components/MiniMapEventDescription";
 import DarkModeEventDescription from "../components/DarkModeEventDescription";
 import SpeedChangeEventDescription from "../components/SpeedChangeEventDescription";
@@ -78,14 +76,12 @@ const Guide = () => {
         </ul>
       </div>
       <GameModeDescription />
-      <br />
-      <br />
-      <br />
-      <span className={styles.goBackButton} onClick={() => handleGoBack()}>
+      <span
+        className={`${styles.goBackButton} ${styles.bottomGoBackButton}`}
+        onClick={() => handleGoBack()}
+      >
         {goBack}
       </span>
-      <br />
-      <br />
       <Footer />
     </div>
   );

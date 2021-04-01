@@ -1,15 +1,16 @@
 import styles from "./navPanel.module.css"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faQuestionCircle, faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from "react-redux"
 import { pauseAction, resumeAction } from "../reducers/controlSlice";
 import { useHistory } from "react-router";
-import { stopBGM } from "../reducers/backgroundMusicSlice";
+import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
 import { CONFIRM_WINDOW, disableBigPopUpPresense, enableBigPopUpIsToOpen, HELPER_WINDOW } from "../reducers/popUpWindowSlice";
 import BigPopUpWindow from "./BigPopUpWindow";
 import background from '../images/bigWindowBackground.png'
 import HelperPage from "./HelperPage";
+import { useState } from "react";
 
 function HelperPageWindow() {
     const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function GobackConfirm() {
 }
 
 export function NavPanel({ }) {
+    const [isMuted, setIsMuted] = useState(false);
     const dispatch = useDispatch();
     const handleGoHome = () => {
         //history.push("");
@@ -59,6 +61,16 @@ export function NavPanel({ }) {
     const handleHelperPage = () => {
         dispatch(enableBigPopUpIsToOpen(HELPER_WINDOW));
     }
+    const handleMute = () => {
+        if (isMuted) {
+            setIsMuted(false);
+            dispatch(playBGM());
+        } else {
+            setIsMuted(true);
+            dispatch(stopBGM());
+        }
+    }
+
     return (
         <>
             <HelperPageWindow />
@@ -66,6 +78,7 @@ export function NavPanel({ }) {
             <div className={styles.navPanelContainer}>
                 <FontAwesomeIcon className={styles.icon} icon={faHome} onClick={() => { handleGoHome(); }} />
                 <FontAwesomeIcon className={styles.icon} icon={faQuestionCircle} onClick={() => { handleHelperPage(); }} />
+                <FontAwesomeIcon className={styles.icon} icon={isMuted?faVolumeMute:faVolumeUp} onClick={() => { handleMute(); }} />
             </div>
         </>
     )

@@ -57,7 +57,7 @@ export function LabyrinthView({
   return (
     <div className={styles.canvasDiv}>
       <Canvas camera={{
-        fov: 80, position: [posCoordX, 0, posCoordZ + blockWidth]
+        fov: 80, position: [posCoordX, 0, posCoordZ + blockWidth], far: 20000
       }}>
         <ContextBridge>
           <LabyrinthCamera

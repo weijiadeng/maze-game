@@ -37,3 +37,46 @@
     text-shadow: 0px 0px;
     cursor: pointer;
 }
+
+.aboutPage {
+    font-size: 2vw;
+    padding-left: 2vw;
+    font-weight: bolder;
+    background-color: rgba(247, 244, 239, 0.4);
+    width: 90vw;
+    border-radius: 3vw;
+}
+
+.personalWebsite {
+    margin-left: 1vw;
+}
+
+.personalWebsite:link {
+    color: black;
+}
+
+.personalWebsite:visited {
+    color: black;
+}
+
+.aboutList {
+    list-style-type: '\1F449';
+    padding-left: 12vw;
+}
+
+.aboutList>li {
+    margin-top: 2%;
+    padding-left: 1vw;
+}
+
+.authorList>li {
+    padding-left: 1vw;
+}
+
+.creditLink {
+    color: black;
+}
+
+.creditLink:link {
+    text-decoration: none;
+}

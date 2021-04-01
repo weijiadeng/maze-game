@@ -1,19 +1,25 @@
 .footer {
-    font-size: 1.5vw;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background: radial-gradient(ellipse 50% 50px, #dad9d4, #dad9d4 10%, #dad9d4, #dad9d4);
-    text-align: center;
-    color: black;
-    opacity: 0.3;
-    font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5vw;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: radial-gradient(
+    ellipse 50% 50px,
+    #dad9d4,
+    #dad9d4 10%,
+    #dad9d4,
+    #dad9d4
+  );
+  text-align: center;
+  color: black;
+  opacity: 0.3;
+  font-family: "Courier New", Courier, monospace;
 }
 
-@media (max-width:576px) {
-    .footer {
-        font-size: 3vw;
-        opacity: 0.25;
-    }
+@media (max-width: 576px) {
+  .footer {
+    font-size: 3vw;
+    opacity: 0.25;
+  }
 }

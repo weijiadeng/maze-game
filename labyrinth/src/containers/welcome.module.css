@@ -1,97 +1,96 @@
 .container {
-    margin-left: 2%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  margin-left: 2%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .title {
-    position: absolute;
-    top: 1.4vh;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 15vh;
+  position: absolute;
+  top: 1.4vh;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 15vh;
 }
 
 .options {
-    position: absolute;
-    top: 30vh;
+  position: absolute;
+  top: 30vh;
 }
 
 .buttons {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-    font-family: 'Coming Soon', cursive;
-    transition: 500ms;
-    color: black;
-    text-decoration: none;
-    text-shadow: 2px 2px 2px gray;
-    font-size: 4.8vh;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  font-family: "Coming Soon", cursive;
+  transition: 500ms;
+  color: black;
+  text-decoration: none;
+  text-shadow: 2px 2px 2px gray;
+  font-size: 4.8vh;
 }
 
 .buttons:hover {
-    color: #db5c27;
-    text-shadow: 0px 0px;
-    cursor: pointer;
+  color: #db5c27;
+  text-shadow: 0px 0px;
+  cursor: pointer;
 }
 
 .aboutPage {
-    font-size: 3.5vh;
-    padding-left: 2vw;
-    font-weight: bolder;
-    background-color: rgba(247, 244, 239, 0.4);
-    width: 90vw;
-    border-radius: 3vw;
+  font-size: 3.5vh;
+  padding-left: 2vw;
+  font-weight: bolder;
+  background-color: rgba(247, 244, 239, 0.4);
+  width: 90vw;
+  border-radius: 3vw;
 }
 
 .personalWebsite {
-    margin-left: 1vw;
+  margin-left: 1vw;
 }
 
 .personalWebsite > * {
-    -webkit-filter: drop-shadow( 2px 2px 2px rgba(0, 0, 0, .7));
-    filter: drop-shadow( 2px 2px 2px rgba(0, 0, 0, .7));
-    transition: 500ms;
+  -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7));
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7));
+  transition: 500ms;
 }
 
 .personalWebsite > *:hover {
-    color: #db5c27;
-    text-shadow: 0px 0px;
-    cursor: pointer;
-    -webkit-filte: none;
-    filter: none;
-
+  color: #db5c27;
+  text-shadow: 0px 0px;
+  cursor: pointer;
+  -webkit-filte: none;
+  filter: none;
 }
 
 .personalWebsite:link {
-    color: black;
+  color: black;
 }
 
 .personalWebsite:visited {
-    color: black;
+  color: black;
 }
 
 .aboutList {
-    list-style-type: '\1F449';
-    padding-left: 12vw;
+  list-style-type: "\1F449";
+  padding-left: 12vw;
 }
 
-.aboutList>li {
-    margin-top: 2%;
-    padding-left: 1vw;
+.aboutList > li {
+  margin-top: 2%;
+  padding-left: 1vw;
 }
 
-.authorList>li {
-    padding-left: 1vw;
+.authorList > li {
+  padding-left: 1vw;
 }
 
 .creditLink {
-    color: black;
+  color: black;
 }
 
 .creditLink:link {
-    text-decoration: none;
+  text-decoration: none;
 }

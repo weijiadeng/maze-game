@@ -1,13 +1,13 @@
-import { useRef } from 'react';
-import { GamePanel } from '../components/GamePanel';
-import ElapseTimer from '../components/ElapseTimer';
-import { LabyrinthView } from '../components/LabyrinthView';
-import { EventManager } from '../components/EventManager';
-import { MiniMap } from '../components/MiniMap'
-import { BackgroundMusic } from '../commons/BackgroundMusic'
-import PlayerStatusPanel from '../components/PlayerStatusPanel';
-import { useSelector, useDispatch } from 'react-redux';
-import { initLabyrinthWalls } from '../components/Walls';
+import { useRef } from "react";
+import { GamePanel } from "../components/GamePanel";
+import ElapseTimer from "../components/ElapseTimer";
+import { LabyrinthView } from "../components/LabyrinthView";
+import { EventManager } from "../components/EventManager";
+import { MiniMap } from "../components/MiniMap";
+import { BackgroundMusic } from "../commons/BackgroundMusic";
+import PlayerStatusPanel from "../components/PlayerStatusPanel";
+import { useSelector, useDispatch } from "react-redux";
+import { initLabyrinthWalls } from "../components/Walls";
 import {
   assignInit,
   assignNumX,
@@ -26,7 +26,7 @@ import {
   selectWallTop,
   selectAction,
   selectResetEvent,
-} from '../reducers/controlSlice';
+} from "../reducers/controlSlice";
 import {
   addABuff,
   addADebuff,
@@ -38,11 +38,11 @@ import {
   selectDebuff,
   selectHP,
   resetPlayerStatus,
-} from '../reducers/playerStatusSlice';
-import { resetCount, selectCurNumSeconds } from '../reducers/elapseTimerSlice';
+} from "../reducers/playerStatusSlice";
+import { resetCount, selectCurNumSeconds } from "../reducers/elapseTimerSlice";
 import { useParams, useHistory } from "react-router-dom";
-import { NavPanel } from '../components/NavPanel';
-import styles from "./labyrinthGame.module.css"
+import { NavPanel } from "../components/NavPanel";
+import styles from "./labyrinthGame.module.css";
 
 export default function LabyrinthGame() {
   const { gameMode } = useParams();
@@ -63,7 +63,6 @@ export default function LabyrinthGame() {
       break;
     default:
     // console.log("game mode error: " + gameMode);
-
   }
 
   const blockWidth = 20;
@@ -87,13 +86,13 @@ export default function LabyrinthGame() {
     dispatch(resetCurrentAction());
     dispatch(resetCount());
     dispatch(resetPlayerStatus());
-    if (gameMode === 'easy') {
+    if (gameMode === "easy") {
       dispatch(addABuff(MINI_MAP_ON));
       dispatch(addABuff(DARK_MODE_OFF));
-    } else if (gameMode === 'hard') {
+    } else if (gameMode === "hard") {
       dispatch(addADebuff(MINI_MAP_OFF));
       dispatch(addADebuff(DARK_MODE_ON));
-    } else if (gameMode === 'medium') {
+    } else if (gameMode === "medium") {
       dispatch(addABuff(DARK_MODE_OFF));
       dispatch(addADebuff(MINI_MAP_OFF));
     }
@@ -111,7 +110,7 @@ export default function LabyrinthGame() {
   const isResetEvent = useSelector(selectResetEvent);
   const currentHP = useSelector(selectHP);
   const currentCurNumSeconds = useSelector(selectCurNumSeconds);
-  const isGameFail = (currentHP <=0 || 100 - currentCurNumSeconds <= 0);
+  const isGameFail = currentHP <= 0 || 100 - currentCurNumSeconds <= 0;
 
   return (
     <div className={styles.visContainer}>
@@ -138,7 +137,7 @@ export default function LabyrinthGame() {
         currentAction={currentAction}
         isResetEvent={isResetEvent}
         isGameFail={isGameFail}
-        gameMode = {gameMode}
+        gameMode={gameMode}
       />
       <MiniMap
         discovered={discovered}

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { extend, useThree, useFrame } from 'react-three-fiber';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
-import * as THREE from 'three';
-import { useSelector, useDispatch } from 'react-redux';
+import * as React from "react";
+import { extend, useThree, useFrame } from "react-three-fiber";
+import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
+import * as THREE from "three";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectAction,
   selectPosX,
@@ -20,10 +20,14 @@ import {
   RIGHT,
   RANDOM_EVENT,
   selectIsResetCamera,
-  assignResetCamera
-} from '../reducers/controlSlice';
-import { selectBuff, selectDebuff, SPEED_DOWN, SPEED_UP } from '../reducers/playerStatusSlice';
-
+  assignResetCamera,
+} from "../reducers/controlSlice";
+import {
+  selectBuff,
+  selectDebuff,
+  SPEED_DOWN,
+  SPEED_UP,
+} from "../reducers/playerStatusSlice";
 
 // extend THREE to include TrackballControls
 extend({ TrackballControls });
@@ -62,8 +66,8 @@ export const LabyrinthCamera = ({
   const [currentAngle, setCurrentAngle] = React.useState(0);
   let localAngle = currentAngle;
 
-  const coordX = (-blockWidth / 2 + (posX + 1) * blockWidth + startCoordX);
-  const coordZ = (-blockWidth / 2 + (posZ + 1) * blockWidth + startCoordZ);
+  const coordX = -blockWidth / 2 + (posX + 1) * blockWidth + startCoordX;
+  const coordZ = -blockWidth / 2 + (posZ + 1) * blockWidth + startCoordZ;
   const isResetCamera = useSelector(selectIsResetCamera);
 
   const dispatch = useDispatch();
@@ -84,25 +88,41 @@ export const LabyrinthCamera = ({
           case UP:
             if (camera.position.z > coordZ) {
               camera.position.z -= actualMoveSpeed;
-              camera.lookAt(camera.position.x, 0, camera.position.z - DIRECTION_ADJUSTER);
+              camera.lookAt(
+                camera.position.x,
+                0,
+                camera.position.z - DIRECTION_ADJUSTER
+              );
             }
             break;
           case LEFT:
             if (camera.position.x > coordX) {
               camera.position.x -= actualMoveSpeed;
-              camera.lookAt(camera.position.x - DIRECTION_ADJUSTER, 0, camera.position.z);
+              camera.lookAt(
+                camera.position.x - DIRECTION_ADJUSTER,
+                0,
+                camera.position.z
+              );
             }
             break;
           case DOWN:
             if (camera.position.z < coordZ) {
               camera.position.z += actualMoveSpeed;
-              camera.lookAt(camera.position.x, 0, camera.position.z + DIRECTION_ADJUSTER);
+              camera.lookAt(
+                camera.position.x,
+                0,
+                camera.position.z + DIRECTION_ADJUSTER
+              );
             }
             break;
           case RIGHT:
             if (camera.position.x < coordX) {
               camera.position.x += actualMoveSpeed;
-              camera.lookAt(camera.position.x + DIRECTION_ADJUSTER, 0, camera.position.z);
+              camera.lookAt(
+                camera.position.x + DIRECTION_ADJUSTER,
+                0,
+                camera.position.z
+              );
             }
             break;
           default:
@@ -120,26 +140,42 @@ export const LabyrinthCamera = ({
         switch (direction) {
           case UP:
             if (camera.position.z < coordZ) {
-              camera.lookAt(camera.position.x, 0, camera.position.z - DIRECTION_ADJUSTER);
+              camera.lookAt(
+                camera.position.x,
+                0,
+                camera.position.z - DIRECTION_ADJUSTER
+              );
               camera.position.z += actualMoveSpeed;
             }
             break;
           case LEFT:
             if (camera.position.x < coordX) {
               camera.position.x += actualMoveSpeed;
-              camera.lookAt(camera.position.x - DIRECTION_ADJUSTER, 0, camera.position.z);
+              camera.lookAt(
+                camera.position.x - DIRECTION_ADJUSTER,
+                0,
+                camera.position.z
+              );
             }
             break;
           case DOWN:
             if (camera.position.z > coordZ) {
               camera.position.z -= actualMoveSpeed;
-              camera.lookAt(camera.position.x, 0, camera.position.z + DIRECTION_ADJUSTER);
+              camera.lookAt(
+                camera.position.x,
+                0,
+                camera.position.z + DIRECTION_ADJUSTER
+              );
             }
             break;
           case RIGHT:
             if (camera.position.x > coordX) {
               camera.position.x -= actualMoveSpeed;
-              camera.lookAt(camera.position.x + DIRECTION_ADJUSTER, 0, camera.position.z);
+              camera.lookAt(
+                camera.position.x + DIRECTION_ADJUSTER,
+                0,
+                camera.position.z
+              );
             }
             break;
           default:

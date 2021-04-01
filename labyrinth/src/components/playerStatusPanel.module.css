@@ -1,5 +1,5 @@
 .container {
-  position:absolute;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 100;
@@ -31,5 +31,5 @@
   background: #ff0022;
   height: 100%;
   border-radius: inherit;
-  transition: width .2s ease-in;
+  transition: width 0.2s ease-in;
 }

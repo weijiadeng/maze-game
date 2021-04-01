@@ -1,58 +1,59 @@
 .panelContainer {
-    position: absolute;
-    top: 83%;
-    right: 1%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    width: 15vh;
-    height: 15vh;   
+  position: absolute;
+  top: 83%;
+  right: 1%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  width: 15vh;
+  height: 15vh;
 }
 
 .panelContainer > * {
-    font-size: 5vh;
-    z-index: 100;
-    color: rgba(0, 0, 0,0.4);
-    place-self: center;
-    transition: 500ms;
+  font-size: 5vh;
+  z-index: 100;
+  color: rgba(0, 0, 0, 0.4);
+  place-self: center;
+  transition: 500ms;
 }
 
-.panelContainer > *:hover, .panelContainer > *:active {
-    color: #db5d27c7;
-    cursor: pointer;
+.panelContainer > *:hover,
+.panelContainer > *:active {
+  color: #db5d27c7;
+  cursor: pointer;
 }
 
-@media (max-width:576px) {
-    .panelContainer {
-        top: 80%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 30vh;
-        height: 30vh;   
-    }
-    
-    .panelContainer > *{
-        color: rgba(255, 255, 255,0.1);
-        font-size: 10vh;
-    }
+@media (max-width: 576px) {
+  .panelContainer {
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vh;
+    height: 30vh;
+  }
+
+  .panelContainer > * {
+    color: rgba(255, 255, 255, 0.1);
+    font-size: 10vh;
+  }
 }
 
 .forwardButton {
-    grid-row: 1;
-    grid-column: 2;
+  grid-row: 1;
+  grid-column: 2;
 }
 
 .backwardButton {
-    grid-row: 3;
-    grid-column: 2;
+  grid-row: 3;
+  grid-column: 2;
 }
 
 .turnLeftButton {
-    grid-row: 2;
-    grid-column: 1;
+  grid-row: 2;
+  grid-column: 1;
 }
 
 .turnRightButton {
-    grid-row: 2;
-    grid-column: 3;
+  grid-row: 2;
+  grid-column: 3;
 }

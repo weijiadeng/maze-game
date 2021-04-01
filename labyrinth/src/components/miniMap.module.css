@@ -1,32 +1,32 @@
 .container {
-    position: absolute;
-    top: 2vh;
-    left: 0;
-    width: calc(99.5vw - 2vh);
-    display: flex;
+  position: absolute;
+  top: 2vh;
+  left: 0;
+  width: calc(99.5vw - 2vh);
+  display: flex;
 }
 
 .map {
-    margin-left: auto;
-    width: auto;
-    top: 0;
-    left: 0;
-    z-index: 20;
+  margin-left: auto;
+  width: auto;
+  top: 0;
+  left: 0;
+  z-index: 20;
 }
 
 .broadRow:after {
-    clear: both;
-    content: "";
-    display: table;
+  clear: both;
+  content: "";
+  display: table;
 }
 
 .square {
-    border: 1px solid rgba(240, 248, 255, 0.5);
-    float: left;
-    height: 2vh;
-    width: 2vh;
+  border: 1px solid rgba(240, 248, 255, 0.5);
+  float: left;
+  height: 2vh;
+  width: 2vh;
 }
 
 .square:focus {
-    outline: none;
+  outline: none;
 }

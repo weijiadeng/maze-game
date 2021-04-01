@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Box } from '@react-three/drei'
+import * as React from "react";
+import { Box } from "@react-three/drei";
 import { shuffleArray, UnionFind } from "../commons/utils";
 
 // Wall global index definination example:
@@ -34,7 +34,7 @@ export function initLabyrinthWalls(numX, numZ) {
   // the wall and choose another wall. We do this until there's only only
   // connecting compoments left.
   const numCells = numX * numZ;
-  const numCellPlusBorder = (numX+1) * (numZ+1);
+  const numCellPlusBorder = (numX + 1) * (numZ + 1);
   const unionFind = new UnionFind(numCells);
   let wallArray = [];
   let resArray = [];
@@ -74,16 +74,16 @@ export function initLabyrinthWalls(numX, numZ) {
     // Make the top border to be true
     wallTop[i] = true;
     // Make the bottom border to be true
-    wallTop[i + numZ*(numX+1)] = true;
+    wallTop[i + numZ * (numX + 1)] = true;
   }
   for (let i = 0; i < numZ; i++) {
     // Make the left border to be true
-    wallLeft[i * (numX+1)] = true;
+    wallLeft[i * (numX + 1)] = true;
     // Make the right border to be true
-    wallLeft[i * (numX+1) + numX] = true;
+    wallLeft[i * (numX + 1) + numX] = true;
   }
 
-  const convertIndex = val =>((~~(val / numX))*(numX+1) + val%numX);
+  const convertIndex = (val) => ~~(val / numX) * (numX + 1) + (val % numX);
   for (let i = 0; i < resArray.length; i++) {
     if (resArray[i] < numCells) {
       wallTop[convertIndex(resArray[i])] = true;
@@ -93,18 +93,20 @@ export function initLabyrinthWalls(numX, numZ) {
   }
 
   wallLeft[0] = false;
-  wallLeft[numCellPlusBorder-1] = false;
-  wallTop[numCellPlusBorder-1] = false;
-  wallTop[numCellPlusBorder-2] = false;
+  wallLeft[numCellPlusBorder - 1] = false;
+  wallTop[numCellPlusBorder - 1] = false;
+  wallTop[numCellPlusBorder - 2] = false;
   return [wallLeft, wallTop];
 }
 
 function GenHorizontalWall(x, z, width, height, depth) {
   return (
-    <Box key={String(x) + ',' + String(z) + "top"}
+    <Box
+      key={String(x) + "," + String(z) + "top"}
       args={[width, height, depth]}
       rotation={[0, 0, 0]}
-      position={[x + width / 2, 0, z]}>
+      position={[x + width / 2, 0, z]}
+    >
       <meshPhongMaterial color="orange" attach="material" />
     </Box>
   );
@@ -112,45 +114,47 @@ function GenHorizontalWall(x, z, width, height, depth) {
 
 function GenVerticalWall(x, z, width, height, depth) {
   return (
-    <Box key={String(x) + ',' + String(z) + "left"}
+    <Box
+      key={String(x) + "," + String(z) + "left"}
       args={[width, height, depth]}
       rotation={[0, Math.PI * 0.5, 0]}
-      position={[x, 0, z + width / 2]}>
+      position={[x, 0, z + width / 2]}
+    >
       <meshPhongMaterial color="orange" attach="material" />
     </Box>
   );
 }
 
-export function Walls(
-  { numX,
-    numZ,
-    wallTop,
-    wallLeft,
-    blockWidth,
-    blockHeight,
-    blockDepth,
-    mazeWidth,
-    mazeDepth }
-) {
+export function Walls({
+  numX,
+  numZ,
+  wallTop,
+  wallLeft,
+  blockWidth,
+  blockHeight,
+  blockDepth,
+  mazeWidth,
+  mazeDepth,
+}) {
   const walls = [];
-  for (let i = 0; i < numX+1; i++) {
-    for (let j = 0; j < numZ+1; j++) {
-      if (wallTop[i + (numX+1) * j]) {
+  for (let i = 0; i < numX + 1; i++) {
+    for (let j = 0; j < numZ + 1; j++) {
+      if (wallTop[i + (numX + 1) * j]) {
         walls.push(
           GenHorizontalWall(
-            -mazeWidth/2 + i * blockWidth - blockDepth / 2,
-            -mazeDepth/2 + j * blockWidth,
+            -mazeWidth / 2 + i * blockWidth - blockDepth / 2,
+            -mazeDepth / 2 + j * blockWidth,
             blockWidth + blockDepth,
             blockHeight,
             blockDepth
           )
         );
       }
-      if (wallLeft[i + (numX+1) * j]) {
+      if (wallLeft[i + (numX + 1) * j]) {
         walls.push(
           GenVerticalWall(
-            -mazeWidth/2 + i * blockWidth,
-            -mazeDepth/2 + j * blockWidth - blockDepth / 2,
+            -mazeWidth / 2 + i * blockWidth,
+            -mazeDepth / 2 + j * blockWidth - blockDepth / 2,
             blockWidth + blockDepth,
             blockHeight,
             blockDepth
@@ -160,9 +164,5 @@ export function Walls(
     }
   }
 
-  return (
-    <group name="walls">
-      {walls}
-    </group>
-  );
+  return <group name="walls">{walls}</group>;
 }

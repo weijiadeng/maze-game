@@ -1,45 +1,45 @@
 .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    font-family: 'Coming Soon', cursive;
-    width: 400px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    color: wheat;
-    text-shadow: 2px 2px gray;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-family: "Coming Soon", cursive;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: wheat;
+  text-shadow: 2px 2px gray;
 }
 
-@media (max-width:576px) {
-    .content {
-        top: 40%;
-    }
+@media (max-width: 576px) {
+  .content {
+    top: 40%;
+  }
 }
 
-.content>div {
-    font-size: x-large;
+.content > div {
+  font-size: x-large;
 }
 
 .buttonsection {
-    width: 100%;
-    margin-top: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
-.buttonsection>div {
-    color: darkblue;
-    margin-top: auto;
+.buttonsection > div {
+  color: darkblue;
+  margin-top: auto;
 }
 
-.buttonsection>div:hover {
-    color: blue;
-    cursor: pointer;
+.buttonsection > div:hover {
+  color: blue;
+  cursor: pointer;
 }

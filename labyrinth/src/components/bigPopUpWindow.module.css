@@ -79,13 +79,13 @@
         border: 0px;
         margin-left: 0;
         margin-right: 0;
-        margin-bottom: 5vh;
+        bottom: 10vh;
         width: 80%;
         height: 75%;
         z-index: -10;
     }
     .content {
-        margin-bottom: 7vh;
+        bottom: 10vh;
         font-family: 'Coming Soon', cursive;
         width: 70%;
         height: 70%;

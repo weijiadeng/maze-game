@@ -77,19 +77,19 @@
     .backgroundPic {
         position: absolute;
         border: 0px;
-        margin-top: 8vh;
+        margin-top: 30%;
         margin-left: 0;
         margin-right: 0;
         margin-bottom: 0;
         width: 80%;
-        height: 75vh;
+        height: 75%;
         z-index: -10;
     }
     .content {
-        margin-top: 4vh;
+        margin-top: 33%;
         font-family: 'Coming Soon', cursive;
         width: 70%;
-        height: 70vh;
+        height: 70%;
         display: flex;
         flex-direction: column;
         text-align: center;

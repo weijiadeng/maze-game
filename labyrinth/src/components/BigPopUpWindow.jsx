@@ -29,7 +29,7 @@ const BigPopUpWindow = (props) => {
             isOpen={isOpen}
             className={styles.popup}
             overlayClassName={styles.overlay}
-            closeTimeoutMS={1000}>
+            closeTimeoutMS={500}>
             <img src={props.background} className={styles.backgroundPic} alt={""} />
 
             <div className={styles.content}>

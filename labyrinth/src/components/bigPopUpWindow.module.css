@@ -80,13 +80,14 @@
         margin-top: 30%;
         margin-left: 0;
         margin-right: 0;
-        margin-bottom: 0;
+        margin-bottom: 5%;
         width: 80%;
         height: 75%;
         z-index: -10;
     }
     .content {
         margin-top: 33%;
+        margin-bottom: 7%;
         font-family: 'Coming Soon', cursive;
         width: 70%;
         height: 70%;

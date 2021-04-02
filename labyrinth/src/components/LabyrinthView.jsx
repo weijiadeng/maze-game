@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ReactReduxContext } from "react-redux";
 import { Canvas } from "react-three-fiber";
-import { Sky, Stars, Plane, useContextBridge } from "@react-three/drei";
+import { Sky, Stars, Plane, useContextBridge, Html } from "@react-three/drei";
 import { LabyrinthCamera } from "./LabyrinthCamera";
 import { Walls } from "./Walls";
 import styles from "./labyrinthView.module.css";

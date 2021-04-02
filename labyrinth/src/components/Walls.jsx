@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Box } from "@react-three/drei";
+import { Box, Text } from "@react-three/drei";
 import { shuffleArray, UnionFind } from "../commons/utils";
+import { DoubleSide } from "three";
 
 // Wall global index definination example:
 // (The below two pictures are the same 3*3 maze, we separte vertical and horizontal walls to make it looks more clear)
@@ -163,6 +164,66 @@ export function Walls({
       }
     }
   }
+  walls.push(
+    <Box
+      args={[blockWidth + blockDepth, blockHeight, blockDepth]}
+      rotation={[0, 0, 0]}
+      position={[
+        -mazeWidth / 2 + (numX - 0.5) * blockWidth - blockDepth / 2,
+        0,
+        -mazeDepth / 2 + numZ * blockWidth,
+      ]}
+    >
+      <meshPhongMaterial
+        color="blue"
+        attach="material"
+        transparent
+        opacity={0.2}
+      />
+      <Text
+        color={"#db5c27"}
+        fontSize={2}
+        maxWidth={200}
+        lineHeight={1}
+        letterSpacing={0.02}
+        textAlign={"left"}
+        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+        anchorX={blockWidth / 5}
+        anchorY="100%"
+        depthOffset={10}
+      >
+        Entrance
+      </Text>
+    </Box>
+  );
+  walls.push(
+    <Box
+      args={[blockWidth + blockDepth, blockHeight, blockDepth]}
+      rotation={[0, Math.PI * 0.5, 0]}
+      position={[-mazeWidth / 2 , 0, -mazeDepth / 2 - blockDepth / 2 + blockWidth/2]}
+    >
+      <meshPhongMaterial
+        color="green"
+        attach="material"
+        transparent
+        opacity={0.2}
+      />
+      <Text
+        color={"#db5c27"}
+        fontSize={2}
+        maxWidth={200}
+        lineHeight={1}
+        letterSpacing={0.02}
+        textAlign={"left"}
+        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+        anchorX={blockWidth / 8}
+        anchorY="100%"
+        depthOffset={10}
+      >
+        Exit
+      </Text>
+    </Box>
+  );
 
   return <group name="walls">{walls}</group>;
 }

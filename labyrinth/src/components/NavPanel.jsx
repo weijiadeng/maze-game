@@ -105,7 +105,7 @@ function GobackConfirm() {
   );
 }
 
-export function NavPanel() {
+export function NavPanel({mode}) {
   const isPlayingBGM = useSelector(selectIsPlaying);
   const dispatch = useDispatch();
   const handleGoHome = () => {
@@ -161,21 +161,30 @@ export function NavPanel() {
             handleHelperPage();
           }}
         />
+
         <span className={styles.toggle}>
-          <FontAwesomeIcon
-            className={styles.icon}
-            icon={buff & DARK_MODE_OFF ? faMoon : faSun}
-            onClick={() => {
-              handleSwitchDayNight();
-            }}
-          />
-          <FontAwesomeIcon
-            className={styles.icon}
-            icon={faMap}
-            onClick={() => {
-              handleSwitchMinimap();
-            }}
-          />
+          {mode === "pure" ? (
+            <FontAwesomeIcon
+              className={styles.icon}
+              icon={buff & DARK_MODE_OFF ? faMoon : faSun}
+              onClick={() => {
+                handleSwitchDayNight();
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {mode === "pure" ? (
+            <FontAwesomeIcon
+              className={styles.icon}
+              icon={faMap}
+              onClick={() => {
+                handleSwitchMinimap();
+              }}
+            />
+          ) : (
+            <></>
+          )}
           <FontAwesomeIcon
             className={styles.icon}
             icon={

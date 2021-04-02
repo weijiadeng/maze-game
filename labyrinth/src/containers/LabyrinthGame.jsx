@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { GamePanel } from "../components/GamePanel";
-import ElapseTimer from "../components/ElapseTimer";
 import { LabyrinthView } from "../components/LabyrinthView";
 import { EventManager } from "../components/EventManager";
 import { MiniMap } from "../components/MiniMap";
@@ -25,6 +24,8 @@ import {
   selectWallTop,
   selectAction,
   selectResetEvent,
+  selectNumX,
+  selectNumZ,
 } from "../reducers/controlSlice";
 import {
   addABuff,
@@ -38,32 +39,16 @@ import {
   selectHP,
   resetPlayerStatus,
 } from "../reducers/playerStatusSlice";
-import { resetCount, selectCurNumSeconds } from "../reducers/elapseTimerSlice";
+import { assignTimeout, resetCount, selectCurNumSeconds, selectTimeout } from "../reducers/elapseTimerSlice";
 import { useParams } from "react-router-dom";
 import { NavPanel } from "../components/NavPanel";
 import styles from "./labyrinthGame.module.css";
 
 export default function LabyrinthGame() {
   const { gameMode } = useParams();
-  let numX;
-  let numZ;
-  switch (gameMode) {
-    case "easy":
-      numX = 5;
-      numZ = 5;
-      break;
-    case "medium":
-      numX = 10;
-      numZ = 10;
-      break;
-    case "hard":
-      numX = 15;
-      numZ = 15;
-      break;
-    default:
-    // console.log("game mode error: " + gameMode);
-  }
-
+  let numX = useSelector(selectNumX);
+  let numZ = useSelector(selectNumZ);
+  let timeout = useSelector(selectTimeout);
   const blockWidth = 20;
   const blockDepth = 0.5;
   const blockHeight = 10;
@@ -73,9 +58,34 @@ export default function LabyrinthGame() {
   // const [gameRoundID, setGameRoundID] = useState(0);
   // Reset the game when initialization
   if (!isInit) {
+    switch (gameMode) {
+      case "easy":
+        numX = 5;
+        numZ = 5;
+        timeout = 100;
+        break;
+      case "medium":
+        numX = 10;
+        numZ = 10;
+        timeout = 200;
+        break;
+      case "hard":
+        numX = 15;
+        numZ = 15;
+        timeout = 600;
+        break;
+      case "pure":
+        numX = 20;
+        numZ = 20;
+        timeout = 0;
+        break;
+      default:
+      // console.log("game mode error: " + gameMode);
+    }
     // setGameRoundID(genRandomInt(1024));
     dispatch(assignNumX(numX));
     dispatch(assignNumZ(numZ));
+    dispatch(assignTimeout(timeout));
     dispatch(assignPosX(numX - 1));
     dispatch(assignPosZ(numZ - 1));
     dispatch(assignResetCamera(false));
@@ -91,7 +101,7 @@ export default function LabyrinthGame() {
     } else if (gameMode === "hard") {
       dispatch(addADebuff(MINI_MAP_OFF));
       dispatch(addADebuff(DARK_MODE_ON));
-    } else if (gameMode === "medium") {
+    } else if (gameMode === "medium" || gameMode === "pure") {
       dispatch(addABuff(DARK_MODE_OFF));
       dispatch(addADebuff(MINI_MAP_OFF));
     }
@@ -109,7 +119,10 @@ export default function LabyrinthGame() {
   const isResetEvent = useSelector(selectResetEvent);
   const currentHP = useSelector(selectHP);
   const currentCurNumSeconds = useSelector(selectCurNumSeconds);
-  const isGameFail = currentHP <= 0 || 100 - currentCurNumSeconds <= 0;
+  const isGameFail =
+    gameMode === "pure"
+      ? false
+      : currentHP <= 0 || timeout - currentCurNumSeconds <= 0;
 
   return (
     <div className={styles.visContainer}>
@@ -150,8 +163,7 @@ export default function LabyrinthGame() {
         miniMapIsOn={buff & MINI_MAP_ON}
         isGameFail={isGameFail}
       />
-      <ElapseTimer />
-      <PlayerStatusPanel buff={buff} debuff={debuff} />
+      <PlayerStatusPanel buff={buff} debuff={debuff} timeout={timeout} mode={gameMode}/>
     </div>
   );
 }

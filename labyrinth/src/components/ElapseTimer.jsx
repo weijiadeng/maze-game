@@ -7,10 +7,12 @@ import {
   READY,
   selectIntervalHasSet,
   markIntervalSet,
+  selectCurNumSeconds,
 } from "../reducers/elapseTimerSlice";
+import styles from "./elapseTimer.module.css";
 
 // A timer recording elapse time.
-export default function ElapseTimer() {
+export default function ElapseTimer({ mode }) {
   const status = useSelector(selectStatus);
   const intervalHasSet = useSelector(selectIntervalHasSet);
   const dispatch = useDispatch();
@@ -26,8 +28,15 @@ export default function ElapseTimer() {
     }
   }
 
-  // const x = useSelector(selectCurNumSeconds);
-  // const elapseTime = `Time elapsed: ${Math.floor(x / 3600)} H ${Math.floor(x / 60)} M ${x % 60} S`;
-
-  return <></>;
+  const x = useSelector(selectCurNumSeconds);
+  return mode === "pure" ? (
+    <div className={styles.timer}>
+      Time elapsed:{" "}
+      <span className={styles.number}>{Math.floor(x / 3600)}</span> H{" "}
+      <span className={styles.number}>{Math.floor(x / 60)} </span> M{" "}
+      <span className={styles.number}>{x % 60} </span> S{" "}
+    </div>
+  ) : (
+    <></>
+  );
 }

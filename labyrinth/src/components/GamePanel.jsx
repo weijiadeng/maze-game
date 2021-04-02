@@ -53,7 +53,6 @@ export function GamePanel() {
         break;
     }
   };
-
   const isPlayHitWall = useSelector(selectLastMoveHitWall);
   const { play } = useHitWallSound();
   if (isPlayHitWall) {

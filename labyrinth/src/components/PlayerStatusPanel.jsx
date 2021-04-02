@@ -25,6 +25,7 @@ import rocket from "../images/rocket.png";
 // Ref: https://iconarchive.com/show/noto-emoji-animals-nature-icons-by-google/22283-turtle-icon.html
 import turtleicon from "../images/turtleicon.png";
 import { selectCurNumSeconds } from "../reducers/elapseTimerSlice";
+import ElapseTimer from "./ElapseTimer";
 
 // Ref: https://medium.com/@ItsMeDannyZ/how-to-build-a-progress-bar-with-react-8c5e79731d1f
 const ProgressBar = (props) => {
@@ -44,23 +45,32 @@ const Filler = (props) => {
   );
 };
 
-const PlayerStatusPanel = ({ buff, debuff }) => {
+const PlayerStatusPanel = ({ buff, debuff, timeout, mode }) => {
   const hp = useSelector(selectHP);
-  const clock = 100 - useSelector(selectCurNumSeconds);
+  const clock = (timeout - useSelector(selectCurNumSeconds)) / timeout * 100;
   return (
     <div className={styles.container}>
-      <div className={styles.progressBarSection}>
-        <img className={styles.icon} src={heart} alt="HP" />
-        <ProgressBar percentage={hp} />
-      </div>
-      <div className={styles.progressBarSection}>
-        <img
-          className={styles.icon}
-          src={clock > 20 ? normalclock : outoftimeclock}
-          alt="Remaining Time"
-        />
-        <ProgressBar percentage={clock} color="blue" />
-      </div>
+      {mode !== "pure" ? (
+        <div className={styles.progressBarSection}>
+          <img className={styles.icon} src={heart} alt="HP" />
+          <ProgressBar percentage={hp} />{" "}
+        </div>
+      ) : (
+        <></>
+      )}
+      {mode !== "pure" ? (
+        <div className={styles.progressBarSection}>
+          <img
+            className={styles.icon}
+            src={clock > 30 ? normalclock : outoftimeclock}
+            alt="Remaining Time"
+          />
+          <ProgressBar percentage={clock} color="blue" />
+        </div>
+      ) : (
+        <></>
+      )}
+      <ElapseTimer mode={mode} />
       <div className={styles.buffSection}>
         <img
           className={styles.icon}

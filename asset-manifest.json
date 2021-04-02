@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/weijia-deng-wenhua-yao-assignment2/static/css/main.8a08c973.chunk.css",
-    "main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/main.101d1bfb.chunk.js",
-    "main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/main.101d1bfb.chunk.js.map",
-    "runtime-main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.d9238886.js",
-    "runtime-main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.d9238886.js.map",
-    "static/js/2.c32ab0a8.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/2.c32ab0a8.chunk.js",
-    "static/js/2.c32ab0a8.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/2.c32ab0a8.chunk.js.map",
-    "static/js/3.aaeee3c0.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/3.aaeee3c0.chunk.js",
-    "static/js/3.aaeee3c0.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/3.aaeee3c0.chunk.js.map",
+    "main.css": "/weijia-deng-wenhua-yao-assignment2/static/css/main.c1af823a.chunk.css",
+    "main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/main.6206b79c.chunk.js",
+    "main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/main.6206b79c.chunk.js.map",
+    "runtime-main.js": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.b7a80816.js",
+    "runtime-main.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/runtime-main.b7a80816.js.map",
+    "static/js/2.8b80e9c9.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/2.8b80e9c9.chunk.js",
+    "static/js/2.8b80e9c9.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/2.8b80e9c9.chunk.js.map",
+    "static/js/3.4b05c273.chunk.js": "/weijia-deng-wenhua-yao-assignment2/static/js/3.4b05c273.chunk.js",
+    "static/js/3.4b05c273.chunk.js.map": "/weijia-deng-wenhua-yao-assignment2/static/js/3.4b05c273.chunk.js.map",
     "index.html": "/weijia-deng-wenhua-yao-assignment2/index.html",
-    "static/css/main.8a08c973.chunk.css.map": "/weijia-deng-wenhua-yao-assignment2/static/css/main.8a08c973.chunk.css.map",
-    "static/js/2.c32ab0a8.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/2.c32ab0a8.chunk.js.LICENSE.txt",
-    "static/js/3.aaeee3c0.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/3.aaeee3c0.chunk.js.LICENSE.txt",
+    "static/css/main.c1af823a.chunk.css.map": "/weijia-deng-wenhua-yao-assignment2/static/css/main.c1af823a.chunk.css.map",
+    "static/js/2.8b80e9c9.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/2.8b80e9c9.chunk.js.LICENSE.txt",
+    "static/js/3.4b05c273.chunk.js.LICENSE.txt": "/weijia-deng-wenhua-yao-assignment2/static/js/3.4b05c273.chunk.js.LICENSE.txt",
     "static/media/battle.8585994a.png": "/weijia-deng-wenhua-yao-assignment2/static/media/battle.8585994a.png",
     "static/media/bigWindowBackground.851d04fd.png": "/weijia-deng-wenhua-yao-assignment2/static/media/bigWindowBackground.851d04fd.png",
     "static/media/darkMode.d01dbca6.png": "/weijia-deng-wenhua-yao-assignment2/static/media/darkMode.d01dbca6.png",
@@ -39,9 +39,9 @@
     "static/media/turtleicon.fcc4bf50.png": "/weijia-deng-wenhua-yao-assignment2/static/media/turtleicon.fcc4bf50.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.d9238886.js",
-    "static/js/2.c32ab0a8.chunk.js",
-    "static/css/main.8a08c973.chunk.css",
-    "static/js/main.101d1bfb.chunk.js"
+    "static/js/runtime-main.b7a80816.js",
+    "static/js/2.8b80e9c9.chunk.js",
+    "static/css/main.c1af823a.chunk.css",
+    "static/js/main.6206b79c.chunk.js"
   ]
 }

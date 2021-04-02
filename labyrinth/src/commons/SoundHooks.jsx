@@ -85,6 +85,7 @@ export function useConfrontBattleSound() {
   };
   return { play, stop };
 }
+
 export function useGameOverSound() {
   const [playSound, { stop }] = useSound(GameOverSound, {
     interrupt: true,

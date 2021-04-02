@@ -3,7 +3,6 @@ import {
   assignInit,
   assignResetEvent,
   NOTHING,
-  popEvent,
   RANDOM_EVENT,
   resumeAction,
 } from "../reducers/controlSlice";
@@ -30,6 +29,7 @@ import {
   usePositiveEffectSound,
   useNegativeEffectSound,
   useGameCompletionSound,
+  useConfrontBattleSound,
   useNeutralEffectSound,
   useGameOverSound,
 } from "../commons/SoundHooks";
@@ -48,26 +48,23 @@ import {
   SPEED_UP,
   SPEED_DOWN,
 } from "../reducers/playerStatusSlice";
-import { useBgmPlay } from "../commons/BackgroundMusic";
 import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
 import { LearderboardSection } from "./Leaderboard";
 import styles from "./eventManager.module.css";
 import dayIcon from "../images/sun.png";
-// Ref: https://www.flaticon.com/free-icon/night_208293
 import nightIcon from "../images/night.png";
-// Ref: https://www.flaticon.com/free-icon/rocket_1356479
 import rocket from "../images/rocket.png";
-// Ref: https://iconarchive.com/show/noto-emoji-animals-nature-icons-by-google/22283-turtle-icon.html
 import turtleIcon from "../images/turtleicon.png";
 import mapOnIcon from "../images/mapicon.png";
 import mapOffIcon from "../images/mapoff.png";
+import hpBonusIcon from "../images/hpbonus.png";
+// Ref:https://www.flaticon.com/free-icon/battle_1732452
+import battleIcon from "../images/battle.png";
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
 const SPEED_DOWN_ID = 1;
 const HIDE_MINI_MAP = 2;
-
-const HP_DOWN_BY_TEN = 3;
 
 const NUM_BUFF_TYPE = 4;
 const BRIGHT_MODE_ID = 0;
@@ -236,7 +233,9 @@ function StrongWindEventRender() {
     <SmallPopUpWindow>
       <h1>Wow!</h1>
       <div>You've been applied A strong wind!</div>
-      <div>All effects are cleared!</div>
+      <div>
+        <span className={styles.neutralKeywords}>All effects are cleared!</span>
+      </div>
     </SmallPopUpWindow>
   );
 }
@@ -259,12 +258,14 @@ function smellyWindEventCallBack(debuffId, dispatch, play) {
       dispatch(addADebuff(MINI_MAP_OFF));
       dispatch(removeABuff(MINI_MAP_ON));
       break;
-    case HP_DOWN_BY_TEN:
-      dispatch(decreaseHP(10));
-      break;
     default:
       break;
   }
+}
+
+function confrontBattleCallBack(HP, dispatch, play) {
+  play();
+  dispatch(decreaseHP(HP));
 }
 
 function SmellyWindEventRender({ debuffId }) {
@@ -302,12 +303,6 @@ function SmellyWindEventRender({ debuffId }) {
         </div>
       );
       break;
-    case HP_DOWN_BY_TEN:
-      specificIcon = (
-        <img className={styles.icon} src={dayIcon} alt="Dark mode" />
-      );
-      specificEventContent = <div>Your lost 10 HP!</div>;
-      break;
     default:
       break;
   }
@@ -317,6 +312,19 @@ function SmellyWindEventRender({ debuffId }) {
       <h1>Oh no!</h1>
       <div>You met a smelly wind...</div>
       {specificEventContent}
+    </SmallPopUpWindow>
+  );
+}
+
+function BattleEventRender({ HP }) {
+  return (
+    <SmallPopUpWindow>
+      <img className={styles.icon} src={battleIcon} alt="Battle Event" />{" "}
+      <h1>Oh no!</h1>
+      <div>You fought with an monster...</div>
+      <div>
+        Your lost <span className={styles.negativeKeywords}>{HP} HP</span>!
+      </div>
     </SmallPopUpWindow>
   );
 }
@@ -338,7 +346,7 @@ function FreshWindEventRender({ buffId }) {
       break;
     case SPEED_UP_ID:
       specificIcon = (
-        <img className={styles.icon} src={rocket} alt="Day mode" />
+        <img className={styles.icon} src={rocket} alt="Speed up" />
       );
       specificEventContent = (
         <div>
@@ -349,7 +357,7 @@ function FreshWindEventRender({ buffId }) {
       break;
     case SHOW_MINI_MAP:
       specificIcon = (
-        <img className={styles.icon} src={mapOnIcon} alt="Day mode" />
+        <img className={styles.icon} src={mapOnIcon} alt="Minimap on" />
       );
       specificEventContent = (
         <div>
@@ -359,6 +367,9 @@ function FreshWindEventRender({ buffId }) {
       );
       break;
     case HP_UP_BY_TEN:
+      specificIcon = (
+        <img className={styles.icon} src={hpBonusIcon} alt="HP bouns" />
+      );
       specificEventContent = (
         <div>
           Your got <span className={styles.positiveKeywords}>10 HP</span>!
@@ -439,16 +450,17 @@ function initEventMap(numX, numZ, gameMode) {
           );
         } else if (
           randomID <
-          (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * 2
+          (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * 3
         ) {
+          let HP = genRandomInt(40) + 1;
           eventMap[i] = new Event(
-            <SmellyWindEventRender debuffId={HP_DOWN_BY_TEN} />,
-            partialApply(smellyWindEventCallBack, HP_DOWN_BY_TEN),
-            NEGATIVE_EFFECT_EVENT
+            <BattleEventRender HP={HP}/>,
+            partialApply(confrontBattleCallBack, HP),
+            CONFRONT_BATTLE_EVENT
           );
         } else if (
           randomID <
-          (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * (2 + NUM_BUFF_TYPE)
+          (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * (4 + NUM_BUFF_TYPE)
         ) {
           const buffId = genRandomInt(NUM_BUFF_TYPE);
           eventMap[i] = new Event(
@@ -490,13 +502,13 @@ export function EventManager({
       setEventMap(initEventMap(numX, numZ, gameMode));
       dispatch(assignResetEvent(false));
     }
-  });
+  }, [isResetEvent, numX, numZ, gameMode, dispatch]);
   const { play: playGameCompletionSound } = useGameCompletionSound();
   const { play: playPositiveEffectSound } = usePositiveEffectSound();
   const { play: playNegativeEffectSound } = useNegativeEffectSound();
   const { play: playNeutralEffectSound } = useNeutralEffectSound();
   // TODO: add confront battle event
-  // const { play: playConfrontBattleSound } = useConfrontBattleSound();
+  const { play: playConfrontBattleSound } = useConfrontBattleSound();
   const { play: playGameOverSound } = useGameOverSound();
 
   let currentIndex = posZ * numX + posX;
@@ -541,6 +553,12 @@ export function EventManager({
           case NEGATIVE_EFFECT_EVENT:
             currentCallback = () => {
               callBack(dispatch, playNegativeEffectSound);
+              dispatch(enableSmallPopUpIsToOpen());
+            };
+            break;
+          case CONFRONT_BATTLE_EVENT:
+            currentCallback = () => {
+              callBack(dispatch, playConfrontBattleSound);
               dispatch(enableSmallPopUpIsToOpen());
             };
             break;

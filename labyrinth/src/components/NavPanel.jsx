@@ -109,8 +109,6 @@ export function NavPanel({mode}) {
   const isPlayingBGM = useSelector(selectIsPlaying);
   const dispatch = useDispatch();
   const handleGoHome = () => {
-    //history.push("");
-    //dispatch(stopBGM());
     dispatch(enableBigPopUpIsToOpen(CONFIRM_WINDOW));
   };
   const handleHelperPage = () => {

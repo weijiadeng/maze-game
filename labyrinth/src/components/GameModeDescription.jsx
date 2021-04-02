@@ -24,6 +24,13 @@ const GameModeDescription = () => {
           Maze size is 15 X 15, and dark mode is always on. Strong wind will
           clear all effects except dark mode.
         </li>
+        <li>
+          <span className={styles.gameModeName}>Pure Maze mode</span>
+          <br />
+          Maze size is 20 X 20, no random events, no time limits and hp
+          limits, you can toggle on/off dark mode and minimap at any time. This
+          is to offer a pure maze wondering pleasure.
+        </li>
       </ul>
     </div>
   );

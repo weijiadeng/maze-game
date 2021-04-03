@@ -162,7 +162,32 @@ export function Walls({
         }
       }
     }
-    endpoints.current.push(
+    mesh.instanceMatrix.needsUpdate = true;
+  };
+  React.useEffect(initWalls, [
+    numX,
+    numZ,
+    wallTop,
+    wallLeft,
+    blockWidth,
+    blockHeight,
+    blockDepth,
+    mazeWidth,
+    mazeDepth,
+  ]);
+  return (
+    <group name="walls">
+      <instancedMesh
+        ref={meshRef}
+        args={[null, null, numWalls]}
+        frustumCulled={false}
+      >
+        <boxBufferGeometry
+          attach="geometry"
+          args={[blockWidth + blockDepth, blockHeight, blockDepth]}
+        />
+        <meshPhongMaterial color="orange" attach="material" />
+      </instancedMesh>
       <Box
         key={"entrance"}
         args={[blockWidth + blockDepth, blockHeight, blockDepth]}
@@ -194,8 +219,6 @@ export function Walls({
           Entrance
         </Text>
       </Box>
-    );
-    endpoints.current.push(
       <Box
         key={"exit"}
         args={[blockWidth + blockDepth, blockHeight, blockDepth]}
@@ -226,36 +249,8 @@ export function Walls({
         >
           Exit
         </Text>
-      </Box>
-    );
-    mesh.instanceMatrix.needsUpdate = true;
-  };
-  React.useEffect(initWalls, [
-    numX,
-    numZ,
-    wallTop,
-    wallLeft,
-    blockWidth,
-    blockHeight,
-    blockDepth,
-    mazeWidth,
-    mazeDepth,
-  ]);
-  return (
-    <group name="walls">
-      <instancedMesh
-        ref={meshRef}
-        args={[null, null, numWalls]}
-        frustumCulled={false}
-      >
-        <boxBufferGeometry
-          attach="geometry"
-          args={[blockWidth + blockDepth, blockHeight, blockDepth]}
-        />
-        <meshPhongMaterial color="orange" attach="material" />
-      </instancedMesh>
+        </Box>
 
-      {endpoints.current}
     </group>
   );
 }

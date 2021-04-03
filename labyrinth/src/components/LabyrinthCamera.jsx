@@ -88,7 +88,7 @@ export default function LabyrinthCamera({
   const coordZ = -blockWidth / 2 + (posZ + 1) * blockWidth + startCoordZ;
 
   const isResetCamera = useSelector(selectIsResetCamera);
-  
+
   const dispatch = useDispatch();
   // useFrame function is called in each frame, it handles the animation of the threejs 3D world
   useFrame(() => {
@@ -246,7 +246,7 @@ export default function LabyrinthCamera({
   return (
     // Used for debug, can add trackbacll control to the camera
     // Ref: https://codesandbox.io/s/r3f-demo-1-ljh5l?from-embed
-    <group name="walls">
+    <group name="camera">
     </group>
   );
 }

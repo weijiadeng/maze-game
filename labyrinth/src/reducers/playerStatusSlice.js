@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const INITIAL_HP = 100;
 
+// Buff and debuff are represented using bitsets
 export const MINI_MAP_ON = 1 << 0;
 export const DARK_MODE_ON = 1 << 1;
 export const SPEED_UP = 1 << 2;
@@ -16,7 +17,6 @@ export const playerStatusSlice = createSlice({
     HP: INITIAL_HP,
     buff: 0,
     debuff: 0,
-    speedModifier: 1,
     isTimeUsedUp: false
   },
   reducers: {
@@ -27,6 +27,7 @@ export const playerStatusSlice = createSlice({
       }
     },
     increaseHP: (state, action) => {
+      // HP cannot be greater than init value
       state.HP += action.payload;
       if (state.HP > INITIAL_HP) {
         state.HP = INITIAL_HP;

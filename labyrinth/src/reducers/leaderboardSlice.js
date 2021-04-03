@@ -4,26 +4,22 @@ import { compareNumbers } from "../commons/utils";
 export const leaderboardSlice = createSlice({
   name: "leaderboard",
   initialState: {
-    list: [],
-    isShowLeaderboard: false,
+    list: {easy:[],medium:[],hard:[],pure:[]},
   },
   reducers: {
     appendToLeaderBoard: (state, action) => {
-      state.list.push(action.payload);
-      state.list.sort(compareNumbers);
-      if (state.list.length > 10) {
-        state.list.pop();
+      const [mode, value] = [action.payload.mode, action.payload.value];
+      state.list[mode].push(value);
+      state.list[mode].sort(compareNumbers);
+      if (state.list[mode].length > 10) {
+        state.list[mode].pop();
       }
     },
-    toggleIsShowLeaderboard: state => {
-      state.isShowLeaderboard = !state.isShowLeaderboard;
-    }
   },
 });
 
-export const { appendToLeaderBoard, toggleIsShowLeaderboard } = leaderboardSlice.actions;
+export const { appendToLeaderBoard } = leaderboardSlice.actions;
 
 export const selectList = (state) => state.leaderboard.list;
-export const selectIsShowLeaderboard = (state) => state.leaderboard.isShowLeaderboard;
 
 export default leaderboardSlice.reducer;

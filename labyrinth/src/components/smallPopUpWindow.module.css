@@ -10,7 +10,7 @@
   flex-direction: column;
   text-align: center;
   color: wheat;
-  text-shadow: 2px 2px gray;
+  text-shadow: 2px 2px 2px gray;
 }
 
 @media (max-width: 576px) {

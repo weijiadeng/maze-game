@@ -30,3 +30,14 @@
 .square:focus {
   outline: none;
 }
+
+@media (max-width: 576px) {
+  .container {
+    top: 0.3rem;
+    width: calc(99.5vw - 0.3rem);
+  }
+  .square {
+    height: 0.7rem;
+    width: 0.7rem;
+  }
+}

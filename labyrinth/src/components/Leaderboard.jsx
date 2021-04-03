@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { selectList } from "../reducers/leaderboardSlice";
 import styles from "./leaderboard.module.css";
 
-export function LeaderboardRow({ time, index }) {
+export function LeaderboardRow({ time, index}) {
   return (
     <div className={styles.leaderRow}>
       <span className={styles.order}>{index + 1}.</span>
@@ -14,13 +14,13 @@ export function LeaderboardRow({ time, index }) {
   );
 }
 
-export function LearderboardSection(props) {
+export function LearderboardSection({mode}) {
   const leaderList = useSelector(selectList);
   return (
     <React.Fragment>
-      <h1>Leaderboard</h1>
+      <h1>Leaderboard for {mode} mode</h1>
       <div className={styles.leaderSection}>
-        {leaderList.map((x, index) => (
+        {leaderList[mode].map((x, index) => (
           <LeaderboardRow key={index} index={index} time={x} />
         ))}
       </div>

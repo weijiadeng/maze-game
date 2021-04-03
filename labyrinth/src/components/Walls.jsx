@@ -111,6 +111,7 @@ function genPositionVertical(x, z, width) {
   return [x, 0, z + width / 2];
 }
 
+// To reuse this object creating new walls
 const scratchObject3D = new Object3D();
 
 export function Walls({
@@ -140,6 +141,7 @@ export function Walls({
             -mazeDepth / 2 + j * blockWidth,
             blockWidth + blockDepth
           );
+          // Ref: https://codesandbox.io/s/r3f-demo-3-es4ru?from-embed
           scratchObject3D.position.set(posX, posY, posZ);
           scratchObject3D.rotation.set(0, 0, 0);
           scratchObject3D.updateMatrix();

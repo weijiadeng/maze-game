@@ -150,7 +150,7 @@ export default function LabyrinthGame() {
         darkModeIsOn={debuff & DARK_MODE_ON}
       />
       <GamePanel />
-      <NavPanel mode={gameMode} buff={buff}/>
+      <NavPanel mode={gameMode} buff={buff} />
       <EventManager
         discovered={discovered}
         posX={posX}

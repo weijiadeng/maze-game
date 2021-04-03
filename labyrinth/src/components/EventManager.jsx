@@ -26,8 +26,6 @@ import { partialApply, genRandomInt } from "../commons/utils";
 import background from "../images/bigWindowBackground.png";
 import {
   appendToLeaderBoard,
-  selectIsShowLeaderboard,
-  toggleIsShowLeaderboard,
 } from "../reducers/leaderboardSlice";
 import {
   usePositiveEffectSound,
@@ -120,16 +118,26 @@ function startEventCallback(dispatch) {
   dispatch(readyCount());
 }
 
-function EndEventRender() {
+function useLeaderBoard() {
+  const [isShowLeaderboard, setIsShowLeaderboard] = useState(false);
+  const handleLeaderboard = () => {
+    if (isShowLeaderboard) {
+      setIsShowLeaderboard(false);
+    } else {
+      setIsShowLeaderboard(true);
+    }
+  };
+  return [isShowLeaderboard, handleLeaderboard];
+}
+
+function EndEventRender({ mode }) {
   const time = useSelector(selectCurNumSeconds);
-  const isShowLeaderboard = useSelector(selectIsShowLeaderboard);
+  const [isShowLeaderboard, handleLeaderboard] = useLeaderBoard();
   const hasAppend = useRef(false);
   const dispatch = useDispatch();
-  console.log(hasAppend.current);
   useEffect(() => {
     if (!hasAppend.current) {
-      console.log("appended");
-      dispatch(appendToLeaderBoard(time));
+      dispatch(appendToLeaderBoard({ mode: mode, value: time }));
       hasAppend.current = true;
     }
   });
@@ -149,7 +157,9 @@ function EndEventRender() {
         Play Again
       </div>
       <GoHomeButton />
-      <ShowLeaderBoardOrGoBackButton />
+      <div onClick={() => handleLeaderboard()}>
+        {isShowLeaderboard ? "Go back" : "Check leaderboard"}
+      </div>
     </React.Fragment>
   );
 
@@ -160,7 +170,7 @@ function EndEventRender() {
       openType={EVENT_WINDOW}
     >
       {isShowLeaderboard ? (
-        <LearderboardSection />
+        <LearderboardSection mode={mode} />
       ) : (
         <>
           <h1>Congrats!</h1>
@@ -177,24 +187,9 @@ const GoHomeButton = () => {
   return <div onClick={() => history.push("/")}>Home</div>;
 };
 
-const ShowLeaderBoardOrGoBackButton = () => {
+function FailGameEventRender({ mode }) {
   const dispatch = useDispatch();
-  const isShowLeaderboard = useSelector(selectIsShowLeaderboard);
-  const handleLeaderboard = () => {
-    dispatch(toggleIsShowLeaderboard());
-  };
-
-  return (
-    <div onClick={() => handleLeaderboard()}>
-      {" "}
-      {isShowLeaderboard ? "Go back" : "Check leaderboard"}{" "}
-    </div>
-  );
-};
-
-function FailGameEventRender() {
-  const dispatch = useDispatch();
-  const isShowLeaderboard = useSelector(selectIsShowLeaderboard);
+  const [isShowLeaderboard, handleLeaderboard] = useLeaderBoard();
 
   const buttons = (
     <React.Fragment>
@@ -211,7 +206,9 @@ function FailGameEventRender() {
         Try again{" "}
       </div>
       <GoHomeButton />
-      <ShowLeaderBoardOrGoBackButton />
+      <div onClick={() => handleLeaderboard()}>
+        {isShowLeaderboard ? "Go back" : "Check leaderboard"}
+      </div>{" "}
     </React.Fragment>
   );
 
@@ -222,7 +219,7 @@ function FailGameEventRender() {
       openType={EVENT_WINDOW}
     >
       {isShowLeaderboard ? (
-        <LearderboardSection />
+        <LearderboardSection mode={mode} />
       ) : (
         <>
           <h1>Oops!</h1>
@@ -456,9 +453,13 @@ function initEventMap(numX, numZ, gameMode) {
     startEventCallback,
     START_GAME_EVENT
   );
-  eventMap[0] = new Event(<EndEventRender />, endEventCallback, END_GAME_EVENT);
+  eventMap[0] = new Event(
+    <EndEventRender mode={gameMode} />,
+    endEventCallback,
+    END_GAME_EVENT
+  );
   eventMap[numX * numZ + 1] = new Event(
-    <FailGameEventRender />,
+    <FailGameEventRender mode={gameMode} />,
     endEventCallback,
     GAME_FAIL_EVENT
   );

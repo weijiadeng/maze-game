@@ -26,10 +26,10 @@ export const playerStatusSlice = createSlice({
       }
     },
     increaseHP: (state, action) => {
-      if (state.HP === INITIAL_HP) {
-        return;
-      }
       state.HP += action.payload;
+      if (state.HP > INITIAL_HP) {
+        state.HP = INITIAL_HP;
+      }
     },
     resetBuffAndDebuff: (state) => {
       state.buff = 0;

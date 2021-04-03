@@ -29,10 +29,10 @@ Currently, the events triggering views are very simple: being triggered based on
 Secondly, I will consider keeping a record of users in the database, Amazon S3 for example. In this case users could view their former game grades.  
 
 ##### What assumptions did you make while working on this assignment?
-Users prefer to read pictures than text, so we used icons instead of text to reflect player status.  
-It's more intuitive for players to stay on the same page when they play the game. Going to another page might give the player a strange feeling,, so we designed it as a one-page app.  
-It's more common to select game mode in the start rather than in the middle of the game.  
-We assume the player has already read the guide when playing the game, thus only basic operation direction needed during the game. Therefore the helper page in the game view only contains necessary information.  
+* Users prefer to read pictures than text, so we used icons instead of text to reflect player status.  
+* It's more intuitive for players to stay on the same page when they play the game. Going to another page might give the player a strange feeling,, so we designed it as a one-page app.  
+* It's more common to select game mode in the start rather than in the middle of the game.  
+* We assume the player has already read the guide when playing the game, thus only basic operation direction needed during the game. Therefore the helper page in the game view only contains necessary information.  
 
 ##### How long did this assignment take to complete?
 This assignment took about a month to complete, including designing, discussing and implementing. The total hours spent on working is about 70 hours.

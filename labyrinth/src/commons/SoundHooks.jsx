@@ -14,7 +14,10 @@ import {
   selectIsPlaying,
   TO_MUTE,
 } from "../reducers/backgroundMusicSlice";
-import { resetLastMoveHitWall, selectLastMoveHitWall } from "../reducers/controlSlice";
+import {
+  resetLastMoveHitWall,
+  selectLastMoveHitWall,
+} from "../reducers/controlSlice";
 
 export function useGameCompletionSound() {
   const [playSound, { stop }] = useSound(GameCompletionSound, {
@@ -115,73 +118,6 @@ export function useHitWallSound() {
   };
   return { play, stop };
 }
-
-export const EffectSoundTestContainer = () => {
-  const {
-    play: playGameCompletionSound,
-    stop: stopGameCompletionSound,
-  } = useGameCompletionSound();
-  const {
-    play: playPositiveEffectSound,
-    stop: stopPositiveEffectSound,
-  } = usePositiveEffectSound();
-  const {
-    play: playNegativeEffectSound,
-    stop: stopNegativeEffectSound,
-  } = useNegativeEffectSound();
-  const {
-    play: playNeutralEffectSound,
-    stop: stopNeutralEffectSound,
-  } = useNeutralEffectSound();
-  const {
-    play: playConfrontBattleSound,
-    stop: stopConfrontBattleSound,
-  } = useConfrontBattleSound();
-  const {
-    play: playGameOverSound,
-    stop: stopGameOverSound,
-  } = useGameOverSound();
-  const { play: playHitWallSound, stop: stopHitWallSound } = useHitWallSound();
-
-  return (
-    <div>
-      <button onClick={() => playGameCompletionSound()}>
-        Play Game Compeletion Sound
-      </button>
-      <button onClick={() => stopGameCompletionSound()}>
-        Stop Game Compeletion Sound
-      </button>
-      <button onClick={() => playPositiveEffectSound()}>
-        Play PositiveEffectSound
-      </button>
-      <button onClick={() => stopPositiveEffectSound()}>
-        Stop PositiveEffectSound
-      </button>
-      <button onClick={() => playNegativeEffectSound()}>
-        Play NegativeEffectSound
-      </button>
-      <button onClick={() => stopNegativeEffectSound()}>
-        Stop NegativeEffectSound
-      </button>
-      <button onClick={() => playNeutralEffectSound()}>
-        Play NeutralEffectSound
-      </button>
-      <button onClick={() => stopNeutralEffectSound()}>
-        Stop NeutralEffectSound
-      </button>
-      <button onClick={() => playConfrontBattleSound()}>
-        Play ConfrontBattleSound
-      </button>
-      <button onClick={() => stopConfrontBattleSound()}>
-        Stop ConfrontBattleSound
-      </button>
-      <button onClick={() => playGameOverSound()}>Play GameOverSound</button>
-      <button onClick={() => stopGameOverSound()}>Stop GameOverSound</button>
-      <button onClick={() => playHitWallSound()}>Play HitWallSound</button>
-      <button onClick={() => stopHitWallSound()}>Stop HitWallSound</button>
-    </div>
-  );
-};
 
 // Manage play sound effects
 export function SoundEffectManager() {

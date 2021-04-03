@@ -116,7 +116,6 @@ export default function EventManager({
           currentCallback = () => {
             endEventCallback(playGameCompletionSound);
             dispatch(stopBGM());
-            console.log("isOpen");
             dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
           };
           break;

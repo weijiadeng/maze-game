@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { GamePanel } from "../components/GamePanel";
 import { LabyrinthView } from "../components/LabyrinthView";
-import { EventManager } from "../components/EventManager";
+import EventManager from "../components/EventManager";
 import { MiniMap } from "../components/MiniMap";
 import PlayerStatusPanel from "../components/PlayerStatusPanel";
 import { useSelector, useDispatch } from "react-redux";

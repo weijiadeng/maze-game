@@ -18,9 +18,9 @@ import {
   DOWN,
   LEFT,
   RIGHT,
-  RANDOM_EVENT,
   selectIsResetCamera,
   assignResetCamera,
+  INTERRUPTED,
 } from "../reducers/controlSlice";
 import {
   selectBuff,
@@ -221,7 +221,7 @@ export const LabyrinthCamera = ({
         break;
       case NOTHING:
         break;
-      case RANDOM_EVENT:
+      case INTERRUPTED:
         break;
       default:
       // console.log("button error!");

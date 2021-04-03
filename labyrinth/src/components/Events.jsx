@@ -48,6 +48,8 @@ import hpBonusIcon from "../images/hpbonus.png";
 import battleIcon from "../images/battle.png";
 // Ref:http://www.clker.com/clipart-wind-icon.html
 import windIcon from "../images/strongwind.png"
+
+
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
 const SPEED_DOWN_ID = 1;
@@ -73,12 +75,15 @@ export const START_GAME_EVENT = 4;
 export const END_GAME_EVENT = 5;
 export const GAME_FAIL_EVENT = 6;
 
+// Render the game start window
 function StartEventRender() {
   const dispatch = useDispatch();
   const buttons = (
     <div
       onClick={() => {
+        // Start time count
         dispatch(resumeCount());
+        // Unblock player inputs
         dispatch(resumeAction());
         dispatch(disableBigPopUpPresense());
       }}
@@ -98,10 +103,12 @@ function StartEventRender() {
   );
 }
 
+// The callbacks needed to be executed when game starts
 function startEventCallback(dispatch) {
   dispatch(readyCount());
 }
 
+// Handle whether show leaderboard logic
 function useLeaderBoard() {
   const [isShowLeaderboard, setIsShowLeaderboard] = useState(false);
   const handleLeaderboard = () => {
@@ -114,11 +121,13 @@ function useLeaderBoard() {
   return [isShowLeaderboard, handleLeaderboard];
 }
 
+// Render the game successfully finish window
 function EndEventRender({ mode }) {
   const time = useSelector(selectCurNumSeconds);
   const [isShowLeaderboard, handleLeaderboard] = useLeaderBoard();
   const [hasAppend, setHasAppend] = useState(false);
   const dispatch = useDispatch();
+  // Add player time spent to leader board only once
   useEffect(() => {
     if (!hasAppend) {
       dispatch(appendToLeaderBoard({ mode: mode, value: time }));
@@ -130,9 +139,14 @@ function EndEventRender({ mode }) {
     <React.Fragment>
       <div
         onClick={() => {
+          // Unblock player inputs
           dispatch(resumeAction());
+          // Reset player status
           dispatch(resetPlayerStatus());
+          // Reset time count
           dispatch(resetCount());
+          // Reinitialize the maze, including
+          // the maze layout and random events
           dispatch(assignInit(false));
           dispatch(disableBigPopUpPresense());
         }}
@@ -170,6 +184,7 @@ const GoHomeButton = () => {
   return <div onClick={() => history.push("/")}>Home</div>;
 };
 
+// Render the game fail window
 function FailGameEventRender({ mode }) {
   const dispatch = useDispatch();
   const [isShowLeaderboard, handleLeaderboard] = useLeaderBoard();
@@ -212,13 +227,11 @@ function FailGameEventRender({ mode }) {
   );
 }
 
-// function endEventCallback(dispatch, playGameCompletionSound) {
 function endEventCallback(dispatch, play) {
   play();
 }
 
 // With a Strong wind, all buff and debuff are cleared.
-// function strongWindEventCallBack(dispatch, playNeutralEffectSound) {
 function strongWindEventCallBack(dispatch, play, gameMode) {
   play();
   dispatch(resetBuffAndDebuff());

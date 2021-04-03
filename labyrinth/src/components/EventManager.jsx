@@ -19,7 +19,6 @@ import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
 import {
   assignResetEvent,
   NOTHING,
-  RANDOM_EVENT,
 } from "../reducers/controlSlice";
 import {
   initEventMap,
@@ -33,7 +32,9 @@ import {
 } from "./Events";
 import { useDispatch } from "react-redux";
 
-export function EventManager({
+// The componments responsible for incurring events according to game state and
+// position, including render the event pop up window and execute the event callback.
+export default function EventManager({
   discovered,
   posX,
   posZ,
@@ -44,11 +45,16 @@ export function EventManager({
   isGameFail,
   gameMode,
 }) {
+  // eventMap stores which event should occur at which position
   const [eventMap, setEventMap] = useState(initEventMap(numX, numZ, gameMode));
 
+  // The current rendering event, use ref to preserve the rendered window when go
+  // to another blank cell. Do not use state because we only want to rerender based
+  // on the position change and isGameFail change.
   const currentRender = useRef(null);
   const dispatch = useDispatch();
   useEffect(() => {
+    // If we need to restart the game, we need to reset all the events again.
     if (isResetEvent) {
       setEventMap(initEventMap(numX, numZ, gameMode));
       dispatch(assignResetEvent(false));
@@ -58,22 +64,29 @@ export function EventManager({
   const { play: playPositiveEffectSound } = usePositiveEffectSound();
   const { play: playNegativeEffectSound } = useNegativeEffectSound();
   const { play: playNeutralEffectSound } = useNeutralEffectSound();
-  // TODO: add confront battle event
   const { play: playConfrontBattleSound } = useConfrontBattleSound();
   const { play: playGameOverSound } = useGameOverSound();
 
+  // Convert the two dimension position index to one dimension index in the array
   let currentIndex = posZ * numX + posX;
 
+  // GameFail event is treated as a special event within the eventmap, it's the last
+  // element of the map.
   if (isGameFail) {
     currentIndex = numX * numZ + 1;
   }
+  // The event callbacks
   let currentCallback = () => {};
+  // This is called after the event callback is executed.
   const callBackCommonTail = () => {
     if (currentAction === NOTHING) {
+      // Mark the position discovered at the end of each callback
       discovered.current[currentIndex] = true;
     }
   };
-  if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
+  // Only call events when the moving animation is finished, and the
+  // game is not paused.
+  if (currentAction === NOTHING) {
     if (eventMap[currentIndex]) {
       if (!discovered.current[currentIndex]) {
         const { toRender, callBack, eventTypeId } = eventMap[currentIndex];
@@ -124,10 +137,6 @@ export function EventManager({
               dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
             };
             break;
-          // TODO: add confront battle event
-          // case CONFRONT_BATTLE_EVENT:
-          //   currentCallback = () => { callBack(dispatch, playConfrontBattleSound); dispatch(enableIsToOpen()) };
-          //   break;
           default:
             break;
         }

@@ -21,6 +21,7 @@ export function useGameCompletionSound() {
     volume: 0.75,
   });
   const isPlaying = useSelector(selectIsPlaying);
+  // When the muted is set, do not play any sound effect.
   const play = () => {
     if (isPlaying !== MUTED || isPlaying !== TO_MUTE) {
       playSound();

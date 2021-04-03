@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectStatus,
@@ -20,15 +20,18 @@ export default function ElapseTimer({ mode }) {
     dispatch(countUp());
   };
 
-  if (status === READY) {
-    dispatch(resumeCount());
-    if (!intervalHasSet) {
-      setInterval(handleCountUpDispatch, 1000);
-      dispatch(markIntervalSet());
+  useEffect(() => {
+    if (status === READY) {
+      dispatch(resumeCount());
+      if (!intervalHasSet) {
+        setInterval(handleCountUpDispatch, 1000);
+        dispatch(markIntervalSet());
+      }
     }
-  }
+  });
 
   const x = useSelector(selectCurNumSeconds);
+  // Only show detailed time count in pure mode
   return mode === "pure" ? (
     <div className={styles.timer}>
       Time elapsed:{" "}

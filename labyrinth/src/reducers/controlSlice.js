@@ -4,8 +4,7 @@ export const MOVE_FORWARD = 0;
 export const TURN_LEFT = 2;
 export const TURN_RIGHT = 1;
 export const MOVE_BACKWARD = 3;
-export const RANDOM_EVENT = 4;
-export const NOTHING = 5;
+export const NOTHING = 4;
 export const INTERRUPTED = 6;
 export const CACHE_UNUSED = 7;
 export const UP = 0;
@@ -189,11 +188,6 @@ export const controlSlice = createSlice({
         state.direction = (((state.direction - 1) % 4) + 4) % 4;
       }
     },
-    occurEvent: (state) => {
-      if (state.currentAction === NOTHING) {
-        state.currentAction = RANDOM_EVENT;
-      }
-    },
     resetCurrentAction: (state) => {
       state.currentAction = MOVE_FORWARD;
       state.actionCache = CACHE_UNUSED;
@@ -255,7 +249,6 @@ export const {
   turnLeft,
   turnRight,
   resetLastMoveHitWall,
-  occurEvent,
   popEvent,
   assignPosX,
   assignPosZ,

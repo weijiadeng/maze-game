@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import GamePanel from "../components/GamePanel";
-import { LabyrinthView } from "../components/LabyrinthView";
+import LabyrinthView from "../components/LabyrinthView";
 import EventManager from "../components/EventManager";
 import { MiniMap } from "../components/MiniMap";
 import PlayerStatusPanel from "../components/PlayerStatusPanel";
@@ -43,7 +43,7 @@ import {
   selectTimeout,
 } from "../reducers/elapseTimerSlice";
 import { useHistory, useParams } from "react-router-dom";
-import { NavPanel } from "../components/NavPanel";
+import NavPanel from "../components/NavPanel";
 import styles from "./labyrinthGame.module.css";
 import { SoundEffectManager } from "../commons/SoundHooks";
 
@@ -59,8 +59,7 @@ export default function LabyrinthGame() {
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
   const history = useHistory();
-  // const [gameRoundID, setGameRoundID] = useState(0);
-  // Reset the game when initialization
+  // Reset the game state when initialization
   if (!isInit) {
     switch (gameMode) {
       case "easy":

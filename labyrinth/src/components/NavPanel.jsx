@@ -64,6 +64,8 @@ function HelperPageWindow() {
   );
 }
 
+// Ask the player to make sure to go back,
+// given that the game progress will be lost if go back to the main screen.
 function GobackConfirm() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -104,7 +106,9 @@ function GobackConfirm() {
   );
 }
 
-export function NavPanel({ mode, buff }) {
+// Nav panel, shown in the bottom left section of the screen in gameplay,
+// help players navigate to other pages
+export default function NavPanel({ mode, buff }) {
   const isPlayingBGM = useSelector(selectIsPlaying);
   const dispatch = useDispatch();
   const handleGoHome = () => {
@@ -157,7 +161,6 @@ export function NavPanel({ mode, buff }) {
             handleHelperPage();
           }}
         />
-
         <span className={styles.toggle}>
           {mode === "pure" ? (
             <FontAwesomeIcon

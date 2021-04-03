@@ -3,6 +3,7 @@ import speedUpIcon from "../images/rocket.png";
 import speedDownIcon from "../images/turtleicon.png";
 import styles from "../containers/guide.module.css";
 
+// Helper message about the speed change, used in the guide page
 const SpeedChangeEventDescription = () => {
   return (
     <React.Fragment>

@@ -3,10 +3,11 @@ import { ReactReduxContext } from "react-redux";
 import { Canvas } from "react-three-fiber";
 import { Sky, Stars, Plane, useContextBridge } from "@react-three/drei";
 import LabyrinthCamera from "./LabyrinthCamera";
-import { Walls } from "./Walls";
+import Walls from "./Walls";
 import styles from "./labyrinthView.module.css";
 
-export function LabyrinthView({
+// Handle the 3D rendering in the game window
+export default function LabyrinthView({
   numX,
   numZ,
   blockWidth,

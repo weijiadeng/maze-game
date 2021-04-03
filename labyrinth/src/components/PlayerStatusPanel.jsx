@@ -45,11 +45,13 @@ const Filler = (props) => {
   );
 };
 
+// Show the current player status in the gameplay view
 const PlayerStatusPanel = ({ buff, debuff, timeout, mode }) => {
   const hp = useSelector(selectHP);
   const clock = (timeout - useSelector(selectCurNumSeconds)) / timeout * 100;
   return (
     <div className={styles.container}>
+      {/* Pure mode does not have time and HP limits, so we do not display them */}
       {mode !== "pure" ? (
         <div className={styles.progressBarSection}>
           <img className={styles.icon} src={heart} alt="HP" />

@@ -9,6 +9,8 @@ import {
 } from "../reducers/popUpWindowSlice";
 import styles from "./smallPopUpWindow.module.css";
 
+// Base componments for all the random event window in the game view.
+// Won't pause the gameview. Will auto-disappear after 2000ms.
 const SmallPopUpWindow = (props) => {
   const dispatch = useDispatch();
   const isToOpen = useSelector(selectSmallPopUpIsToOpen);

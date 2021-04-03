@@ -33,7 +33,7 @@ import {
   SPEED_UP,
   SPEED_DOWN,
 } from "../reducers/playerStatusSlice";
-import { LearderboardSection } from "./Leaderboard";
+import LearderboardSection from "./Leaderboard";
 
 import styles from "./events.module.css";
 

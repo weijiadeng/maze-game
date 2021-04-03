@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useThree, useFrame } from "react-three-fiber";
-// import {extend} from "react-three-fiber";
-// import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 import { Math as ThreeMath } from "three";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -30,9 +28,6 @@ import {
   SPEED_UP,
 } from "../reducers/playerStatusSlice";
 
-// // extend THREE to include TrackballControls
-// extend({ TrackballControls });
-
 // Make the camera look ahead, can be any value greater than 0
 const DIRECTION_ADJUSTER = 0.1;
 // The speed modifier multiplier if a buff/debuff is applied
@@ -49,8 +44,6 @@ export default function LabyrinthCamera({
   turnSpeed,
 }) {
   const { camera } = useThree();
-  // const { gl } = useThree();
-  // const controls = React.useRef();
 
   // currentAction marks whether the move animation is ongoing or finished
   const currentAction = useSelector(selectAction);
@@ -78,7 +71,7 @@ export default function LabyrinthCamera({
   // it is mutable in nature.
   const currentAngle = React.useRef(0);
 
-  // calculate the current coordinate based on the position index.
+  // calculate the target coordinate based on the position index.
   // coordinate is the position info in the 3D world, they are continuous values.
   // We only use them when rendering 3D objects.
   // Position index is the discreted index in the game logic, we use this when
@@ -99,13 +92,16 @@ export default function LabyrinthCamera({
       camera.position.z = cameraInitCoordZ;
       dispatch(assignResetCamera(true));
     }
-
+    // Move the camera according to current action
     switch (currentAction) {
       case MOVE_FORWARD:
         switch (direction) {
           case UP:
+            // The camera postion hasn't reached target position,
+            // we need to continue the animation.
             if (camera.position.z > coordZ) {
               camera.position.z -= actualMoveSpeed;
+              // Make the camera look forward
               camera.lookAt(
                 camera.position.x,
                 0,
@@ -146,10 +142,14 @@ export default function LabyrinthCamera({
           default:
           // console.log("direction error!");
         }
+        // The camera postion has been near enough to the target position,
+        // So that if the camera move one step it we will be leaving the target rather
+        // than approaching it, need to stop the animation
         if (Math.abs(camera.position.x - coordX) < actualMoveSpeed) {
           if (Math.abs(camera.position.z - coordZ) < actualMoveSpeed) {
             camera.position.x = coordX;
             camera.position.z = coordZ;
+            // Stop current animation
             dispatch(popEvent());
           }
         }
@@ -215,6 +215,7 @@ export default function LabyrinthCamera({
           camera.rotateY(ThreeMath.degToRad(actualTurnSpeed));
           currentAngle.current -= actualTurnSpeed;
         }
+        // The camera has reached the target angle, need to stop the animation.
         if (Math.abs(currentAngle.current) < actualTurnSpeed) {
           dispatch(popEvent());
           currentAngle.current = 0;
@@ -240,12 +241,11 @@ export default function LabyrinthCamera({
       default:
       // console.log("button error!");
     }
+    // Necessary for reflecting the change
     camera.updateProjectionMatrix();
   });
 
   return (
-    // Used for debug, can add trackbacll control to the camera
-    // Ref: https://codesandbox.io/s/r3f-demo-1-ljh5l?from-embed
     <group name="camera">
     </group>
   );

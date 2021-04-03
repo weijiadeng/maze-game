@@ -3,6 +3,7 @@ import miniMapIcon from "../images/mapicon.png";
 import miniMap from "../images/miniMap.png";
 import styles from "../containers/guide.module.css";
 
+// Shown in the helper page
 const MiniMapEventDescription = () => {
   return (
     <React.Fragment>

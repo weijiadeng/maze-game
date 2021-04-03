@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { selectPosX, selectPosZ } from "../reducers/controlSlice";
 import styles from "./miniMap.module.css";
 
+// Show the minimap in the gameplay
 export function MiniMap({
   discovered,
   numX,
@@ -11,6 +12,7 @@ export function MiniMap({
   wallTop,
   miniMapIsOn,
 }) {
+  // Contains all the blocks
   const display = [];
   const posX = useSelector(selectPosX);
   const posZ = useSelector(selectPosZ);
@@ -18,6 +20,7 @@ export function MiniMap({
   for (let i = 0; i < numZ; i++) {
     let currentRow = [];
     for (let j = 0; j < numX; j++) {
+      // Only show map details for visited points
       if (discovered.current[i * numX + j] || (posX === j && posZ === i)) {
         currentRow.push(
           <div
@@ -36,9 +39,10 @@ export function MiniMap({
               borderRight: wallLeft[i * (numX + 1) + j + 1]
                 ? "0.5px solid white"
                 : "0.5px solid rgba(240, 248, 255, 0.25)",
+              // Highlight the play current living cell.
               backgroundColor:
                 posX === j && posZ === i
-                  ? "rgb(37, 110, 194)"
+                  ? "rgba(37, 110, 194, 0.8)"
                   : "rgba(240, 248, 255, 0.5)",
             }}
           ></div>
@@ -69,7 +73,7 @@ export function MiniMap({
   return (
     <div className={styles.container}>
       <div></div>
-      <div className={styles.map}>{miniMapIsOn ? display : null}</div>
+      <div className={styles.map}>{miniMapIsOn ? display : <></>}</div>
     </div>
   );
 }

@@ -1,21 +1,7 @@
 import * as React from "react";
-import {Object3D} from "three";
+import { Object3D } from "three";
 import { Box, Text } from "@react-three/drei";
 import { shuffleArray, UnionFind } from "../commons/utils";
-
-// Wall global index definination example:
-// (The below two pictures are the same 3*3 maze, we separte vertical and horizontal walls to make it looks more clear)
-//
-//   012
-//   ---
-//   345
-//   ---
-//   678
-//
-//  9|10|11|
-// 12|13|14|
-// 15|16|17|
-//
 
 /* Given an wall index, output the neighbour cell index (In x+z*numZ format) */
 function getWallNeighbourCells(numX, numCells, wallIndex) {
@@ -27,17 +13,32 @@ function getWallNeighbourCells(numX, numCells, wallIndex) {
   }
 }
 
+// Initialize the maze layout
+// Input: number of cells in the X and Z axis
+// Output: wallTop and wallLeft matrix, denote whether there is a wall
+// on the top/left of a cell respectively.
 export function initLabyrinthWalls(numX, numZ) {
-  // The algorithm is:
-  // We put all cells of a maze into a disjointed set, and set them as
-  // disjointed. Then we random select a wall. If the two cells separated
-  // by the wall is not connected, we tear down the wall, otherwise we keep
-  // the wall and choose another wall. We do this until there's only only
-  // connecting compoments left.
   const numCells = numX * numZ;
   const numCellPlusBorder = (numX + 1) * (numZ + 1);
   const unionFind = new UnionFind(numCells);
+  // An array of indexes of walls.
+  // The outemost walls of a maze is not needed in the maze generation, given
+  // that they do not separate cells, so they are not in the wallArray.
+  // Wall global index definination example:
+  // (The below two pictures are the same 3*3 maze, we separte vertical and horizontal walls to make it looks more clear)
+  //
+  //   012
+  //   ---
+  //   345
+  //   ---
+  //   678
+  //
+  //  9|10|11|
+  // 12|13|14|
+  // 15|16|17|
+  //
   let wallArray = [];
+  // The array that contains the remaining walls that can build a maze.
   let resArray = [];
   for (let i = numX; i < numCells; i++) {
     wallArray.push(i);
@@ -50,6 +51,12 @@ export function initLabyrinthWalls(numX, numZ) {
   wallArray = shuffleArray(wallArray);
   let currentPos = wallArray.length - 1;
 
+  // The algorithm is:
+  // We put all cells of a maze into a disjointed set, and set them as
+  // disjointed. Then we random select a wall. If the two cells separated
+  // by the wall is not connected, we tear down the wall, otherwise we keep
+  // the wall and choose another wall. We do this until there's only only
+  // connecting compoments left.
   do {
     const currentWall = wallArray[currentPos];
     const [neighborA, neighborB] = getWallNeighbourCells(
@@ -68,6 +75,8 @@ export function initLabyrinthWalls(numX, numZ) {
     resArray.push(wallArray[currentPos]);
     currentPos -= 1;
   }
+
+  // Convert wall index array of remaining walls to wallTop and wallLeft array.
   let numWalls = 0;
   const wallLeft = Array.apply(null, { length: numCellPlusBorder }).fill(false);
   const wallTop = Array.apply(null, { length: numCellPlusBorder }).fill(false);
@@ -97,8 +106,6 @@ export function initLabyrinthWalls(numX, numZ) {
   }
 
   wallLeft[0] = false;
-  wallLeft[numCellPlusBorder - 1] = false;
-  wallTop[numCellPlusBorder - 1] = false;
   wallTop[numCellPlusBorder - 2] = false;
   numWalls -= 2;
   return [wallLeft, wallTop, numWalls];
@@ -112,9 +119,11 @@ function genPositionVertical(x, z, width) {
 }
 
 // To reuse this object creating new walls
+// Ref: https://codesandbox.io/s/r3f-demo-3-es4ru?from-embed
 const scratchObject3D = new Object3D();
 
-export function Walls({
+// Render walls in the gameview.
+export default function Walls({
   numX,
   numZ,
   wallTop,
@@ -126,12 +135,10 @@ export function Walls({
   mazeWidth,
   mazeDepth,
 }) {
-  const endpoints = React.useRef();
+  // Use instanceMesh to optimize GPU usage
   const meshRef = React.useRef();
-
   const initWalls = () => {
     let curNumWalls = 0;
-    endpoints.current = [];
     const mesh = meshRef.current;
     for (let i = 0; i < numX + 1; i++) {
       for (let j = 0; j < numZ + 1; j++) {
@@ -164,6 +171,8 @@ export function Walls({
     }
     mesh.instanceMatrix.needsUpdate = true;
   };
+
+  // Update walls only when we need to initWalls
   React.useEffect(initWalls, [
     numX,
     numZ,
@@ -188,6 +197,8 @@ export function Walls({
         />
         <meshPhongMaterial color="orange" attach="material" />
       </instancedMesh>
+      {/* The starting point glass door with text on it
+        Ref: https://codesandbox.io/s/r3f-demo-2-prj0b?from-embed */}
       <Box
         key={"entrance"}
         args={[blockWidth + blockDepth, blockHeight, blockDepth]}
@@ -219,6 +230,7 @@ export function Walls({
           Entrance
         </Text>
       </Box>
+      {/* The exit point glass door with text on it*/}
       <Box
         key={"exit"}
         args={[blockWidth + blockDepth, blockHeight, blockDepth]}
@@ -249,8 +261,7 @@ export function Walls({
         >
           Exit
         </Text>
-        </Box>
-
+      </Box>
     </group>
   );
 }

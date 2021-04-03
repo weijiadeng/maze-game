@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as THREE from "three";
 import { Box, Text } from "@react-three/drei";
 import { shuffleArray, UnionFind } from "../commons/utils";
 import { DoubleSide } from "three";
@@ -68,7 +69,7 @@ export function initLabyrinthWalls(numX, numZ) {
     resArray.push(wallArray[currentPos]);
     currentPos -= 1;
   }
-
+  let numWalls = 0;
   const wallLeft = Array.apply(null, { length: numCellPlusBorder }).fill(false);
   const wallTop = Array.apply(null, { length: numCellPlusBorder }).fill(false);
   for (let i = 0; i < numX; i++) {
@@ -76,12 +77,14 @@ export function initLabyrinthWalls(numX, numZ) {
     wallTop[i] = true;
     // Make the bottom border to be true
     wallTop[i + numZ * (numX + 1)] = true;
+    numWalls += 2;
   }
   for (let i = 0; i < numZ; i++) {
     // Make the left border to be true
     wallLeft[i * (numX + 1)] = true;
     // Make the right border to be true
     wallLeft[i * (numX + 1) + numX] = true;
+    numWalls += 2;
   }
 
   const convertIndex = (val) => ~~(val / numX) * (numX + 1) + (val % numX);
@@ -91,13 +94,22 @@ export function initLabyrinthWalls(numX, numZ) {
     } else {
       wallLeft[convertIndex(resArray[i] - numCells)] = true;
     }
+    numWalls += 1;
   }
 
   wallLeft[0] = false;
   wallLeft[numCellPlusBorder - 1] = false;
   wallTop[numCellPlusBorder - 1] = false;
   wallTop[numCellPlusBorder - 2] = false;
-  return [wallLeft, wallTop];
+  numWalls -= 2;
+  return [wallLeft, wallTop, numWalls];
+}
+
+function genPositionHorizontal(x, z, width) {
+  return [x + width / 2, 0, z];
+}
+function genPositionVertical(x, z, width) {
+  return [x, 0, z + width / 2];
 }
 
 function GenHorizontalWall(x, z, width, height, depth) {
@@ -126,47 +138,56 @@ function GenVerticalWall(x, z, width, height, depth) {
   );
 }
 
+const scratchObject3D = new THREE.Object3D();
+
 export function Walls({
   numX,
   numZ,
   wallTop,
   wallLeft,
+  numWalls,
   blockWidth,
   blockHeight,
   blockDepth,
   mazeWidth,
   mazeDepth,
-  isRerenderWalls,
 }) {
+  const endpoints = React.useRef();
+  const meshRef = React.useRef();
+
   const initWalls = () => {
-    const walls = [];
+    let curNumWalls = 0;
+    endpoints.current = [];
+    const mesh = meshRef.current;
     for (let i = 0; i < numX + 1; i++) {
       for (let j = 0; j < numZ + 1; j++) {
         if (wallTop[i + (numX + 1) * j]) {
-          walls.push(
-            GenHorizontalWall(
-              -mazeWidth / 2 + i * blockWidth - blockDepth / 2,
-              -mazeDepth / 2 + j * blockWidth,
-              blockWidth + blockDepth,
-              blockHeight,
-              blockDepth
-            )
+          const [posX, posY, posZ] = genPositionHorizontal(
+            -mazeWidth / 2 + i * blockWidth - blockDepth / 2,
+            -mazeDepth / 2 + j * blockWidth,
+            blockWidth + blockDepth
           );
+          scratchObject3D.position.set(posX, posY, posZ);
+          scratchObject3D.rotation.set(0, 0, 0);
+          scratchObject3D.updateMatrix();
+          mesh.setMatrixAt(curNumWalls, scratchObject3D.matrix);
+          curNumWalls += 1;
         }
         if (wallLeft[i + (numX + 1) * j]) {
-          walls.push(
-            GenVerticalWall(
-              -mazeWidth / 2 + i * blockWidth,
-              -mazeDepth / 2 + j * blockWidth - blockDepth / 2,
-              blockWidth + blockDepth,
-              blockHeight,
-              blockDepth
-            )
+          const [posX, posY, posZ] = genPositionVertical(
+            -mazeWidth / 2 + i * blockWidth,
+            -mazeDepth / 2 + j * blockWidth - blockDepth / 2,
+            blockWidth + blockDepth
           );
+          scratchObject3D.position.set(posX, posY, posZ);
+          scratchObject3D.rotation.set(0, Math.PI * 0.5, 0);
+          scratchObject3D.updateMatrix();
+          mesh.setMatrixAt(curNumWalls, scratchObject3D.matrix);
+          curNumWalls += 1;
         }
       }
     }
-    walls.push(
+    endpoints.current.push(
       <Box
         key={"entrance"}
         args={[blockWidth + blockDepth, blockHeight, blockDepth]}
@@ -199,7 +220,7 @@ export function Walls({
         </Text>
       </Box>
     );
-    walls.push(
+    endpoints.current.push(
       <Box
         key={"exit"}
         args={[blockWidth + blockDepth, blockHeight, blockDepth]}
@@ -232,11 +253,34 @@ export function Walls({
         </Text>
       </Box>
     );
-    return walls;
+    mesh.instanceMatrix.needsUpdate = true;
   };
-  const [walls, setWalls] = React.useState(initWalls());
-  if (isRerenderWalls) {
-    setWalls(initWalls());
-  }
-  return <group name="walls">{walls}</group>;
+  React.useEffect(initWalls, [
+    numX,
+    numZ,
+    wallTop,
+    wallLeft,
+    blockWidth,
+    blockHeight,
+    blockDepth,
+    mazeWidth,
+    mazeDepth,
+  ]);
+  return (
+    <group name="walls">
+      <instancedMesh
+        ref={meshRef}
+        args={[null, null, numWalls]}
+        frustumCulled={false}
+      >
+        <boxBufferGeometry
+          attach="geometry"
+          args={[blockWidth + blockDepth, blockHeight, blockDepth]}
+        />
+        <meshPhongMaterial color="orange" attach="material" />
+      </instancedMesh>
+
+      {endpoints.current}
+    </group>
+  );
 }

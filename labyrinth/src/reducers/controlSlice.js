@@ -25,6 +25,7 @@ export const controlSlice = createSlice({
     isInit: false,
     wallTop: [],
     wallLeft: [],
+    numWalls: 0,
     numX: 5,
     numZ: 5,
     lastMoveHitWall: false,
@@ -242,6 +243,9 @@ export const controlSlice = createSlice({
         state.direction = UP;
       }
     },
+    assignNumWalls: (state, action) => {
+      state.numWalls = action.payload;
+    },
   },
 });
 
@@ -265,6 +269,7 @@ export const {
   assignResetEvent,
   pauseAction,
   resumeAction,
+  assignNumWalls,
 } = controlSlice.actions;
 
 export const selectDirection = (state) => state.control.direction;
@@ -279,5 +284,6 @@ export const selectNumZ = (state) => state.control.numZ;
 export const selectLastMoveHitWall = (state) => state.control.lastMoveHitWall;
 export const selectIsResetCamera = (state) => state.control.isResetCamera;
 export const selectResetEvent = (state) => state.control.resetEvent;
+export const selectNumWalls = (state) => state.control.numWalls;
 
 export default controlSlice.reducer;

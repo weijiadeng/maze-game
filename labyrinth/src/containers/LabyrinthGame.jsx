@@ -26,6 +26,8 @@ import {
   selectResetEvent,
   selectNumX,
   selectNumZ,
+  assignNumWalls,
+  selectNumWalls,
 } from "../reducers/controlSlice";
 import {
   addABuff,
@@ -61,7 +63,6 @@ export default function LabyrinthGame() {
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
   const history = useHistory();
-  let isRerenderWalls = false;
   // const [gameRoundID, setGameRoundID] = useState(0);
   // Reset the game when initialization
   if (!isInit) {
@@ -89,7 +90,6 @@ export default function LabyrinthGame() {
       default:
         history.push("/");
     }
-    isRerenderWalls = true;
     // setGameRoundID(genRandomInt(1024));
     dispatch(assignNumX(numX));
     dispatch(assignNumZ(numZ));
@@ -97,9 +97,10 @@ export default function LabyrinthGame() {
     dispatch(assignPosX(numX - 1));
     dispatch(assignPosZ(numZ - 1));
     dispatch(assignResetCamera(false));
-    const [wallLeft, wallTop] = initLabyrinthWalls(numX, numZ);
+    const [wallLeft, wallTop, totalWalls] = initLabyrinthWalls(numX, numZ);
     dispatch(assignWallLeft(wallLeft));
     dispatch(assignWallTop(wallTop));
+    dispatch(assignNumWalls(totalWalls));
     dispatch(resetCurrentAction());
     dispatch(resetCount());
     dispatch(resetPlayerStatus());
@@ -121,6 +122,7 @@ export default function LabyrinthGame() {
   const posZ = useSelector(selectPosZ);
   const wallLeft = useSelector(selectWallLeft);
   const wallTop = useSelector(selectWallTop);
+  const numWalls = useSelector(selectNumWalls);
   const currentAction = useSelector(selectAction);
   const buff = useSelector(selectBuff);
   const debuff = useSelector(selectDebuff);
@@ -144,8 +146,8 @@ export default function LabyrinthGame() {
         mazeWidth={numZ * blockWidth}
         wallLeft={wallLeft}
         wallTop={wallTop}
+        numWalls={numWalls}
         darkModeIsOn={debuff & DARK_MODE_ON}
-        isRerenderWalls={isRerenderWalls}
       />
       <GamePanel />
       <NavPanel mode={gameMode} />

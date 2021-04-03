@@ -67,7 +67,6 @@ export function EventManager({
   if (isGameFail) {
     currentIndex = numX * numZ + 1;
   }
-
   let currentCallback = () => {};
   const callBackCommonTail = () => {
     if (currentAction === NOTHING) {

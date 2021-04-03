@@ -24,7 +24,11 @@ import {
 } from "../reducers/popUpWindowSlice";
 import { partialApply, genRandomInt } from "../commons/utils";
 import background from "../images/bigWindowBackground.png";
-import { appendToLeaderBoard } from "../reducers/leaderboardSlice";
+import {
+  appendToLeaderBoard,
+  selectIsShowLeaderboard,
+  toggleIsShowLeaderboard,
+} from "../reducers/leaderboardSlice";
 import {
   usePositiveEffectSound,
   useNegativeEffectSound,
@@ -118,10 +122,9 @@ function startEventCallback(dispatch) {
 
 function EndEventRender() {
   const time = useSelector(selectCurNumSeconds);
-  const [isShowLeaderboard, setIsShowLeaderboard] = useState(false);
+  const isShowLeaderboard = useSelector(selectIsShowLeaderboard);
   const hasAppend = useRef(false);
   const dispatch = useDispatch();
-  const history = useHistory();
   console.log(hasAppend.current);
   useEffect(() => {
     if (!hasAppend.current) {
@@ -130,13 +133,6 @@ function EndEventRender() {
       hasAppend.current = true;
     }
   });
-  const handleLeaderboard = () => {
-    if (isShowLeaderboard) {
-      setIsShowLeaderboard(false);
-    } else {
-      setIsShowLeaderboard(true);
-    }
-  };
 
   const buttons = (
     <React.Fragment>
@@ -152,11 +148,8 @@ function EndEventRender() {
         {" "}
         Play Again
       </div>
-      <div onClick={() => history.push("/")}>Home</div>
-      <div onClick={() => handleLeaderboard()}>
-        {" "}
-        {isShowLeaderboard ? "Go back" : "Check leaderboard"}{" "}
-      </div>
+      <GoHomeButton />
+      <ShowLeaderBoardOrGoBackButton />
     </React.Fragment>
   );
 
@@ -178,9 +171,31 @@ function EndEventRender() {
   );
 }
 
+const GoHomeButton = () => {
+  const history = useHistory();
+
+  return <div onClick={() => history.push("/")}>Home</div>;
+};
+
+const ShowLeaderBoardOrGoBackButton = () => {
+  const dispatch = useDispatch();
+  const isShowLeaderboard = useSelector(selectIsShowLeaderboard);
+  const handleLeaderboard = () => {
+    dispatch(toggleIsShowLeaderboard());
+  };
+
+  return (
+    <div onClick={() => handleLeaderboard()}>
+      {" "}
+      {isShowLeaderboard ? "Go back" : "Check leaderboard"}{" "}
+    </div>
+  );
+};
+
 function FailGameEventRender() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const isShowLeaderboard = useSelector(selectIsShowLeaderboard);
+
   const buttons = (
     <React.Fragment>
       <div
@@ -195,8 +210,8 @@ function FailGameEventRender() {
         {" "}
         Try again{" "}
       </div>
-      <div onClick={() => history.push("/")}>Home</div>
-      <div> Check leaderboard </div>
+      <GoHomeButton />
+      <ShowLeaderBoardOrGoBackButton />
     </React.Fragment>
   );
 
@@ -206,8 +221,14 @@ function FailGameEventRender() {
       background={background}
       openType={EVENT_WINDOW}
     >
-      <h1>Oops!</h1>
-      <div>You've failed the game (▰˘︹˘▰)!</div>
+      {isShowLeaderboard ? (
+        <LearderboardSection />
+      ) : (
+        <>
+          <h1>Oops!</h1>
+          <div>You've failed the game (▰˘︹˘▰)!</div>
+        </>
+      )}
     </BigPopUpWindow>
   );
 }

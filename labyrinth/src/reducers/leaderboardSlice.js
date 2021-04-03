@@ -5,6 +5,7 @@ export const leaderboardSlice = createSlice({
   name: "leaderboard",
   initialState: {
     list: [],
+    isShowLeaderboard: false,
   },
   reducers: {
     appendToLeaderBoard: (state, action) => {
@@ -14,11 +15,15 @@ export const leaderboardSlice = createSlice({
         state.list.pop();
       }
     },
+    toggleIsShowLeaderboard: state => {
+      state.isShowLeaderboard = !state.isShowLeaderboard;
+    }
   },
 });
 
-export const { appendToLeaderBoard } = leaderboardSlice.actions;
+export const { appendToLeaderBoard, toggleIsShowLeaderboard } = leaderboardSlice.actions;
 
 export const selectList = (state) => state.leaderboard.list;
+export const selectIsShowLeaderboard = (state) => state.leaderboard.isShowLeaderboard;
 
 export default leaderboardSlice.reducer;

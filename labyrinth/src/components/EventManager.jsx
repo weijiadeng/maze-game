@@ -16,7 +16,7 @@ import {
 } from "../reducers/popUpWindowSlice";
 
 import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
-import { assignResetEvent, NOTHING } from "../reducers/controlSlice";
+import { assignResetEvent, NOTHING, selectAction, selectPosX, selectPosZ } from "../reducers/controlSlice";
 import {
   initEventMap,
   START_GAME_EVENT,
@@ -42,25 +42,24 @@ import {
   strongWindEventCallBack,
   confrontBattleCallBack,
 } from "./Events";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { genRandomInt } from "../commons/utils";
+import { selectHP, selectIsTimeUsedUp } from "../reducers/playerStatusSlice";
 
 // The componments responsible for incurring events according to game state and
 // position, including render the event pop up window and execute the event callback.
 export default function EventManager({
   discovered,
-  posX,
-  posZ,
   numX,
   numZ,
-  currentAction,
   isResetEvent,
-  isGameFail,
   gameMode,
 }) {
   // eventMap stores which event should occur at which position
   const [eventMap, setEventMap] = useState(initEventMap(numX, numZ, gameMode));
-
+  const posX = useSelector(selectPosX);
+  const posZ = useSelector(selectPosZ);
+  const currentAction = useSelector(selectAction);
   // The current rendering event, use ref to preserve the rendered window when go
   // to another blank cell. Do not use state because we only want to rerender based
   // on the position change and isGameFail change.
@@ -83,6 +82,10 @@ export default function EventManager({
 
   // Convert the two dimension position index to one dimension index in the array
   let currentIndex = posZ * numX + posX;
+  const isTimeUsedUp = useSelector(selectIsTimeUsedUp);
+  const currentHP = useSelector(selectHP);
+  const isGameFail =
+    gameMode === "pure" ? false : currentHP <= 0 || isTimeUsedUp;
 
   // GameFail event is treated as a special event within the eventmap, it's the last
   // element of the map.

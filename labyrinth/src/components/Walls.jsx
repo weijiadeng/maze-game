@@ -166,6 +166,7 @@ export function Walls({
   }
   walls.push(
     <Box
+      key={"entrance"}
       args={[blockWidth + blockDepth, blockHeight, blockDepth]}
       rotation={[0, 0, 0]}
       position={[
@@ -198,6 +199,7 @@ export function Walls({
   );
   walls.push(
     <Box
+      key={"exit"}
       args={[blockWidth + blockDepth, blockHeight, blockDepth]}
       rotation={[0, Math.PI * 0.5, 0]}
       position={[

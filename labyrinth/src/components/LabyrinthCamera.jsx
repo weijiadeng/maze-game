@@ -89,7 +89,7 @@ export default function LabyrinthCamera({
 
   const isResetCamera = useSelector(selectIsResetCamera);
   const dispatch = useDispatch();
-
+  console.log("rerender");
   // useFrame function is called in each frame, it handles the animation of the threejs 3D world
   useFrame(() => {
     // controls.current.update();
@@ -98,6 +98,8 @@ export default function LabyrinthCamera({
       camera.position.x = cameraInitCoordX;
       camera.position.z = cameraInitCoordZ;
       dispatch(assignResetCamera(true));
+      console.log("rerendser");
+
     }
 
     switch (currentAction) {
@@ -246,16 +248,7 @@ export default function LabyrinthCamera({
   return (
     // Used for debug, can add trackbacll control to the camera
     // Ref: https://codesandbox.io/s/r3f-demo-1-ljh5l?from-embed
-    // <trackballControls
-    //   ref={controls}
-    //   args={[camera, gl.domElement]}
-    //   dynamicDampingFactor={0.1}
-    //   mouseButtons={{
-    //     LEFT: THREE.MOUSE.PAN, // make pan the default instead of rotate
-    //     MIDDLE: THREE.MOUSE.ZOOM,
-    //     RIGHT: THREE.MOUSE.ROTATE,
-    //   }}
-    // />
-    <></>
+    <group name="walls">
+    </group>
   );
 }

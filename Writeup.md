@@ -22,7 +22,7 @@ Also, we used redux to manage the dataflow from children to parents. For example
 
 ##### What were some challenges you faced while making this app?
 * Rendering a 3D maze and adjusting the right user view was a challenge. It took a lot of searching, trying, fine-tuning the arguments to finally achieve.
-* Triggering the randomly generated events is also a challange.
+* Triggering the randomly generated events was also a challange.
 
 ##### Given more time, what additional features, functional or design changes would you make
 Currently, the events triggering views are very simple: being triggered based on the position of the player. If we have more time, we could make these views more complex, like adding items in the maze that the players could pickup.  

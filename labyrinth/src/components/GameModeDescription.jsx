@@ -9,27 +9,24 @@ const GameModeDescription = () => {
         <li>
           <span className={styles.gameModeName}>Easy mode:</span>
           <br />
-          Maze size is 5 X 5, while Minimap is always on, slow mode and dark
-          mode is always off.
+          Maze size is 5 X 5.
         </li>
         <li>
           <span className={styles.gameModeName}>Medium mode:</span>
           <br />
-          Maze size is 10 X 10, and you have chances to meet all kinds of
-          events.
+          Maze size is 10 X 10.
         </li>
         <li>
           <span className={styles.gameModeName}>Hard mode</span>
           <br />
-          Maze size is 15 X 15, and dark mode is always on. Strong wind will
-          clear all effects except dark mode.
+          Maze size is 15 X 15. You will enter the maze in Dark mode.
         </li>
         <li>
           <span className={styles.gameModeName}>Pure Maze mode</span>
           <br />
-          Maze size is 20 X 20, no random events, no time limits and hp
-          limits, you can toggle on/off dark mode and minimap at any time. This
-          is to offer a pure maze wondering pleasure.
+          Maze size is 20 X 20, no random events, no time limits and hp limits,
+          you can toggle on/off dark mode and minimap at any time. This is to
+          offer a pure maze wondering pleasure.
         </li>
       </ul>
     </div>

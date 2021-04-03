@@ -136,100 +136,107 @@ export function Walls({
   blockDepth,
   mazeWidth,
   mazeDepth,
+  isRerenderWalls,
 }) {
-  const walls = [];
-  for (let i = 0; i < numX + 1; i++) {
-    for (let j = 0; j < numZ + 1; j++) {
-      if (wallTop[i + (numX + 1) * j]) {
-        walls.push(
-          GenHorizontalWall(
-            -mazeWidth / 2 + i * blockWidth - blockDepth / 2,
-            -mazeDepth / 2 + j * blockWidth,
-            blockWidth + blockDepth,
-            blockHeight,
-            blockDepth
-          )
-        );
-      }
-      if (wallLeft[i + (numX + 1) * j]) {
-        walls.push(
-          GenVerticalWall(
-            -mazeWidth / 2 + i * blockWidth,
-            -mazeDepth / 2 + j * blockWidth - blockDepth / 2,
-            blockWidth + blockDepth,
-            blockHeight,
-            blockDepth
-          )
-        );
+  const initWalls = () => {
+    const walls = [];
+    for (let i = 0; i < numX + 1; i++) {
+      for (let j = 0; j < numZ + 1; j++) {
+        if (wallTop[i + (numX + 1) * j]) {
+          walls.push(
+            GenHorizontalWall(
+              -mazeWidth / 2 + i * blockWidth - blockDepth / 2,
+              -mazeDepth / 2 + j * blockWidth,
+              blockWidth + blockDepth,
+              blockHeight,
+              blockDepth
+            )
+          );
+        }
+        if (wallLeft[i + (numX + 1) * j]) {
+          walls.push(
+            GenVerticalWall(
+              -mazeWidth / 2 + i * blockWidth,
+              -mazeDepth / 2 + j * blockWidth - blockDepth / 2,
+              blockWidth + blockDepth,
+              blockHeight,
+              blockDepth
+            )
+          );
+        }
       }
     }
+    walls.push(
+      <Box
+        key={"entrance"}
+        args={[blockWidth + blockDepth, blockHeight, blockDepth]}
+        rotation={[0, 0, 0]}
+        position={[
+          -mazeWidth / 2 + (numX - 0.5) * blockWidth - blockDepth / 2,
+          0,
+          -mazeDepth / 2 + numZ * blockWidth,
+        ]}
+      >
+        <meshPhongMaterial
+          color="blue"
+          attach="material"
+          transparent
+          opacity={0.2}
+        />
+        <Text
+          color={"#db5c27"}
+          fontSize={2}
+          maxWidth={200}
+          lineHeight={1}
+          letterSpacing={0.02}
+          textAlign={"left"}
+          font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+          anchorX={blockWidth / 5}
+          anchorY="100%"
+          depthOffset={10}
+        >
+          Entrance
+        </Text>
+      </Box>
+    );
+    walls.push(
+      <Box
+        key={"exit"}
+        args={[blockWidth + blockDepth, blockHeight, blockDepth]}
+        rotation={[0, Math.PI * 0.5, 0]}
+        position={[
+          -mazeWidth / 2,
+          0,
+          -mazeDepth / 2 - blockDepth / 2 + blockWidth / 2,
+        ]}
+      >
+        <meshPhongMaterial
+          color="green"
+          attach="material"
+          transparent
+          opacity={0.2}
+        />
+        <Text
+          color={"#db5c27"}
+          fontSize={2}
+          maxWidth={200}
+          lineHeight={1}
+          letterSpacing={0.02}
+          textAlign={"left"}
+          font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+          anchorX={blockWidth / 8}
+          anchorY="100%"
+          depthOffset={10}
+        >
+          Exit
+        </Text>
+      </Box>
+    );
+    return walls;
+  };
+  const [walls, setWalls] = React.useState(initWalls());
+  if (isRerenderWalls) {
+    setWalls(initWalls());
   }
-  walls.push(
-    <Box
-      key={"entrance"}
-      args={[blockWidth + blockDepth, blockHeight, blockDepth]}
-      rotation={[0, 0, 0]}
-      position={[
-        -mazeWidth / 2 + (numX - 0.5) * blockWidth - blockDepth / 2,
-        0,
-        -mazeDepth / 2 + numZ * blockWidth,
-      ]}
-    >
-      <meshPhongMaterial
-        color="blue"
-        attach="material"
-        transparent
-        opacity={0.2}
-      />
-      <Text
-        color={"#db5c27"}
-        fontSize={2}
-        maxWidth={200}
-        lineHeight={1}
-        letterSpacing={0.02}
-        textAlign={"left"}
-        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-        anchorX={blockWidth / 5}
-        anchorY="100%"
-        depthOffset={10}
-      >
-        Entrance
-      </Text>
-    </Box>
-  );
-  walls.push(
-    <Box
-      key={"exit"}
-      args={[blockWidth + blockDepth, blockHeight, blockDepth]}
-      rotation={[0, Math.PI * 0.5, 0]}
-      position={[
-        -mazeWidth / 2,
-        0,
-        -mazeDepth / 2 - blockDepth / 2 + blockWidth / 2,
-      ]}
-    >
-      <meshPhongMaterial
-        color="green"
-        attach="material"
-        transparent
-        opacity={0.2}
-      />
-      <Text
-        color={"#db5c27"}
-        fontSize={2}
-        maxWidth={200}
-        lineHeight={1}
-        letterSpacing={0.02}
-        textAlign={"left"}
-        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-        anchorX={blockWidth / 8}
-        anchorY="100%"
-        depthOffset={10}
-      >
-        Exit
-      </Text>
-    </Box>
-  );
-
   return <group name="walls">{walls}</group>;
 }

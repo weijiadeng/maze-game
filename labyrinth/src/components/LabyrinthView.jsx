@@ -17,6 +17,7 @@ export function LabyrinthView({
   wallTop,
   wallLeft,
   darkModeIsOn,
+  isRerenderWalls,
 }) {
   // Direction definination:
   //
@@ -93,6 +94,7 @@ export function LabyrinthView({
           blockDepth={blockDepth}
           mazeWidth={mazeWidth}
           mazeDepth={mazeDepth}
+          isRerenderWalls = {isRerenderWalls}
         />
         {darkModeIsOn ? null : (
           <Sky

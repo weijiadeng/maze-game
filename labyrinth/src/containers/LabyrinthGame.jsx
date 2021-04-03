@@ -61,6 +61,7 @@ export default function LabyrinthGame() {
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
   const history = useHistory();
+  let isRerenderWalls = false;
   // const [gameRoundID, setGameRoundID] = useState(0);
   // Reset the game when initialization
   if (!isInit) {
@@ -88,6 +89,7 @@ export default function LabyrinthGame() {
       default:
         history.push("/");
     }
+    isRerenderWalls = true;
     // setGameRoundID(genRandomInt(1024));
     dispatch(assignNumX(numX));
     dispatch(assignNumZ(numZ));
@@ -143,6 +145,7 @@ export default function LabyrinthGame() {
         wallLeft={wallLeft}
         wallTop={wallTop}
         darkModeIsOn={debuff & DARK_MODE_ON}
+        isRerenderWalls={isRerenderWalls}
       />
       <GamePanel />
       <NavPanel mode={gameMode} />

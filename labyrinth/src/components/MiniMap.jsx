@@ -1,17 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectPosX, selectPosZ } from "../reducers/controlSlice";
 import styles from "./miniMap.module.css";
 
 export function MiniMap({
   discovered,
   numX,
   numZ,
-  posX,
-  posZ,
   wallLeft,
   wallTop,
   miniMapIsOn,
 }) {
   const display = [];
+  const posX = useSelector(selectPosX);
+  const posZ = useSelector(selectPosZ);
+
   for (let i = 0; i < numZ; i++) {
     let currentRow = [];
     for (let j = 0; j < numX; j++) {

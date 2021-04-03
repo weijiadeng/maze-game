@@ -17,6 +17,7 @@ export const playerStatusSlice = createSlice({
     buff: 0,
     debuff: 0,
     speedModifier: 1,
+    isTimeUsedUp: false
   },
   reducers: {
     decreaseHP: (state, action) => {
@@ -47,10 +48,14 @@ export const playerStatusSlice = createSlice({
     removeADebuff: (state, action) => {
       state.debuff &= ~action.payload;
     },
+    setTimeUsedUp: state=> {
+      state.isTimeUsedUp = true;
+    },
     resetPlayerStatus: (state) => {
       state.HP = INITIAL_HP;
       state.buff = 0;
       state.debuff = 0;
+      state.isTimeUsedUp = false;
     },
   },
 });
@@ -64,10 +69,12 @@ export const {
   addADebuff,
   removeADebuff,
   resetPlayerStatus,
+  setTimeUsedUp
 } = playerStatusSlice.actions;
 
 export const selectHP = (state) => state.playerStatus.HP;
 export const selectBuff = (state) => state.playerStatus.buff;
 export const selectDebuff = (state) => state.playerStatus.debuff;
+export const selectIsTimeUsedUp = (state) => state.playerStatus.isTimeUsedUp;
 
 export default playerStatusSlice.reducer;

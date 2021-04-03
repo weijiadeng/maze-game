@@ -18,11 +18,8 @@ import {
   assignResetCamera,
   assignResetEvent,
   resetCurrentAction,
-  selectPosX,
-  selectPosZ,
   selectWallLeft,
   selectWallTop,
-  selectAction,
   selectResetEvent,
   selectNumX,
   selectNumZ,
@@ -38,13 +35,11 @@ import {
   MINI_MAP_OFF,
   selectBuff,
   selectDebuff,
-  selectHP,
   resetPlayerStatus,
 } from "../reducers/playerStatusSlice";
 import {
   assignTimeout,
   resetCount,
-  selectCurNumSeconds,
   selectTimeout,
 } from "../reducers/elapseTimerSlice";
 import { useHistory, useParams } from "react-router-dom";
@@ -91,7 +86,6 @@ export default function LabyrinthGame() {
       default:
         history.push("/");
     }
-    // setGameRoundID(genRandomInt(1024));
     dispatch(assignNumX(numX));
     dispatch(assignNumZ(numZ));
     dispatch(assignTimeout(timeout));
@@ -119,22 +113,12 @@ export default function LabyrinthGame() {
     dispatch(assignResetEvent(true));
     discovered.current = Array(numX * numZ + 1).fill(false);
   }
-  const posX = useSelector(selectPosX);
-  const posZ = useSelector(selectPosZ);
   const wallLeft = useSelector(selectWallLeft);
   const wallTop = useSelector(selectWallTop);
   const numWalls = useSelector(selectNumWalls);
-  const currentAction = useSelector(selectAction);
   const buff = useSelector(selectBuff);
   const debuff = useSelector(selectDebuff);
   const isResetEvent = useSelector(selectResetEvent);
-  const currentHP = useSelector(selectHP);
-  const currentCurNumSeconds = useSelector(selectCurNumSeconds);
-  const isGameFail =
-    gameMode === "pure"
-      ? false
-      : currentHP <= 0 || timeout - currentCurNumSeconds <= 0;
-
   return (
     <div className={styles.visContainer}>
       <LabyrinthView
@@ -154,26 +138,18 @@ export default function LabyrinthGame() {
       <NavPanel mode={gameMode} buff={buff} />
       <EventManager
         discovered={discovered}
-        posX={posX}
-        posZ={posZ}
         numX={numX}
         numZ={numZ}
-        currentAction={currentAction}
         isResetEvent={isResetEvent}
-        isGameFail={isGameFail}
         gameMode={gameMode}
       />
       <MiniMap
         discovered={discovered}
-        posX={posX}
-        posZ={posZ}
         numX={numX}
         numZ={numZ}
         wallLeft={wallLeft}
         wallTop={wallTop}
-        currentAction={currentAction}
         miniMapIsOn={buff & MINI_MAP_ON}
-        isGameFail={isGameFail}
       />
       <PlayerStatusPanel
         buff={buff}

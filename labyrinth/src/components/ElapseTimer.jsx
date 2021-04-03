@@ -8,7 +8,9 @@ import {
   selectIntervalHasSet,
   markIntervalSet,
   selectCurNumSeconds,
+  selectTimeout,
 } from "../reducers/elapseTimerSlice";
+import { setTimeUsedUp } from "../reducers/playerStatusSlice";
 import styles from "./elapseTimer.module.css";
 
 // A timer recording elapse time.
@@ -16,10 +18,15 @@ export default function ElapseTimer({ mode }) {
   const status = useSelector(selectStatus);
   const intervalHasSet = useSelector(selectIntervalHasSet);
   const dispatch = useDispatch();
+  const timeOut = useSelector(selectTimeout);
+  const x = useSelector(selectCurNumSeconds);
+
   const handleCountUpDispatch = () => {
     dispatch(countUp());
+    if (x > timeOut) {
+      dispatch(setTimeUsedUp());
+    }
   };
-
   useEffect(() => {
     if (status === READY) {
       dispatch(resumeCount());
@@ -30,7 +37,6 @@ export default function ElapseTimer({ mode }) {
     }
   });
 
-  const x = useSelector(selectCurNumSeconds);
   // Only show detailed time count in pure mode
   return mode === "pure" ? (
     <div className={styles.timer}>

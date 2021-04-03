@@ -105,7 +105,7 @@ function GobackConfirm() {
   );
 }
 
-export function NavPanel({mode}) {
+export function NavPanel({ mode }) {
   const isPlayingBGM = useSelector(selectIsPlaying);
   const dispatch = useDispatch();
   const handleGoHome = () => {

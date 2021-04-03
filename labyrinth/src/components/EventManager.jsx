@@ -60,6 +60,7 @@ import mapOffIcon from "../images/mapoff.png";
 import hpBonusIcon from "../images/hpbonus.png";
 // Ref:https://www.flaticon.com/free-icon/battle_1732452
 import battleIcon from "../images/battle.png";
+import { useHistory } from "react-router";
 
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
@@ -120,6 +121,7 @@ function EndEventRender() {
   const [isShowLeaderboard, setIsShowLeaderboard] = useState(false);
   const hasAppend = useRef(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   console.log(hasAppend.current);
   useEffect(() => {
     if (!hasAppend.current) {
@@ -150,9 +152,10 @@ function EndEventRender() {
         {" "}
         Play Again
       </div>
+      <div onClick={() => history.push("/")}>Home</div>
       <div onClick={() => handleLeaderboard()}>
         {" "}
-        {isShowLeaderboard ? "Go back" : "See the leaderboard"}{" "}
+        {isShowLeaderboard ? "Go back" : "Check leaderboard"}{" "}
       </div>
     </React.Fragment>
   );
@@ -177,6 +180,7 @@ function EndEventRender() {
 
 function FailGameEventRender() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const buttons = (
     <React.Fragment>
       <div
@@ -191,7 +195,8 @@ function FailGameEventRender() {
         {" "}
         Try again{" "}
       </div>
-      <div> See the leaderboard </div>
+      <div onClick={() => history.push("/")}>Home</div>
+      <div> Check leaderboard </div>
     </React.Fragment>
   );
 
@@ -454,7 +459,7 @@ function initEventMap(numX, numZ, gameMode) {
         ) {
           let HP = genRandomInt(40) + 1;
           eventMap[i] = new Event(
-            <BattleEventRender HP={HP}/>,
+            <BattleEventRender HP={HP} />,
             partialApply(confrontBattleCallBack, HP),
             CONFRONT_BATTLE_EVENT
           );

@@ -23,9 +23,6 @@ export default function ElapseTimer({ mode }) {
 
   const handleCountUpDispatch = () => {
     dispatch(countUp());
-    if (x > timeOut) {
-      dispatch(setTimeUsedUp());
-    }
   };
   useEffect(() => {
     if (status === READY) {
@@ -35,7 +32,11 @@ export default function ElapseTimer({ mode }) {
         dispatch(markIntervalSet());
       }
     }
+    if (x > timeOut) {
+      dispatch(setTimeUsedUp());
+    }  
   });
+
 
   // Only show detailed time count in pure mode
   return mode === "pure" ? (

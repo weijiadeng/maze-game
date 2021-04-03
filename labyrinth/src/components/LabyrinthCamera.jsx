@@ -87,20 +87,19 @@ export default function LabyrinthCamera({
   const coordX = -blockWidth / 2 + (posX + 1) * blockWidth + startCoordX;
   const coordZ = -blockWidth / 2 + (posZ + 1) * blockWidth + startCoordZ;
 
-  // When game is restarted, camera needs to be reset as well.
   const isResetCamera = useSelector(selectIsResetCamera);
   const dispatch = useDispatch();
-  React.useEffect(() => {
+
+  // useFrame function is called in each frame, it handles the animation of the threejs 3D world
+  useFrame(() => {
+    // controls.current.update();
+    // When game is restarted, camera needs to be reset as well.
     if (!isResetCamera) {
       camera.position.x = cameraInitCoordX;
       camera.position.z = cameraInitCoordZ;
       dispatch(assignResetCamera(true));
     }
-  }, [isResetCamera, cameraInitCoordX, cameraInitCoordZ, camera.position, dispatch]);
 
-  // useFrame function is called in each frame, it handles the animation of the threejs 3D world
-  useFrame(() => {
-    // controls.current.update();
     switch (currentAction) {
       case MOVE_FORWARD:
         switch (direction) {

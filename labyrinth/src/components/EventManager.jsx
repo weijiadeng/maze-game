@@ -26,9 +26,9 @@ import {
   START_GAME_EVENT,
   END_GAME_EVENT,
   POSITIVE_EFFECT_EVENT,
+  NEGATIVE_EFFECT_EVENT,
   CONFRONT_BATTLE_EVENT,
   NEUTRAL_EFFECT_EVENT,
-  NEGATIVE_EFFECT_EVENT,
   GAME_FAIL_EVENT,
 } from "./Events";
 import { useDispatch } from "react-redux";
@@ -67,13 +67,13 @@ export function EventManager({
   if (isGameFail) {
     currentIndex = numX * numZ + 1;
   }
+
   let currentCallback = () => {};
   const callBackCommonTail = () => {
     if (currentAction === NOTHING) {
       discovered.current[currentIndex] = true;
     }
   };
-
   if (currentAction === NOTHING || currentAction === RANDOM_EVENT) {
     if (eventMap[currentIndex]) {
       if (!discovered.current[currentIndex]) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assignInit, resumeAction } from "../reducers/controlSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
@@ -46,7 +46,8 @@ import mapOffIcon from "../images/mapoff.png";
 import hpBonusIcon from "../images/hpbonus.png";
 // Ref:https://www.flaticon.com/free-icon/battle_1732452
 import battleIcon from "../images/battle.png";
-
+// Ref:http://www.clker.com/clipart-wind-icon.html
+import windIcon from "../images/strongwind.png"
 const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
 const SPEED_DOWN_ID = 1;
@@ -116,14 +117,14 @@ function useLeaderBoard() {
 function EndEventRender({ mode }) {
   const time = useSelector(selectCurNumSeconds);
   const [isShowLeaderboard, handleLeaderboard] = useLeaderBoard();
-  const hasAppend = useRef(false);
+  const [hasAppend, setHasAppend] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!hasAppend.current) {
+    if (!hasAppend) {
       dispatch(appendToLeaderBoard({ mode: mode, value: time }));
-      hasAppend.current = true;
+      setHasAppend(true);
     }
-  });
+  }, [hasAppend, dispatch, mode, time]);
 
   const buttons = (
     <React.Fragment>
@@ -235,6 +236,7 @@ function strongWindEventCallBack(dispatch, play, gameMode) {
 function StrongWindEventRender() {
   return (
     <SmallPopUpWindow>
+      <img className={styles.icon} src={windIcon} alt="Strong wind" />
       <h1>Wow!</h1>
       <div>You've been applied A strong wind!</div>
       <div>

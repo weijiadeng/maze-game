@@ -20,14 +20,14 @@ const BigPopUpWindow = (props) => {
       dispatch(pauseAction());
       dispatch(disableBigPopUpIsToOpen());
     }
-  });
+  }, [isToOpen, props.openType, dispatch]);
 
   const isOpen = useSelector(selectBigPopUpPresense) === props.openType;
   useEffect(() => {
     if (isOpen) {
       dispatch(pauseCount());
     }
-  });
+  }, [isOpen, dispatch]);
 
   return (
     <Modal

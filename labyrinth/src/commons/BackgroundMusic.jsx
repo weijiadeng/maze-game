@@ -39,6 +39,6 @@ export const BackgroundMusic = () => {
       stop();
       dispatch(mutedBGM());
     }
-  },[isPlaying]);
+  },[isPlaying,play, stop,dispatch]);
   return <React.Fragment></React.Fragment>;
 };

@@ -39,7 +39,6 @@ import {
   MINI_MAP_ON,
   removeABuff,
   removeADebuff,
-  selectBuff,
 } from "../reducers/playerStatusSlice";
 
 function HelperPageWindow() {
@@ -105,7 +104,7 @@ function GobackConfirm() {
   );
 }
 
-export function NavPanel({ mode }) {
+export function NavPanel({ mode, buff }) {
   const isPlayingBGM = useSelector(selectIsPlaying);
   const dispatch = useDispatch();
   const handleGoHome = () => {
@@ -121,7 +120,6 @@ export function NavPanel({ mode }) {
       dispatch(muteBGM());
     }
   };
-  const buff = useSelector(selectBuff);
   const handleSwitchDayNight = () => {
     if (buff & DARK_MODE_OFF) {
       dispatch(removeABuff(DARK_MODE_OFF));

@@ -1,8 +1,7 @@
 import * as React from "react";
-import * as THREE from "three";
+import {Object3D} from "three";
 import { Box, Text } from "@react-three/drei";
 import { shuffleArray, UnionFind } from "../commons/utils";
-import { DoubleSide } from "three";
 
 // Wall global index definination example:
 // (The below two pictures are the same 3*3 maze, we separte vertical and horizontal walls to make it looks more clear)
@@ -112,33 +111,7 @@ function genPositionVertical(x, z, width) {
   return [x, 0, z + width / 2];
 }
 
-function GenHorizontalWall(x, z, width, height, depth) {
-  return (
-    <Box
-      key={String(x) + "," + String(z) + "top"}
-      args={[width, height, depth]}
-      rotation={[0, 0, 0]}
-      position={[x + width / 2, 0, z]}
-    >
-      <meshPhongMaterial color="orange" attach="material" />
-    </Box>
-  );
-}
-
-function GenVerticalWall(x, z, width, height, depth) {
-  return (
-    <Box
-      key={String(x) + "," + String(z) + "left"}
-      args={[width, height, depth]}
-      rotation={[0, Math.PI * 0.5, 0]}
-      position={[x, 0, z + width / 2]}
-    >
-      <meshPhongMaterial color="orange" attach="material" />
-    </Box>
-  );
-}
-
-const scratchObject3D = new THREE.Object3D();
+const scratchObject3D = new Object3D();
 
 export function Walls({
   numX,

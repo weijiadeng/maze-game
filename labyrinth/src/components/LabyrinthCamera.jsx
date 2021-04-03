@@ -89,7 +89,6 @@ export default function LabyrinthCamera({
 
   const isResetCamera = useSelector(selectIsResetCamera);
   const dispatch = useDispatch();
-  console.log("rerender");
   // useFrame function is called in each frame, it handles the animation of the threejs 3D world
   useFrame(() => {
     // controls.current.update();
@@ -98,8 +97,6 @@ export default function LabyrinthCamera({
       camera.position.x = cameraInitCoordX;
       camera.position.z = cameraInitCoordZ;
       dispatch(assignResetCamera(true));
-      console.log("rerendser");
-
     }
 
     switch (currentAction) {

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { GamePanel } from "../components/GamePanel";
+import GamePanel from "../components/GamePanel";
 import { LabyrinthView } from "../components/LabyrinthView";
 import EventManager from "../components/EventManager";
 import { MiniMap } from "../components/MiniMap";
@@ -50,6 +50,7 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import { NavPanel } from "../components/NavPanel";
 import styles from "./labyrinthGame.module.css";
+import { SoundEffectManager } from "../commons/SoundHooks";
 
 export default function LabyrinthGame() {
   const { gameMode } = useParams();
@@ -180,6 +181,7 @@ export default function LabyrinthGame() {
         timeout={timeout}
         mode={gameMode}
       />
+      <SoundEffectManager />
     </div>
   );
 }

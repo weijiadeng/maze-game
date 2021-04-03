@@ -2,6 +2,7 @@ import React from "react";
 import heartIcon from "../images/heart-icon.png";
 import styles from "../containers/guide.module.css";
 
+// Help info in the guide page about the HP change
 const HPChangeEventDescription = () => {
   return (
     <React.Fragment>

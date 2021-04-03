@@ -15,7 +15,7 @@ import {
   EVENT_WINDOW,
   disableBigPopUpPresense,
 } from "../reducers/popUpWindowSlice";
-import { partialApply, genRandomInt } from "../commons/utils";
+import { genRandomInt } from "../commons/utils";
 import background from "../images/bigWindowBackground.png";
 import { appendToLeaderBoard } from "../reducers/leaderboardSlice";
 import {
@@ -47,15 +47,14 @@ import hpBonusIcon from "../images/hpbonus.png";
 // Ref:https://www.flaticon.com/free-icon/battle_1732452
 import battleIcon from "../images/battle.png";
 // Ref:http://www.clker.com/clipart-wind-icon.html
-import windIcon from "../images/strongwind.png"
+import windIcon from "../images/strongwind.png";
 
-
-const NUM_DEBUFF_TYPE = 3;
+export const NUM_DEBUFF_TYPE = 3;
 const DARK_MODE_ID = 0;
 const SPEED_DOWN_ID = 1;
 const HIDE_MINI_MAP = 2;
 
-const NUM_BUFF_TYPE = 4;
+export const NUM_BUFF_TYPE = 4;
 const BRIGHT_MODE_ID = 0;
 const SPEED_UP_ID = 1;
 const SHOW_MINI_MAP = 2;
@@ -64,6 +63,7 @@ const HP_UP_BY_TEN = 3;
 const RANDOM_ID_MAX = 100;
 const RANDOM_ID_WITHHOLD = 33;
 
+// NUM_DEBUFF_TYPE + NUM_BUFF_TYPE + netural event + battle event
 const NUM_RANDOM_EVENT_TYPE = NUM_DEBUFF_TYPE + NUM_BUFF_TYPE + 2;
 
 export const POSITIVE_EFFECT_EVENT = 0;
@@ -74,9 +74,10 @@ export const CONFRONT_BATTLE_EVENT = 3;
 export const START_GAME_EVENT = 4;
 export const END_GAME_EVENT = 5;
 export const GAME_FAIL_EVENT = 6;
+export const NOTHING_HAPPENS = 7;
 
 // Render the game start window
-function StartEventRender() {
+export function StartEventRender() {
   const dispatch = useDispatch();
   const buttons = (
     <div
@@ -104,7 +105,7 @@ function StartEventRender() {
 }
 
 // The callbacks needed to be executed when game starts
-function startEventCallback(dispatch) {
+export function startEventCallback(dispatch) {
   dispatch(readyCount());
 }
 
@@ -122,7 +123,7 @@ function useLeaderBoard() {
 }
 
 // Render the game successfully finish window
-function EndEventRender({ mode }) {
+export function EndEventRender({ mode }) {
   const time = useSelector(selectCurNumSeconds);
   const [isShowLeaderboard, handleLeaderboard] = useLeaderBoard();
   const [hasAppend, setHasAppend] = useState(false);
@@ -185,7 +186,7 @@ const GoHomeButton = () => {
 };
 
 // Render the game fail window
-function FailGameEventRender({ mode }) {
+export function FailGameEventRender({ mode }) {
   const dispatch = useDispatch();
   const [isShowLeaderboard, handleLeaderboard] = useLeaderBoard();
 
@@ -227,12 +228,12 @@ function FailGameEventRender({ mode }) {
   );
 }
 
-function endEventCallback(dispatch, play) {
+export function endEventCallback(play) {
   play();
 }
 
 // With a Strong wind, all buff and debuff are cleared.
-function strongWindEventCallBack(dispatch, play, gameMode) {
+export function strongWindEventCallBack(dispatch, play, gameMode) {
   play();
   dispatch(resetBuffAndDebuff());
   if (gameMode === "hard") {
@@ -246,7 +247,7 @@ function strongWindEventCallBack(dispatch, play, gameMode) {
   dispatch(removeABuff(MINI_MAP_ON));
 }
 
-function StrongWindEventRender() {
+export function StrongWindEventRender() {
   return (
     <SmallPopUpWindow>
       <img className={styles.icon} src={windIcon} alt="Strong wind" />
@@ -261,7 +262,7 @@ function StrongWindEventRender() {
 
 // The smelly wind will add debuff: darkmode, minimap off, slowly move.
 // function smellyWindEventCallBack(debuffID, dispatch, playNegativeEffectSound) {
-function smellyWindEventCallBack(debuffId, dispatch, play) {
+export function smellyWindEventCallBack(debuffId, dispatch, play) {
   play();
   // Generate a random debuff
   switch (debuffId) {
@@ -282,12 +283,13 @@ function smellyWindEventCallBack(debuffId, dispatch, play) {
   }
 }
 
-function confrontBattleCallBack(HP, dispatch, play) {
+export function confrontBattleCallBack(HP, dispatch, play) {
   play();
   dispatch(decreaseHP(HP));
 }
 
-function SmellyWindEventRender({ debuffId }) {
+// Render the negative event window
+export function SmellyWindEventRender({ debuffId }) {
   let specificEventContent = <></>;
   let specificIcon = <></>;
   switch (debuffId) {
@@ -335,7 +337,8 @@ function SmellyWindEventRender({ debuffId }) {
   );
 }
 
-function BattleEventRender({ HP }) {
+// Render the battle event window
+export function BattleEventRender({ HP }) {
   return (
     <SmallPopUpWindow>
       <img className={styles.icon} src={battleIcon} alt="Battle Event" />{" "}
@@ -348,7 +351,8 @@ function BattleEventRender({ HP }) {
   );
 }
 
-function FreshWindEventRender({ buffId }) {
+// Render the positive event window
+export function FreshWindEventRender({ buffId }) {
   let specificEventContent = <></>;
   let specificIcon = <></>;
   switch (buffId) {
@@ -410,7 +414,7 @@ function FreshWindEventRender({ buffId }) {
 
 // With a Fresh wind, one buff is added: brightmode, minimap on, faster move.
 // function freshWindEventCallBack(buffId, dispatch, playPositiveEffectSound) {
-function freshWindEventCallBack(buffId, dispatch, play) {
+export function freshWindEventCallBack(buffId, dispatch, play) {
   play();
   // Generate a random buff
   switch (buffId) {
@@ -434,70 +438,41 @@ function freshWindEventCallBack(buffId, dispatch, play) {
   }
 }
 
-class Event {
-  constructor(toRender, callBack, eventTypeId) {
-    this.toRender = toRender;
-    this.callBack = callBack;
-    this.eventTypeId = eventTypeId;
-  }
-}
-
+// Initialize the eventMap according to the maze size and gameMode
 export function initEventMap(numX, numZ, gameMode) {
-  const eventMap = Array(numX * numZ + 1).fill(null);
-  eventMap[numX * (numZ - 1) + numX - 1] = new Event(
-    <StartEventRender />,
-    startEventCallback,
-    START_GAME_EVENT
-  );
-  eventMap[0] = new Event(
-    <EndEventRender mode={gameMode} />,
-    endEventCallback,
-    END_GAME_EVENT
-  );
-  eventMap[numX * numZ + 1] = new Event(
-    <FailGameEventRender mode={gameMode} />,
-    endEventCallback,
-    GAME_FAIL_EVENT
-  );
+  const eventMap = Array(numX * numZ + 1).fill(NOTHING_HAPPENS);
+
+  // The start point is always (numX-1, numZ-1)
+  eventMap[numX * (numZ - 1) + numX - 1] = START_GAME_EVENT;
+  // The end point is always (0, 0)
+  eventMap[0] = END_GAME_EVENT;
+  // The fail point is a specaial index, it does match any map position
+  eventMap[numX * numZ + 1] = GAME_FAIL_EVENT;
+
+  // Pure mode does not have any random events, so skip this part.
   if (gameMode !== "pure") {
     for (let i = numX * (numZ - 1) + numX - 2; i > 0; i--) {
       const randomID = genRandomInt(RANDOM_ID_MAX);
       // Make only about RANDOM_ID_WITHHOLD/RANDOM_ID_MAX cells have events
       if (randomID < RANDOM_ID_WITHHOLD) {
-        // Only 1/(NUM_BUFF_TYPE + NUM_DEBUFF_TYPE + 1) type event is netural
+        // Among all the events, 1/(NUM_BUFF_TYPE + NUM_DEBUFF_TYPE + 1) event is netural
         if (randomID < RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) {
-          eventMap[i] = new Event(
-            <StrongWindEventRender />,
-            strongWindEventCallBack,
-            NEUTRAL_EFFECT_EVENT
-          );
+          eventMap[i] = NEUTRAL_EFFECT_EVENT;
         } else if (
+          // Among all the events, 2/(NUM_BUFF_TYPE + NUM_DEBUFF_TYPE + 1) event will be battles
           randomID <
           (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * 3
         ) {
-          let HP = genRandomInt(40) + 1;
-          eventMap[i] = new Event(
-            <BattleEventRender HP={HP} />,
-            partialApply(confrontBattleCallBack, HP),
-            CONFRONT_BATTLE_EVENT
-          );
+          eventMap[i] = CONFRONT_BATTLE_EVENT;
         } else if (
+          // Among all the events, (NUM_BUFF_TYPE+1)/(NUM_BUFF_TYPE + NUM_DEBUFF_TYPE + 1) event will be positive
           randomID <
           (RANDOM_ID_WITHHOLD / NUM_RANDOM_EVENT_TYPE) * (4 + NUM_BUFF_TYPE)
         ) {
-          const buffId = genRandomInt(NUM_BUFF_TYPE);
-          eventMap[i] = new Event(
-            <FreshWindEventRender buffId={buffId} />,
-            partialApply(freshWindEventCallBack, buffId),
-            POSITIVE_EFFECT_EVENT
-          );
+          eventMap[i] = POSITIVE_EFFECT_EVENT;
         } else {
-          const debuffId = genRandomInt(NUM_DEBUFF_TYPE);
-          eventMap[i] = new Event(
-            <SmellyWindEventRender debuffId={debuffId} />,
-            partialApply(smellyWindEventCallBack, debuffId),
-            NEGATIVE_EFFECT_EVENT
-          );
+          // The rest are negative
+          eventMap[i] = NEGATIVE_EFFECT_EVENT;
         }
       }
     }

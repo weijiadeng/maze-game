@@ -16,10 +16,7 @@ import {
 } from "../reducers/popUpWindowSlice";
 
 import { playBGM, stopBGM } from "../reducers/backgroundMusicSlice";
-import {
-  assignResetEvent,
-  NOTHING,
-} from "../reducers/controlSlice";
+import { assignResetEvent, NOTHING } from "../reducers/controlSlice";
 import {
   initEventMap,
   START_GAME_EVENT,
@@ -29,8 +26,24 @@ import {
   CONFRONT_BATTLE_EVENT,
   NEUTRAL_EFFECT_EVENT,
   GAME_FAIL_EVENT,
+  NUM_BUFF_TYPE,
+  NUM_DEBUFF_TYPE,
+  startEventCallback,
+  endEventCallback,
+  FailGameEventRender,
+  StrongWindEventRender,
+  BattleEventRender,
+  SmellyWindEventRender,
+  StartEventRender,
+  EndEventRender,
+  FreshWindEventRender,
+  freshWindEventCallBack,
+  smellyWindEventCallBack,
+  strongWindEventCallBack,
+  confrontBattleCallBack,
 } from "./Events";
 import { useDispatch } from "react-redux";
+import { genRandomInt } from "../commons/utils";
 
 // The componments responsible for incurring events according to game state and
 // position, including render the event pop up window and execute the event callback.
@@ -51,15 +64,16 @@ export default function EventManager({
   // The current rendering event, use ref to preserve the rendered window when go
   // to another blank cell. Do not use state because we only want to rerender based
   // on the position change and isGameFail change.
-  const currentRender = useRef(null);
+  const currentRender = useRef(<></>);
+  // If we need to restart the game, we need to reset all the events again.
   const dispatch = useDispatch();
   useEffect(() => {
-    // If we need to restart the game, we need to reset all the events again.
     if (isResetEvent) {
       setEventMap(initEventMap(numX, numZ, gameMode));
       dispatch(assignResetEvent(false));
     }
   }, [isResetEvent, numX, numZ, gameMode, dispatch]);
+
   const { play: playGameCompletionSound } = useGameCompletionSound();
   const { play: playPositiveEffectSound } = usePositiveEffectSound();
   const { play: playNegativeEffectSound } = useNegativeEffectSound();
@@ -87,59 +101,71 @@ export default function EventManager({
   // Only call events when the moving animation is finished, and the
   // game is not paused.
   if (currentAction === NOTHING) {
-    if (eventMap[currentIndex]) {
-      if (!discovered.current[currentIndex]) {
-        const { toRender, callBack, eventTypeId } = eventMap[currentIndex];
-        currentRender.current = toRender;
-        switch (eventTypeId) {
-          case START_GAME_EVENT:
-            currentCallback = () => {
-              callBack(dispatch);
-              dispatch(playBGM());
-              dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
-            };
-            break;
-          case END_GAME_EVENT:
-            currentCallback = () => {
-              callBack(dispatch, playGameCompletionSound);
-              dispatch(stopBGM());
-              dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
-            };
-            break;
-          case POSITIVE_EFFECT_EVENT:
-            currentCallback = () => {
-              callBack(dispatch, playPositiveEffectSound);
-              dispatch(enableSmallPopUpIsToOpen());
-            };
-            break;
-          case NEGATIVE_EFFECT_EVENT:
-            currentCallback = () => {
-              callBack(dispatch, playNegativeEffectSound);
-              dispatch(enableSmallPopUpIsToOpen());
-            };
-            break;
-          case CONFRONT_BATTLE_EVENT:
-            currentCallback = () => {
-              callBack(dispatch, playConfrontBattleSound);
-              dispatch(enableSmallPopUpIsToOpen());
-            };
-            break;
-          case NEUTRAL_EFFECT_EVENT:
-            currentCallback = () => {
-              callBack(dispatch, playNeutralEffectSound, gameMode);
-              dispatch(enableSmallPopUpIsToOpen());
-            };
-            break;
-          case GAME_FAIL_EVENT:
-            currentCallback = () => {
-              callBack(dispatch, playGameOverSound);
-              dispatch(stopBGM());
-              dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
-            };
-            break;
-          default:
-            break;
-        }
+    if (!discovered.current[currentIndex]) {
+      switch (eventMap[currentIndex]) {
+        case START_GAME_EVENT:
+          currentRender.current = <StartEventRender />;
+          currentCallback = () => {
+            startEventCallback(dispatch);
+            dispatch(playBGM());
+            dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
+          };
+          break;
+        case END_GAME_EVENT:
+          currentRender.current = <EndEventRender mode={gameMode} />;
+          currentCallback = () => {
+            endEventCallback(playGameCompletionSound);
+            dispatch(stopBGM());
+            console.log("isOpen");
+            dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
+          };
+          break;
+        case POSITIVE_EFFECT_EVENT:
+          const buffId = genRandomInt(NUM_BUFF_TYPE);
+          currentRender.current = <FreshWindEventRender buffId={buffId} />;
+          currentCallback = () => {
+            freshWindEventCallBack(buffId, dispatch, playPositiveEffectSound);
+            dispatch(enableSmallPopUpIsToOpen());
+          };
+          break;
+        case NEGATIVE_EFFECT_EVENT:
+          const debuffId = genRandomInt(NUM_DEBUFF_TYPE);
+          currentRender.current = <SmellyWindEventRender debuffId={debuffId} />;
+          currentCallback = () => {
+            smellyWindEventCallBack(
+              debuffId,
+              dispatch,
+              playNegativeEffectSound
+            );
+            dispatch(enableSmallPopUpIsToOpen());
+          };
+          break;
+        case CONFRONT_BATTLE_EVENT:
+          const HP = genRandomInt(40) + 1;
+          currentRender.current = <BattleEventRender HP={HP} />;
+          currentCallback = () => {
+            confrontBattleCallBack(HP, dispatch, playConfrontBattleSound);
+            dispatch(enableSmallPopUpIsToOpen());
+          };
+          break;
+        case NEUTRAL_EFFECT_EVENT:
+          currentRender.current = <StrongWindEventRender mode={gameMode} />;
+          currentCallback = () => {
+            strongWindEventCallBack(dispatch, playNeutralEffectSound, gameMode);
+            dispatch(enableSmallPopUpIsToOpen());
+          };
+
+          break;
+        case GAME_FAIL_EVENT:
+          currentCallback = () => {
+            currentRender.current = <FailGameEventRender mode={gameMode} />;
+            endEventCallback(playGameOverSound);
+            dispatch(stopBGM());
+            dispatch(enableBigPopUpIsToOpen(EVENT_WINDOW));
+          };
+          break;
+        default:
+          break;
       }
     }
   }

@@ -9,6 +9,7 @@ import normalClock from "../images/normalclock.png";
 import outOfTimeClock from "../images/outoftimeclock.png";
 import styles from "./helperPage.module.css";
 
+// Help info in the guide page about the game status icons
 const IconDescription = () => {
   return (
     <div className={styles.iconDescriptionContainer}>

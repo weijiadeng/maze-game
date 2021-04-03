@@ -1,7 +1,8 @@
 import * as React from "react";
-import { extend, useThree, useFrame } from "react-three-fiber";
-import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
-import * as THREE from "three";
+import { useThree, useFrame } from "react-three-fiber";
+// import {extend} from "react-three-fiber";
+// import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
+import { Math as ThreeMath } from "three";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectAction,
@@ -29,14 +30,16 @@ import {
   SPEED_UP,
 } from "../reducers/playerStatusSlice";
 
-// extend THREE to include TrackballControls
-extend({ TrackballControls });
+// // extend THREE to include TrackballControls
+// extend({ TrackballControls });
 
 // Make the camera look ahead, can be any value greater than 0
 const DIRECTION_ADJUSTER = 0.1;
+// The speed modifier multiplier if a buff/debuff is applied
 const SPEED_MODIFIER = 2;
 
-export const LabyrinthCamera = ({
+// Handle the change of the camera during player movement
+export default function LabyrinthCamera({
   blockWidth,
   startCoordX,
   startCoordZ,
@@ -44,14 +47,21 @@ export const LabyrinthCamera = ({
   cameraInitCoordZ,
   moveSpeed,
   turnSpeed,
-}) => {
-  const { camera, gl } = useThree();
-  const controls = React.useRef();
+}) {
+  const { camera } = useThree();
+  // const { gl } = useThree();
+  // const controls = React.useRef();
 
+  // currentAction marks whether the move animation is ongoing or finished
   const currentAction = useSelector(selectAction);
+
   const posX = useSelector(selectPosX);
   const posZ = useSelector(selectPosZ);
+
+  // The move direction
   const direction = useSelector(selectDirection);
+
+  // Buff and debuff affects the move speed
   const buff = useSelector(selectBuff);
   const debuff = useSelector(selectDebuff);
   let speedModifier = 1;
@@ -62,26 +72,35 @@ export const LabyrinthCamera = ({
   }
   const actualMoveSpeed = moveSpeed * speedModifier;
   const actualTurnSpeed = turnSpeed * speedModifier;
-  // Current angle is the remaining angle the camera needs to rotate
-  const [currentAngle, setCurrentAngle] = React.useState(0);
-  let localAngle = currentAngle;
 
+  // Current angle is the remaining angle the camera needs to rotate
+  // Set it as a ref because this value changes consistantly each frame,
+  // it is mutable in nature.
+  const currentAngle = React.useRef(0);
+
+  // calculate the current coordinate based on the position index.
+  // coordinate is the position info in the 3D world, they are continuous values.
+  // We only use them when rendering 3D objects.
+  // Position index is the discreted index in the game logic, we use this when
+  // handling the game logic, like the start point, occur an event or go to the
+  // finish line.
   const coordX = -blockWidth / 2 + (posX + 1) * blockWidth + startCoordX;
   const coordZ = -blockWidth / 2 + (posZ + 1) * blockWidth + startCoordZ;
+
+  // When game is restarted, camera needs to be reset as well.
   const isResetCamera = useSelector(selectIsResetCamera);
-
   const dispatch = useDispatch();
-
-  useFrame(() => {
-    // // console.log(posX, coordX, camera.position.x)
-    // update the view as the vis is interacted with
-    // controls.current.update();
-    // console.log(currentAction);
+  React.useEffect(() => {
     if (!isResetCamera) {
       camera.position.x = cameraInitCoordX;
       camera.position.z = cameraInitCoordZ;
       dispatch(assignResetCamera(true));
     }
+  }, [isResetCamera, cameraInitCoordX, cameraInitCoordZ, camera.position, dispatch]);
+
+  // useFrame function is called in each frame, it handles the animation of the threejs 3D world
+  useFrame(() => {
+    // controls.current.update();
     switch (currentAction) {
       case MOVE_FORWARD:
         switch (direction) {
@@ -190,33 +209,29 @@ export const LabyrinthCamera = ({
         }
         break;
       case TURN_LEFT:
-        if (currentAngle === 0) {
-          localAngle = currentAngle + 90;
-          setCurrentAngle(localAngle);
+        if (currentAngle.current === 0) {
+          currentAngle.current += 90;
         }
-        if (localAngle > 0) {
-          camera.rotateY(THREE.Math.degToRad(actualTurnSpeed));
-          localAngle -= actualTurnSpeed;
-          setCurrentAngle(localAngle);
+        if (currentAngle.current > 0) {
+          camera.rotateY(ThreeMath.degToRad(actualTurnSpeed));
+          currentAngle.current -= actualTurnSpeed;
         }
-        if (Math.abs(localAngle) < actualTurnSpeed) {
+        if (Math.abs(currentAngle.current) < actualTurnSpeed) {
           dispatch(popEvent());
-          setCurrentAngle(0);
+          currentAngle.current = 0;
         }
         break;
       case TURN_RIGHT:
-        if (currentAngle === 0) {
-          setCurrentAngle(currentAngle - 90);
-          localAngle = currentAngle - 90;
+        if (currentAngle.current === 0) {
+          currentAngle.current -= 90;
         }
-        if (localAngle < 0) {
-          camera.rotateY(THREE.Math.degToRad(-actualTurnSpeed));
-          localAngle += actualTurnSpeed;
-          setCurrentAngle(localAngle);
+        if (currentAngle.current < 0) {
+          camera.rotateY(ThreeMath.degToRad(-actualTurnSpeed));
+          currentAngle.current += actualTurnSpeed;
         }
-        if (Math.abs(localAngle) < actualTurnSpeed) {
+        if (Math.abs(currentAngle.current) < actualTurnSpeed) {
           dispatch(popEvent());
-          setCurrentAngle(0);
+          currentAngle.current = 0;
         }
         break;
       case NOTHING:
@@ -230,17 +245,18 @@ export const LabyrinthCamera = ({
   });
 
   return (
-    <trackballControls
-      ref={controls}
-      args={[camera, gl.domElement]}
-      dynamicDampingFactor={0.1}
-      mouseButtons={{
-        LEFT: THREE.MOUSE.PAN, // make pan the default instead of rotate
-        MIDDLE: THREE.MOUSE.ZOOM,
-        RIGHT: THREE.MOUSE.ROTATE,
-      }}
-    />
+    // Used for debug, can add trackbacll control to the camera
+    // Ref: https://codesandbox.io/s/r3f-demo-1-ljh5l?from-embed
+    // <trackballControls
+    //   ref={controls}
+    //   args={[camera, gl.domElement]}
+    //   dynamicDampingFactor={0.1}
+    //   mouseButtons={{
+    //     LEFT: THREE.MOUSE.PAN, // make pan the default instead of rotate
+    //     MIDDLE: THREE.MOUSE.ZOOM,
+    //     RIGHT: THREE.MOUSE.ROTATE,
+    //   }}
+    // />
+    <></>
   );
-};
-
-export default LabyrinthCamera;
+}

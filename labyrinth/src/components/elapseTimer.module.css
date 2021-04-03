@@ -1,16 +1,16 @@
 .timer {
-    font-weight: bold;
-    font-size: 2vh;
-    color: wheat;
-    margin: 1vh;
+  font-weight: bold;
+  font-size: 2vh;
+  color: wheat;
+  margin: 1vh;
 }
 
 .number {
-    color: rgb(250, 184, 62);
+  color: rgb(250, 184, 62);
 }
 
 @media (max-width: 576px) {
-    .timer {
-        font-size: 3vh;
-    }
+  .timer {
+    font-size: 3vh;
+  }
 }

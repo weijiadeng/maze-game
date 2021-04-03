@@ -1,15 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   moveBackward,
   moveForward,
-  resetLastMoveHitWall,
-  selectLastMoveHitWall,
   turnLeft,
   turnRight,
 } from "../reducers/controlSlice";
 import styles from "./gamePanel.module.css";
-import { useHitWallSound } from "../commons/SoundHooks";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronCircleDown,
@@ -18,7 +15,8 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-export function GamePanel() {
+// Game control panel
+export default function GamePanel() {
   const dispatch = useDispatch();
 
   const handleMoveForward = () => {
@@ -53,12 +51,6 @@ export function GamePanel() {
         break;
     }
   };
-  const isPlayHitWall = useSelector(selectLastMoveHitWall);
-  const { play } = useHitWallSound();
-  if (isPlayHitWall) {
-    play();
-    dispatch(resetLastMoveHitWall());
-  }
 
   document.addEventListener("keydown", handleKeyDown);
 

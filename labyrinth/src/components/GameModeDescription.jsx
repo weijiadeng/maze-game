@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../containers/guide.module.css";
 
+// GameModeDescription shown on the guide
 const GameModeDescription = () => {
   return (
     <div className={styles.description}>

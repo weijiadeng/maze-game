@@ -39,8 +39,13 @@ import {
   selectHP,
   resetPlayerStatus,
 } from "../reducers/playerStatusSlice";
-import { assignTimeout, resetCount, selectCurNumSeconds, selectTimeout } from "../reducers/elapseTimerSlice";
-import { useParams } from "react-router-dom";
+import {
+  assignTimeout,
+  resetCount,
+  selectCurNumSeconds,
+  selectTimeout,
+} from "../reducers/elapseTimerSlice";
+import { useHistory, useParams } from "react-router-dom";
 import { NavPanel } from "../components/NavPanel";
 import styles from "./labyrinthGame.module.css";
 
@@ -55,6 +60,7 @@ export default function LabyrinthGame() {
   const discovered = useRef(Array(numX * numZ + 1).fill(false));
   const isInit = useSelector(selectIsInit);
   const dispatch = useDispatch();
+  const history = useHistory();
   // const [gameRoundID, setGameRoundID] = useState(0);
   // Reset the game when initialization
   if (!isInit) {
@@ -80,7 +86,7 @@ export default function LabyrinthGame() {
         timeout = 0;
         break;
       default:
-      // console.log("game mode error: " + gameMode);
+        history.push("/");
     }
     // setGameRoundID(genRandomInt(1024));
     dispatch(assignNumX(numX));
@@ -139,7 +145,7 @@ export default function LabyrinthGame() {
         darkModeIsOn={debuff & DARK_MODE_ON}
       />
       <GamePanel />
-      <NavPanel mode={gameMode}/>
+      <NavPanel mode={gameMode} />
       <EventManager
         discovered={discovered}
         posX={posX}
@@ -163,7 +169,12 @@ export default function LabyrinthGame() {
         miniMapIsOn={buff & MINI_MAP_ON}
         isGameFail={isGameFail}
       />
-      <PlayerStatusPanel buff={buff} debuff={debuff} timeout={timeout} mode={gameMode}/>
+      <PlayerStatusPanel
+        buff={buff}
+        debuff={debuff}
+        timeout={timeout}
+        mode={gameMode}
+      />
     </div>
   );
 }

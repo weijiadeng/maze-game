@@ -15,7 +15,7 @@ import {
   faChevronCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-// Game control panel
+// Game control panel, player use this to control the game play
 export default function GamePanel() {
   const dispatch = useDispatch();
 

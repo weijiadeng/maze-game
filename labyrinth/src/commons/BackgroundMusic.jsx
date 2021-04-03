@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useSound from "use-sound";
 // Music credits to https://mixkit.co/free-sound-effects/game/.
@@ -50,7 +50,7 @@ const BackgroundMusic = () => {
       dispatch(mutedBGM());
     }
   }, [isPlaying, play, stop, dispatch]);
-  return <React.Fragment></React.Fragment>;
+  return <></>;
 };
 
 export default BackgroundMusic;

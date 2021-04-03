@@ -75,7 +75,9 @@ export const controlSlice = createSlice({
                 state.posZ >= 0 &&
                 state.posZ < state.numZ &&
                 state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)]
-              )
+              ) &&
+              state.posX !== state.numX - 1 &&
+              state.posZ !== state.numZ - 1
             ) {
               state.posZ += 1;
             } else {
@@ -114,7 +116,9 @@ export const controlSlice = createSlice({
                 state.posZ >= 0 &&
                 state.posZ <= state.numZ &&
                 state.wallTop[state.posX + (state.posZ + 1) * (state.numX + 1)]
-              )
+              ) &&
+              state.posX !== state.numX - 1 &&
+              state.posZ !== state.numZ - 1
             ) {
               state.posZ += 1;
             } else {

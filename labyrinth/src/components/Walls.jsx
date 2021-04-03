@@ -200,7 +200,11 @@ export function Walls({
     <Box
       args={[blockWidth + blockDepth, blockHeight, blockDepth]}
       rotation={[0, Math.PI * 0.5, 0]}
-      position={[-mazeWidth / 2 , 0, -mazeDepth / 2 - blockDepth / 2 + blockWidth/2]}
+      position={[
+        -mazeWidth / 2,
+        0,
+        -mazeDepth / 2 - blockDepth / 2 + blockWidth / 2,
+      ]}
     >
       <meshPhongMaterial
         color="green"

@@ -121,7 +121,7 @@ export default function LabyrinthView({
           position={[0, -blockHeight / 2, 0]}
           args={[mazeWidth, mazeDepth, 4, 4]}
         >
-          <meshBasicMaterial attach="material" opacity={0.5} color="#405940" />
+          <meshBasicMaterial attach="material" color="#405940" />
         </Plane>
         {darkModeIsOn ? (
           <fog attach="fog" args={["black", 0, blockWidth]} />
